@@ -1,1 +1,6 @@
-<Solution />
+<Solution>
+  <Project Path="AppManageBilliard.BUS/AppManageBilliard.BUS.csproj" />
+  <Project Path="AppManageBilliard.DAL/AppManageBilliard.DAL.csproj" />
+  <Project Path="AppManageBilliard.DTO/AppManageBilliard.DTO.csproj" />
+  <Project Path="AppManageBilliard.GUI/AppManageBilliard.GUI.csproj" />
+</Solution>
