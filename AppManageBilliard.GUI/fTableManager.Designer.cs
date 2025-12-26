@@ -34,6 +34,7 @@
             this.thôngTinTàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblCurrentTable = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -49,11 +50,10 @@
             this.colThanhTien = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
             this.btnThanhToan = new System.Windows.Forms.Button();
-            this.lblCurrentTable = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flpTable = new System.Windows.Forms.FlowLayoutPanel();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flpFood = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -70,20 +70,20 @@
             this.thôngTinTàiKhoảnToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1191, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1191, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // adminToolStripMenuItem
             // 
             this.adminToolStripMenuItem.Name = "adminToolStripMenuItem";
-            this.adminToolStripMenuItem.Size = new System.Drawing.Size(67, 26);
+            this.adminToolStripMenuItem.Size = new System.Drawing.Size(67, 24);
             this.adminToolStripMenuItem.Text = "Admin";
             // 
             // thôngTinTàiKhoảnToolStripMenuItem
             // 
             this.thôngTinTàiKhoảnToolStripMenuItem.Name = "thôngTinTàiKhoảnToolStripMenuItem";
-            this.thôngTinTàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(151, 26);
+            this.thôngTinTàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
             this.thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản";
             // 
             // contextMenuStrip1
@@ -107,10 +107,20 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.btnThanhToan);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(797, 30);
+            this.panel1.Location = new System.Drawing.Point(797, 28);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(394, 606);
+            this.panel1.Size = new System.Drawing.Size(394, 608);
             this.panel1.TabIndex = 2;
+            // 
+            // lblCurrentTable
+            // 
+            this.lblCurrentTable.AutoSize = true;
+            this.lblCurrentTable.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentTable.Location = new System.Drawing.Point(6, 10);
+            this.lblCurrentTable.Name = "lblCurrentTable";
+            this.lblCurrentTable.Size = new System.Drawing.Size(153, 28);
+            this.lblCurrentTable.TabIndex = 15;
+            this.lblCurrentTable.Text = "Chưa chọn bàn";
             // 
             // textBox3
             // 
@@ -253,26 +263,17 @@
             this.btnThanhToan.TabIndex = 4;
             this.btnThanhToan.Text = "Thanh Toán";
             this.btnThanhToan.UseVisualStyleBackColor = false;
-            // 
-            // lblCurrentTable
-            // 
-            this.lblCurrentTable.AutoSize = true;
-            this.lblCurrentTable.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentTable.Location = new System.Drawing.Point(6, 10);
-            this.lblCurrentTable.Name = "lblCurrentTable";
-            this.lblCurrentTable.Size = new System.Drawing.Size(153, 28);
-            this.lblCurrentTable.TabIndex = 15;
-            this.lblCurrentTable.Text = "Chưa chọn bàn";
+            this.btnThanhToan.Click += new System.EventHandler(this.btnThanhToan_Click);
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 30);
+            this.tabControl1.Location = new System.Drawing.Point(0, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(797, 606);
+            this.tabControl1.Size = new System.Drawing.Size(797, 608);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -282,10 +283,19 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(789, 577);
+            this.tabPage1.Size = new System.Drawing.Size(789, 579);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Danh Sách Bàn";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // flpTable
+            // 
+            this.flpTable.AutoScroll = true;
+            this.flpTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpTable.Location = new System.Drawing.Point(3, 3);
+            this.flpTable.Name = "flpTable";
+            this.flpTable.Size = new System.Drawing.Size(783, 573);
+            this.flpTable.TabIndex = 0;
             // 
             // tabPage2
             // 
@@ -298,15 +308,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Thực Đơn";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // flpTable
-            // 
-            this.flpTable.AutoScroll = true;
-            this.flpTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpTable.Location = new System.Drawing.Point(3, 3);
-            this.flpTable.Name = "flpTable";
-            this.flpTable.Size = new System.Drawing.Size(783, 571);
-            this.flpTable.TabIndex = 0;
             // 
             // flpFood
             // 
@@ -327,6 +328,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "fTableManager";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Quản lý bàn bida";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

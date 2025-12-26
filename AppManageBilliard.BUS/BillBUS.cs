@@ -35,5 +35,9 @@ namespace AppManageBilliard.BUS
         {
             BillDAL.Instance.InsertBill(idTable);
         }
+        public void CheckOut(int id)
+        {
+            BillDAL.Instance.CheckOut(id);
+        }
     }
 }

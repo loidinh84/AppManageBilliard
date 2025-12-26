@@ -43,5 +43,10 @@ namespace AppManageBilliard.DAL
         {
             DataProvider.Instance.ExecuteNonQuery("EXEC USP_InsertBillInfo @idBill , @idFood , @count", new object[] { idBill, idFood, count });
         }
+        public void CheckOut(int id)
+        {
+            string query = "USP_CheckOut @idBill";
+            DataProvider.Instance.ExecuteNonQuery(query, new object[] { id });
+        }
     }
 }

@@ -57,7 +57,8 @@ namespace AppManageBilliard.GUI
 
             this.currentTable = table;
 
-            lblCurrentTable.Text = "Đang chọn: " + table.Name;
+            lblCurrentTable.Text = table.Name;
+            lsvBill.Tag = (sender as Button).Tag;
 
             ShowBill(table.ID);
         }
@@ -91,7 +92,6 @@ namespace AppManageBilliard.GUI
             flpFood.Controls.Clear();
 
             List<Food> listFood = FoodBUS.Instance.GetFoodByCategoryID(1);
-            // Gợi ý: Bạn nên viết thêm hàm GetListFood() lấy tất cả món trong FoodBUS và FoodDAO
 
             foreach (AppManageBilliard.DTO.Food item in listFood)
             {
@@ -99,12 +99,10 @@ namespace AppManageBilliard.GUI
                 btn.Width = 100;
                 btn.Height = 100;
 
-                // Hiện tên món + giá tiền
                 btn.Text = item.Name + Environment.NewLine + item.Price + " đ";
-                btn.Tag = item; // Lưu món ăn vào nút
+                btn.Tag = item; 
                 btn.BackColor = Color.LightYellow;
 
-                // Gắn sự kiện click chọn món
                 btn.Click += btnFood_Click;
 
                 flpFood.Controls.Add(btn);
@@ -137,6 +135,31 @@ namespace AppManageBilliard.GUI
 
             ShowBill(currentTable.ID);
             LoadTable();
+        }
+
+        private void btnThanhToan_Click(object sender, EventArgs e)
+        {
+            Table table = lsvBill.Tag as Table;
+            if (table == null)
+            {
+                return;
+            }
+            int idBill = BillBUS.Instance.GetUncheckBillID(table.ID);
+            double totalPrice = Convert.ToDouble(txtTongTien.Text.Split(' ')[0].Replace(".", "").Replace(",", ""));
+            if (idBill != -1)
+            {
+                string message = string.Format("Bạn có chắc muốn thanh toán hóa đơn cho {0}?\nTổng tiền: {1} đ", table.Name, totalPrice);
+                if (MessageBox.Show(message, "Thông báo", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+                {
+                    BillBUS.Instance.CheckOut(idBill);
+                    ShowBill(table.ID);
+                    LoadTable();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Bàn chưa có hóa đơn cần thanh toán!");
+            }
         }
     }
 }
