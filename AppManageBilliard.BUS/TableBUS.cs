@@ -30,5 +30,9 @@ namespace AppManageBilliard.BUS
             return TableDAL.Instance.LoadTableList();
 
         }
+        public void SwitchTable(int id1, int id2)
+        {
+            TableDAL.Instance.SwitchTable(id1, id2);
+        }
     }
 }

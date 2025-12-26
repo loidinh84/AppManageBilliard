@@ -41,5 +41,9 @@ namespace AppManageBilliard.DAL
             return tableList;
 
         }
+        public void SwitchTable(int id1, int id2)
+        {
+            DataProvider.Instance.ExecuteQuery("USP_SwitchTable @idTable1 , @idTable2", new object[] { id1, id2 });
+        }
     }
 }

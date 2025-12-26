@@ -55,6 +55,7 @@
             this.flpTable = new System.Windows.Forms.FlowLayoutPanel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flpFood = new System.Windows.Forms.FlowLayoutPanel();
+            this.cbDiscount = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -94,6 +95,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cbDiscount);
             this.panel1.Controls.Add(this.lblCurrentTable);
             this.panel1.Controls.Add(this.textBox3);
             this.panel1.Controls.Add(this.label4);
@@ -203,6 +205,7 @@
             this.btnChuyenBan.TabIndex = 7;
             this.btnChuyenBan.Text = "Chuyển bàn";
             this.btnChuyenBan.UseVisualStyleBackColor = false;
+            this.btnChuyenBan.Click += new System.EventHandler(this.btnChuyenBan_Click);
             // 
             // lsvBill
             // 
@@ -304,7 +307,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(789, 577);
+            this.tabPage2.Size = new System.Drawing.Size(789, 579);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Thực Đơn";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -315,8 +318,18 @@
             this.flpFood.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpFood.Location = new System.Drawing.Point(3, 3);
             this.flpFood.Name = "flpFood";
-            this.flpFood.Size = new System.Drawing.Size(783, 571);
+            this.flpFood.Size = new System.Drawing.Size(783, 573);
             this.flpFood.TabIndex = 0;
+            // 
+            // cbDiscount
+            // 
+            this.cbDiscount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDiscount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbDiscount.FormattingEnabled = true;
+            this.cbDiscount.Location = new System.Drawing.Point(252, 25);
+            this.cbDiscount.Name = "cbDiscount";
+            this.cbDiscount.Size = new System.Drawing.Size(130, 28);
+            this.cbDiscount.TabIndex = 16;
             // 
             // fTableManager
             // 
@@ -370,5 +383,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.FlowLayoutPanel flpTable;
         private System.Windows.Forms.FlowLayoutPanel flpFood;
+        private System.Windows.Forms.ComboBox cbDiscount;
     }
 }

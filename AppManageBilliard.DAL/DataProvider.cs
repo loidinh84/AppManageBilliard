@@ -67,7 +67,7 @@ namespace AppManageBida.DAL
                     {
                         if (item.Contains('@'))
                         {
-                            command.Parameters.AddWithValue(item, parameter[i]);
+                            command.Parameters.AddWithValue(item.Replace(",", ""), parameter[i]);
                             i++;
                         }
                     }

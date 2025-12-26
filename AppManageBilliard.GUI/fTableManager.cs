@@ -17,6 +17,7 @@ namespace AppManageBilliard.GUI
             InitializeComponent();
             LoadTable();
             LoadFoodToTab();
+            LoadDiscount();
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -61,6 +62,7 @@ namespace AppManageBilliard.GUI
             lsvBill.Tag = (sender as Button).Tag;
 
             ShowBill(table.ID);
+            cbDiscount.SelectedIndex = 0;
         }
 
         void ShowBill(int id)
@@ -81,6 +83,7 @@ namespace AppManageBilliard.GUI
             }
             CultureInfo culture = new CultureInfo("vi-VN");
             txtTongTien.Text = totalMoney.ToString("c", culture);
+            txtTongTien.Tag = totalMoney;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -144,22 +147,83 @@ namespace AppManageBilliard.GUI
             {
                 return;
             }
+
             int idBill = BillBUS.Instance.GetUncheckBillID(table.ID);
-            double totalPrice = Convert.ToDouble(txtTongTien.Text.Split(' ')[0].Replace(".", "").Replace(",", ""));
+            DiscountItem selectedDiscount = cbDiscount.SelectedItem as DiscountItem;
+            int discount = selectedDiscount.Value;
+            double totalPrice = Convert.ToDouble(txtTongTien.Tag);
+            double finalTotalPrice = totalPrice - (totalPrice /100) * discount;
+
             if (idBill != -1)
             {
-                string message = string.Format("Bạn có chắc muốn thanh toán hóa đơn cho {0}?\nTổng tiền: {1} đ", table.Name, totalPrice);
-                if (MessageBox.Show(message, "Thông báo", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+                string msg = string.Format("Thanh toán cho {0}\n{1}\nTổng tiền: {2}\n\nCẦN TRẢ: {3}",
+                                    table.Name,
+                                    selectedDiscount.Name,
+                                    totalPrice,
+                                    finalTotalPrice);
+
+                if (MessageBox.Show(msg, "Thông báo", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    BillBUS.Instance.CheckOut(idBill);
+                    BillBUS.Instance.CheckOut(idBill, discount);
                     ShowBill(table.ID);
                     LoadTable();
+                    cbDiscount.SelectedIndex = 0;
                 }
             }
-            else
+        }
+
+        private void btnChuyenBan_Click(object sender, EventArgs e)
+        {
+            Table tableOld = lsvBill.Tag as Table;
+            if (tableOld == null)
             {
-                MessageBox.Show("Bàn chưa có hóa đơn cần thanh toán!");
+                MessageBox.Show("Hãy chọn bàn cần chuyển trước!");
+                return;
             }
+            fSwitchTable f = new fSwitchTable(tableOld.ID);
+            if (f.ShowDialog() == DialogResult.OK)
+            {
+                Table tableNew = f.SelectedTable;
+
+                string msg = string.Format("Xác nhận chuyển {0} sang {1}?", tableOld.Name, tableNew.Name);
+                if (MessageBox.Show(msg, "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    TableBUS.Instance.SwitchTable(tableOld.ID, tableNew.ID);
+                    LoadTable();
+                    ShowBill(tableOld.ID);
+
+                    MessageBox.Show("Chuyển bàn thành công!", "Thông báo");
+                }
+            }
+        }
+        public class DiscountItem
+        {
+            public string Name { get; set; }
+            public int Value { get; set; } 
+
+            public DiscountItem(string name, int value)
+            {
+                this.Name = name;
+                this.Value = value;
+            }
+
+            public override string ToString()
+            {
+                return Name;
+            }
+        }
+        void LoadDiscount()
+        {
+            List<DiscountItem> listDiscount = new List<DiscountItem>();
+            listDiscount.Add(new DiscountItem("Giảm 0%", 0));
+            listDiscount.Add(new DiscountItem("Giảm 5%", 5));
+            listDiscount.Add(new DiscountItem("Giảm 10%", 10));
+            listDiscount.Add(new DiscountItem("Giảm 20%", 20));
+            listDiscount.Add(new DiscountItem("Giảm 50%", 50));
+            listDiscount.Add(new DiscountItem("Giảm 100%", 100));
+
+            cbDiscount.DataSource = listDiscount;
+             cbDiscount.DisplayMember = "Name";
         }
     }
 }
