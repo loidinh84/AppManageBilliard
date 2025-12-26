@@ -48,5 +48,50 @@ namespace AppManageBilliard.DAL
             }
             return list;
         }
+        public List<Food> GetListFood()
+        {
+            List<Food> list = new List<Food>();
+            string query = "EXEC USP_GetListFood";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+
+            foreach (DataRow item in data.Rows)
+            {
+                Food food = new Food(item);
+                list.Add(food);
+            }
+            return list;
+        }
+        public bool InsertFood(string name, int idCategory, float price)
+        {
+            string query = string.Format("INSERT dbo.Food (name, idCategory, price) VALUES (N'{0}', {1}, {2})", name, idCategory, price);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+        public bool UpdateFood(int id, string name, int idCategory, float price)
+        {
+            string query = string.Format("UPDATE dbo.Food SET name = N'{0}', idCategory = {1}, price = {2} WHERE id = {3}", name, idCategory, price, id);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+        public bool DeleteFood(int id)
+        {
+            string queryProc = "EXEC USP_DeleteFood " + id;
+            int result = DataProvider.Instance.ExecuteNonQuery(queryProc);
+            return result > 0;
+        }
+        public List<Food> SearchFoodByName(string name)
+        {
+            List<Food> list = new List<Food>();
+
+            string query = string.Format("EXEC USP_SearchFoodByName @name");
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { name });
+
+            foreach (DataRow item in data.Rows)
+            {
+                Food food = new Food(item);
+                list.Add(food);
+            }
+            return list;
+        }
     }
 }

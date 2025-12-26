@@ -225,5 +225,11 @@ namespace AppManageBilliard.GUI
             cbDiscount.DataSource = listDiscount;
              cbDiscount.DisplayMember = "Name";
         }
+
+        private void adminToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fAdmin f = new fAdmin();
+            f.ShowDialog();
+        }
     }
 }

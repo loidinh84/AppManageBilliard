@@ -48,5 +48,9 @@ namespace AppManageBilliard.DAL
             string query = "EXEC USP_CheckOut @idBill , @discount";
             DataProvider.Instance.ExecuteNonQuery(query, new object[] { id, discount });
         }
+        public DataTable GetBillListByDate(DateTime checkIn, DateTime checkOut)
+        {
+            return DataProvider.Instance.ExecuteQuery("EXEC USP_GetListBillByDate @checkIn , @checkOut", new object[] { checkIn, checkOut });
+        }
     }
 }

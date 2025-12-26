@@ -1,6 +1,7 @@
 ﻿using AppManageBilliard.DAL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,10 @@ namespace AppManageBilliard.BUS
         public void CheckOut(int id, int discount)
         {
             BillDAL.Instance.CheckOut(id, discount);
+        }
+        public DataTable GetBillListByDate(DateTime checkIn, DateTime checkOut)
+        {
+            return BillDAL.Instance.GetBillListByDate(checkIn, checkOut);
         }
     }
 }
