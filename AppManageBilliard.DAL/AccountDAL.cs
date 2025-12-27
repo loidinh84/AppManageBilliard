@@ -75,6 +75,11 @@ namespace AppManageBilliard.DAL
 
             return null;
         }
+        public int GetTotalAccount()
+        {
+            string query = "SELECT COUNT(UserName) FROM Account";
+            return (int)DataProvider.Instance.ExecuteScalar(query);
+        }
     }
 
 }
