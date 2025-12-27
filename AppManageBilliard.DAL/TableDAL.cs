@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace AppManageBilliard.DAL
 {
+    
     public class TableDAL
     {
         private static TableDAL instance;
@@ -32,7 +33,7 @@ namespace AppManageBilliard.DAL
         {
             List<Table> tableList = new List<Table>();
 
-            DataTable data = DataProvider.Instance.ExecuteQuery("SELECT * FROM dbo.TableFood");
+            DataTable data = DataProvider.Instance.ExecuteQuery("USP_GetTableList");
             foreach (DataRow item in data.Rows)
             {
                 Table table = new Table(item);
@@ -44,6 +45,24 @@ namespace AppManageBilliard.DAL
         public void SwitchTable(int id1, int id2)
         {
             DataProvider.Instance.ExecuteQuery("USP_SwitchTable @idTable1 , @idTable2", new object[] { id1, id2 });
+        }
+        public bool InsertTable(string name)
+        {
+            string query = string.Format("EXEC USP_InsertTable @name = N'{0}'", name);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+        public bool UpdateTable(int id, string name)
+        {
+            string query = string.Format("EXEC USP_UpdateTable @id = {0}, @name = N'{1}'", id, name);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+        public bool DeleteTable(int id)
+        {
+            string query = string.Format("DELETE dbo.TableFood WHERE id = {0} AND status = N'Trống'", id);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
         }
     }
 }

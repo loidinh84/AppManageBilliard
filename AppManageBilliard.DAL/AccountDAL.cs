@@ -34,5 +34,29 @@ namespace AppManageBilliard.DAL
 
             return result.Rows.Count > 0;
         }
+        public bool InsertAccount(string name, string displayName, int type)
+        {
+            string query = string.Format("EXEC USP_InsertAccount @userName = N'{0}', @displayName = N'{1}', @type = {2}", name, displayName, type);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+        public bool UpdateAccount(string name, string displayName, int type)
+        {
+            string query = string.Format("EXEC USP_UpdateAccount @userName = N'{0}', @displayName = N'{1}', @type = {2}", name, displayName, type);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+        public bool DeleteAccount(string name)
+        {
+            string query = string.Format("EXEC USP_DeleteAccount @userName = N'{0}'", name);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+        public bool ResetPassword(string name)
+        {
+            string query = string.Format("EXEC USP_ResetPassword @userName = N'{0}'", name);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
     }
 }
