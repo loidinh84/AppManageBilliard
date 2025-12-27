@@ -6,15 +6,24 @@ using AppManageBilliard.DTO;
 using AppManageBilliard.BUS;
 using System.Globalization;
 using MenuDTO = AppManageBilliard.DTO.Menu;
+using AppManageBilliard.DAL;
 
 namespace AppManageBilliard.GUI
 {
     public partial class fTableManager : Form
     {
+        private Account loginAccount;
+        public Account LoginAccount
+        {
+            get { return loginAccount; }
+            set { loginAccount = value; ChangeAccount(loginAccount.Type); }
+        }
+
         private Table currentTable;
-        public fTableManager()
+        public fTableManager(Account acc)
         {
             InitializeComponent();
+            this.LoginAccount = acc;
             LoadTable();
             LoadFoodToTab();
             LoadDiscount();
@@ -148,7 +157,7 @@ namespace AppManageBilliard.GUI
                 return;
             }
 
-            int idBill = BillBUS.Instance.GetUncheckBillID(table.ID);
+            int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
             DiscountItem selectedDiscount = cbDiscount.SelectedItem as DiscountItem;
             int discount = selectedDiscount.Value;
             double totalPrice = Convert.ToDouble(txtTongTien.Tag);
@@ -164,9 +173,10 @@ namespace AppManageBilliard.GUI
 
                 if (MessageBox.Show(msg, "Thông báo", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    BillBUS.Instance.CheckOut(idBill, discount);
+                    BillDAL.Instance.CheckOut(idBill, discount, (float)finalTotalPrice);
                     ShowBill(table.ID);
                     LoadTable();
+                    MessageBox.Show("Thanh toán thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     cbDiscount.SelectedIndex = 0;
                 }
             }
@@ -230,6 +240,27 @@ namespace AppManageBilliard.GUI
         {
             fAdmin f = new fAdmin();
             f.ShowDialog();
+        }
+
+        private void fTableManager_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void thôngTinTàiKhoảnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fAccountProfile f = new fAccountProfile(loginAccount);
+            f.UpdateAccount += f_UpdateAccount;
+            f.ShowDialog();
+        }
+        void ChangeAccount(int type)
+        {
+            adminToolStripMenuItem.Enabled = type == 1;
+            thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản (" + loginAccount.DisplayName + ")";
+        }
+        void f_UpdateAccount(object sender, AccountEvent e)
+        {
+            this.thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản (" + e.Acc.DisplayName + ")";
         }
     }
 }
