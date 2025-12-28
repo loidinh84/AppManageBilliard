@@ -69,6 +69,11 @@ namespace AppManageBilliard.GUI
         {
             UpdateAccountInfo();
         }
+
+        private void fAccountProfile_Load(object sender, EventArgs e)
+        {
+
+        }
     }
     public class AccountEvent : EventArgs
     {
