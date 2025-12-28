@@ -108,32 +108,46 @@ namespace AppManageBilliard.GUI
             foreach (Table item in tableList)
             {
                 Button btn = new Button
-                {
-                    Width = 120,
-                    Height = 120,
+                { 
+                    // chiều cao và rộng để tạo ra viên thuốc trị Khùng
+                    Width = 170,   
+                    Height = 80,  
                     FlatStyle = FlatStyle.Flat,
                     Font = new Font("Segoe UI", 12F, FontStyle.Bold),
-                    ForeColor = Color.White,
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Margin = new Padding(15)
+                    Margin = new Padding(15) 
                 };
 
                 btn.FlatAppearance.BorderSize = 0;
-                btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 255, 255, 50);
-
                 if (item.Status == "Trống")
                 {
-                    btn.BackColor = Color.FromArgb(30, 144, 255); // Xanh dương tươi (trống)
+                    //màu của nền viên thuốc
+                    btn.BackColor = Color.FromArgb(0, 119, 190);
+                    // màu của chữ trong viên thuốc
+                    btn.ForeColor = Color.FromArgb(255, 255, 255);                
+                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(240, 248, 255); 
                 }
                 else
                 {
-                    btn.BackColor = Color.FromArgb(220, 53, 69); // Đỏ (có khách)
-                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 80, 100);
+                    btn.BackColor = Color.FromArgb(30, 144, 255);                 
+                    btn.ForeColor = Color.White;                              
+                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 120, 255);   
                 }
 
                 btn.Text = item.Name + Environment.NewLine + item.Status;
                 btn.Tag = item;
                 btn.Click += btn_Click;
+                int diameter = btn.Height; 
+
+                System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+                path.AddArc(0, 0, diameter, diameter, 180, 90);                   
+                path.AddArc(btn.Width - diameter, 0, diameter, diameter, 270, 90); 
+                path.AddArc(btn.Width - diameter, btn.Height - diameter, diameter, diameter, 0, 90);   
+                path.AddArc(0, btn.Height - diameter, diameter, diameter, 90, 90); 
+                path.CloseAllFigures();
+
+                btn.Region = new Region(path);
+             
 
                 flpTable.Controls.Add(btn);
             }
@@ -204,8 +218,6 @@ namespace AppManageBilliard.GUI
                 flpFood.Controls.Add(btn);
             }
         }
-
-        // ================== Các hàm còn lại giữ nguyên hoàn toàn ==================
 
         void btnFood_Click(object sender, EventArgs e)
         {
