@@ -1,4 +1,4 @@
-﻿namespace AppManageBilliard.GUI
+﻿ namespace AppManageBilliard.GUI
 {
     partial class fTableManager
     {

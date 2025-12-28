@@ -53,5 +53,10 @@ namespace AppManageBilliard.GUI
                 e.Cancel = true;
             }
         }
+
+        private void fLogin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using AppManageBilliard.DTO;
 using AppManageBilliard.BUS;
@@ -16,16 +11,26 @@ namespace AppManageBilliard.GUI
     {
         public Table SelectedTable { get; set; }
         private int currentTableID;
+
+        // ====== MÀU CHUẨN ======
+        private readonly Color colorEmpty = Color.FromArgb(144, 238, 144);   // xanh nhạt
+        private readonly Color colorBusy = Color.FromArgb(255, 182, 193);   // hồng nhạt
+        private readonly Color colorSelect = Color.FromArgb(255, 215, 0);    // vàng chọn
+
         public fSwitchTable(int tableID)
         {
             InitializeComponent();
             currentTableID = tableID;
-            LoadTableList();
         }
+
         private void fSwitchTable_Load(object sender, EventArgs e)
         {
-
+            this.Text = "Chuyển bàn";
+            this.StartPosition = FormStartPosition.CenterParent;
+            LoadTableList();
         }
+
+        // ================= LOAD TABLE =================
         void LoadTableList()
         {
             flpTableList.Controls.Clear();
@@ -35,44 +40,61 @@ namespace AppManageBilliard.GUI
             {
                 if (item.ID == currentTableID) continue;
 
-                Button btn = new Button() { Width = 90, Height = 90 };
-                btn.Text = item.Name + Environment.NewLine + item.Status;
-                btn.Tag = item;
-
-                if (item.Status == "Trống")
-                    btn.BackColor = Color.Aqua;
-                else
-                    btn.BackColor = Color.LightPink;
-
-                btn.Click += Btn_Click;
+                Button btn = CreateTableButton(item);
                 flpTableList.Controls.Add(btn);
             }
         }
+
+        // ================= CREATE BUTTON =================
+        Button CreateTableButton(Table table)
+        {
+            Button btn = new Button();
+            btn.Width = 95;
+            btn.Height = 95;
+            btn.Tag = table;
+            btn.TextAlign = ContentAlignment.MiddleCenter;
+            btn.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btn.Text = $"{table.Name}\n({table.Status})";
+            btn.FlatStyle = FlatStyle.Flat;
+            btn.FlatAppearance.BorderSize = 0;
+            btn.Cursor = Cursors.Hand;
+
+            btn.BackColor = table.Status == "Trống" ? colorEmpty : colorBusy;
+            btn.Click += Btn_Click;
+
+            return btn;
+        }
+
+        // ================= CLICK TABLE =================
         private void Btn_Click(object sender, EventArgs e)
         {
+            // reset màu
             foreach (Button b in flpTableList.Controls)
             {
                 Table t = b.Tag as Table;
-                if (t.Status == "Trống") b.BackColor = Color.Aqua;
-                else b.BackColor = Color.LightPink;
+                b.BackColor = (t.Status == "Trống") ? colorEmpty : colorBusy;
             }
 
             Button btn = sender as Button;
-            btn.BackColor = Color.Yellow;
-            this.SelectedTable = btn.Tag as Table;
+            btn.BackColor = colorSelect;
+            SelectedTable = btn.Tag as Table;
         }
 
+        // ================= OK =================
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if (this.SelectedTable == null)
+            if (SelectedTable == null)
             {
-                MessageBox.Show("Vui lòng chọn một bàn để chuyển!", "Thông báo");
+                MessageBox.Show("Vui lòng chọn một bàn để chuyển!",
+                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
+        // ================= CANCEL =================
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
