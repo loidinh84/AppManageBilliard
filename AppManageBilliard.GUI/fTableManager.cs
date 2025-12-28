@@ -163,22 +163,31 @@ namespace AppManageBilliard.GUI
             this.currentTable = table;
             lblCurrentTable.Text = table.Name;
             lsvBill.Tag = (sender as Button).Tag;
+
+            // === THÊM PHẦN NÀY: TỰ ĐỘNG BẬT BÀN KHI CLICK VÀO BÀN TRỐNG ===
+            int idBill = BillBUS.Instance.GetUncheckBillID(table.ID);
+            if (idBill == -1 && table.Status == "Trống") // Bàn trống và chưa có bill
+            {
+                BillBUS.Instance.InsertBill(table.ID); // Tạo bill mới → bật bàn
+                LoadTable(); // Reload để cập nhật màu bàn thành "có khách"
+            }
+            // ====================================================
+
             ShowBill(table.ID);
             cbDiscount.SelectedIndex = 0;
+
             if (table.Status == "Trống")
             {
-                btnThanhToan.BackColor = Color.FromArgb(40, 167, 69);     
+                btnThanhToan.BackColor = Color.FromArgb(40, 167, 69);
                 btnThanhToan.FlatAppearance.MouseOverBackColor = Color.FromArgb(70, 200, 100);
-                btnThanhToan.Enabled = false; 
+                btnThanhToan.Enabled = false;
             }
             else
             {
-        
-                btnThanhToan.BackColor = Color.FromArgb(220, 53, 69);   
-                btnThanhToan.FlatAppearance.MouseOverBackColor = Color.FromArgb(245, 90, 110); 
+                btnThanhToan.BackColor = Color.FromArgb(220, 53, 69);
+                btnThanhToan.FlatAppearance.MouseOverBackColor = Color.FromArgb(245, 90, 110);
                 btnThanhToan.Enabled = true;
             }
-       
         }
 
         void ShowBill(int id)
