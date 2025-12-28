@@ -64,5 +64,11 @@ namespace AppManageBilliard.DAL
             int result = DataProvider.Instance.ExecuteNonQuery(query);
             return result > 0;
         }
+        public int GetTotalTable()
+        {
+            string query = "SELECT COUNT(id) FROM TableFood";
+
+            return (int)DataProvider.Instance.ExecuteScalar(query);
+        }
     }
 }

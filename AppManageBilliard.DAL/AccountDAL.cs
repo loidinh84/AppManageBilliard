@@ -1,4 +1,5 @@
 ﻿using AppManageBida.DAL;
+using AppManageBilliard.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -58,5 +59,27 @@ namespace AppManageBilliard.DAL
             int result = DataProvider.Instance.ExecuteNonQuery(query);
             return result > 0;
         }
+        public bool UpdateAccountProfile(string userName, string displayName, string pass, string newPass)
+        {
+            int result = DataProvider.Instance.ExecuteNonQuery("EXEC USP_UpdateAccountProfile @userName , @displayName , @password , @newPassword", new object[] { userName, displayName, pass, newPass });
+            return result > 0;
+        }
+        public Account GetAccountByUserName(string userName)
+        {
+            DataTable data = DataProvider.Instance.ExecuteQuery("SELECT * FROM dbo.Account WHERE UserName = '" + userName + "'");
+
+            foreach (DataRow item in data.Rows)
+            {
+                return new Account(item);
+            }
+
+            return null;
+        }
+        public int GetTotalAccount()
+        {
+            string query = "SELECT COUNT(UserName) FROM Account";
+            return (int)DataProvider.Instance.ExecuteScalar(query);
+        }
     }
+
 }

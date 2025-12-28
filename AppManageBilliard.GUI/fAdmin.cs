@@ -45,6 +45,7 @@ namespace AppManageBilliard.GUI
             LoadAccountType();
             LoadAccount();
             AddAccountBinding();
+            LoadDashboardStats();
         }
 
         private void fAdmin_Load(object sender, EventArgs e)
@@ -92,6 +93,10 @@ namespace AppManageBilliard.GUI
         void LoadListBillByDate(DateTime checkIn, DateTime checkOut)
         {
             dtgvBill.DataSource = BillBUS.Instance.GetBillListByDate(checkIn, checkOut);
+            if (dtgvBill.Columns["ID"] != null)
+            {
+                dtgvBill.Columns["ID"].Visible = false;
+            }
         }
 
         private void btnViewBill_Click(object sender, EventArgs e)
@@ -496,6 +501,52 @@ namespace AppManageBilliard.GUI
                 MessageBox.Show("Đặt lại mật khẩu thành công! Mật khẩu mới là: 0");
             }
             else MessageBox.Show("Có lỗi xảy ra!");
+        }
+
+        private void btnDeleteBill_Click(object sender, EventArgs e)
+        {
+            if (dtgvBill.SelectedCells.Count > 0)
+            {
+
+                if (MessageBox.Show("Bạn có chắc chắn muốn xóa hóa đơn này không?", "Cảnh báo", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    foreach (DataGridViewRow row in dtgvBill.SelectedRows)
+                    {
+                        int id = (int)row.Cells["ID"].Value;
+
+                        BillDAL.Instance.DeleteBill(id);
+                    }
+
+                    LoadListBillByDate(dtpkFromDate.Value, dtpkToDate.Value);
+
+                    MessageBox.Show("Xóa thành công!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn hóa đơn cần xóa!");
+            }
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtgvAccount_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        void LoadDashboardStats()
+        {
+            int soBan = TableDAL.Instance.GetTotalTable();
+            int soTK = AccountDAL.Instance.GetTotalAccount();
+
+
+            pnlTableBox.Value = soBan.ToString();
+            pnlTableBox.Invalidate();
+            pnlAccountBox.Value = soTK.ToString(); 
+            pnlAccountBox.Invalidate();
         }
     }
 }

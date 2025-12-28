@@ -1,4 +1,6 @@
 ﻿using AppManageBilliard.BUS;
+using AppManageBilliard.DAL;
+using AppManageBilliard.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,8 +26,10 @@ namespace AppManageBilliard.GUI
             string passWord = txtPassWord.Text;
             if(Login(userName, passWord))
             {
+
                 MessageBox.Show("Đăng nhập thành công!", "Thông báo");
-                fTableManager f = new fTableManager();
+                Account loginAccount = AccountDAL.Instance.GetAccountByUserName(userName);
+                fTableManager f = new fTableManager(loginAccount);
                 this.Hide();
                 f.ShowDialog();
                 this.Show();
