@@ -104,50 +104,54 @@ namespace AppManageBilliard.GUI
         {
             flpTable.Controls.Clear();
             List<Table> tableList = TableBUS.Instance.LoadTableList();
-
             foreach (Table item in tableList)
             {
                 Button btn = new Button
-                { 
-                    // chiều cao và rộng để tạo ra viên thuốc trị Khùng
-                    Width = 170,   
-                    Height = 80,  
+                {
+                    Width = 170,
+                    Height = 80,
                     FlatStyle = FlatStyle.Flat,
                     Font = new Font("Segoe UI", 12F, FontStyle.Bold),
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Margin = new Padding(15) 
+                    Margin = new Padding(15)
                 };
 
                 btn.FlatAppearance.BorderSize = 0;
+                btn.UseVisualStyleBackColor = false;
                 if (item.Status == "Trống")
                 {
-                    //màu của nền viên thuốc
-                    btn.BackColor = Color.FromArgb(0, 119, 190);
-                    // màu của chữ trong viên thuốc
-                    btn.ForeColor = Color.FromArgb(255, 255, 255);                
-                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(240, 248, 255); 
+                    // Bàn trống: nền xanh dương nhạt
+                    btn.BackColor = Color.FromArgb(0, 191, 255);
+                    btn.ForeColor = Color.White;
+                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(100, 210, 255);
+                    btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 170, 230);
                 }
                 else
                 {
-                    btn.BackColor = Color.FromArgb(30, 144, 255);                 
-                    btn.ForeColor = Color.White;                              
-                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 120, 255);   
+                    // Bàn có khách: nền hồng 
+                    btn.BackColor = Color.FromArgb(255, 182, 193);
+                    btn.ForeColor = Color.White;
+
+                    // Hover: hồng sáng hơn (đẹp, nhất quán tông hồng)
+                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(250, 80, 130);
+
+                    // Khi ấn: hồng đậm hơn để có hiệu ứng nhấn
+                    btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(210, 20, 80);
                 }
 
                 btn.Text = item.Name + Environment.NewLine + item.Status;
                 btn.Tag = item;
                 btn.Click += btn_Click;
-                int diameter = btn.Height; 
 
+                // Bo tròn viên thuốc
+                int diameter = btn.Height;
                 System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
-                path.AddArc(0, 0, diameter, diameter, 180, 90);                   
-                path.AddArc(btn.Width - diameter, 0, diameter, diameter, 270, 90); 
-                path.AddArc(btn.Width - diameter, btn.Height - diameter, diameter, diameter, 0, 90);   
-                path.AddArc(0, btn.Height - diameter, diameter, diameter, 90, 90); 
+                path.AddArc(0, 0, diameter, diameter, 180, 90);
+                path.AddArc(btn.Width - diameter, 0, diameter, diameter, 270, 90);
+                path.AddArc(btn.Width - diameter, btn.Height - diameter, diameter, diameter, 0, 90);
+                path.AddArc(0, btn.Height - diameter, diameter, diameter, 90, 90);
                 path.CloseAllFigures();
-
                 btn.Region = new Region(path);
-             
 
                 flpTable.Controls.Add(btn);
             }
@@ -161,6 +165,20 @@ namespace AppManageBilliard.GUI
             lsvBill.Tag = (sender as Button).Tag;
             ShowBill(table.ID);
             cbDiscount.SelectedIndex = 0;
+            if (table.Status == "Trống")
+            {
+                btnThanhToan.BackColor = Color.FromArgb(40, 167, 69);     
+                btnThanhToan.FlatAppearance.MouseOverBackColor = Color.FromArgb(70, 200, 100);
+                btnThanhToan.Enabled = false; 
+            }
+            else
+            {
+        
+                btnThanhToan.BackColor = Color.FromArgb(220, 53, 69);   
+                btnThanhToan.FlatAppearance.MouseOverBackColor = Color.FromArgb(245, 90, 110); 
+                btnThanhToan.Enabled = true;
+            }
+       
         }
 
         void ShowBill(int id)
@@ -198,22 +216,40 @@ namespace AppManageBilliard.GUI
             {
                 Button btn = new Button
                 {
-                    Width = 120,
-                    Height = 120,
+                    Width = 170,   // Chiều rộng lớn hơn để tạo dạng viên thuốc ngang đẹp
+                    Height = 80,   // Chiều cao vừa đủ cho 2 dòng chữ
                     FlatStyle = FlatStyle.Flat,
-                    Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                    Font = new Font("Segoe UI", 12F, FontStyle.Bold),
                     ForeColor = Color.White,
-                    BackColor = Color.FromArgb(255, 193, 7), // Vàng ấm cho món ăn/đồ uống
+                    BackColor = Color.FromArgb(0, 191, 255), // Xanh dương nhạt giống bàn trống
                     TextAlign = ContentAlignment.MiddleCenter,
                     Margin = new Padding(15)
                 };
 
+                // Tắt viền và fix lỗi trắng khi click
                 btn.FlatAppearance.BorderSize = 0;
-                btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 213, 100);
+                btn.UseVisualStyleBackColor = false; // Quan trọng: tránh màu trắng hệ thống
+
+                // Hover: xanh sáng hơn (đẹp, mượt)
+                btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(100, 210, 255);
+
+                // Khi ấn: xanh đậm hơn (có cảm giác nhấn nút)
+                btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 170, 230);
 
                 btn.Text = item.Name + Environment.NewLine + item.Price.ToString("N0") + " đ";
                 btn.Tag = item;
                 btn.Click += btnFood_Click;
+
+                // === BO TRÒN VIÊN THUỐC GIỐNG HỆT BÀN ===
+                int diameter = btn.Height;
+                System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+                path.AddArc(0, 0, diameter, diameter, 180, 90);
+                path.AddArc(btn.Width - diameter, 0, diameter, diameter, 270, 90);
+                path.AddArc(btn.Width - diameter, btn.Height - diameter, diameter, diameter, 0, 90);
+                path.AddArc(0, btn.Height - diameter, diameter, diameter, 90, 90);
+                path.CloseAllFigures();
+                btn.Region = new Region(path);
+                // ============================================
 
                 flpFood.Controls.Add(btn);
             }
