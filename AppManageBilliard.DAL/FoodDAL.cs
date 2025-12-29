@@ -11,6 +11,8 @@ namespace AppManageBilliard.DAL
 {
     public class FoodDAL
     {
+        public static int ButtonWidth = 90;
+        public static int ButtonHeight = 90;
         private static FoodDAL instance;
         public static FoodDAL Instance
         {

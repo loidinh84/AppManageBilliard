@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fTableManager));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.adminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.thôngTinTàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.cbDiscount = new System.Windows.Forms.ComboBox();
             this.lblCurrentTable = new System.Windows.Forms.Label();
@@ -56,11 +56,17 @@
             this.flpTable = new System.Windows.Forms.FlowLayoutPanel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flpFood = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnCancelTable = new System.Windows.Forms.Button();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.giảm1MónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xóaHẳnMónNàyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -71,33 +77,28 @@
             this.thôngTinTàiKhoảnToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(893, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1191, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // adminToolStripMenuItem
             // 
             this.adminToolStripMenuItem.Name = "adminToolStripMenuItem";
-            this.adminToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.adminToolStripMenuItem.Size = new System.Drawing.Size(67, 24);
             this.adminToolStripMenuItem.Text = "Admin";
             this.adminToolStripMenuItem.Click += new System.EventHandler(this.adminToolStripMenuItem_Click);
             // 
             // thôngTinTàiKhoảnToolStripMenuItem
             // 
             this.thôngTinTàiKhoảnToolStripMenuItem.Name = "thôngTinTàiKhoảnToolStripMenuItem";
-            this.thôngTinTàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
+            this.thôngTinTàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
             this.thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản";
             this.thôngTinTàiKhoảnToolStripMenuItem.Click += new System.EventHandler(this.thôngTinTàiKhoảnToolStripMenuItem_Click);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnCancelTable);
             this.panel1.Controls.Add(this.cbDiscount);
             this.panel1.Controls.Add(this.lblCurrentTable);
             this.panel1.Controls.Add(this.textBox3);
@@ -112,10 +113,10 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.btnThanhToan);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(597, 24);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Location = new System.Drawing.Point(796, 28);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(296, 493);
+            this.panel1.Size = new System.Drawing.Size(395, 660);
             this.panel1.TabIndex = 2;
             // 
             // cbDiscount
@@ -123,20 +124,19 @@
             this.cbDiscount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDiscount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbDiscount.FormattingEnabled = true;
-            this.cbDiscount.Location = new System.Drawing.Point(189, 20);
-            this.cbDiscount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbDiscount.Location = new System.Drawing.Point(252, 75);
+            this.cbDiscount.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbDiscount.Name = "cbDiscount";
-            this.cbDiscount.Size = new System.Drawing.Size(98, 23);
+            this.cbDiscount.Size = new System.Drawing.Size(129, 28);
             this.cbDiscount.TabIndex = 16;
             // 
             // lblCurrentTable
             // 
             this.lblCurrentTable.AutoSize = true;
             this.lblCurrentTable.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentTable.Location = new System.Drawing.Point(4, 8);
-            this.lblCurrentTable.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCurrentTable.Location = new System.Drawing.Point(5, 10);
             this.lblCurrentTable.Name = "lblCurrentTable";
-            this.lblCurrentTable.Size = new System.Drawing.Size(125, 21);
+            this.lblCurrentTable.Size = new System.Drawing.Size(153, 28);
             this.lblCurrentTable.TabIndex = 15;
             this.lblCurrentTable.Text = "Chưa chọn bàn";
             // 
@@ -144,21 +144,20 @@
             // 
             this.textBox3.Enabled = false;
             this.textBox3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(103, 384);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox3.Location = new System.Drawing.Point(138, 526);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(185, 23);
+            this.textBox3.Size = new System.Drawing.Size(245, 27);
             this.textBox3.TabIndex = 14;
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(4, 386);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(10, 527);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(81, 21);
+            this.label4.Size = new System.Drawing.Size(89, 23);
             this.label4.TabIndex = 13;
             this.label4.Text = "Tổng món";
             // 
@@ -166,10 +165,10 @@
             // 
             this.textBox2.Enabled = false;
             this.textBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(103, 331);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Location = new System.Drawing.Point(138, 460);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(185, 23);
+            this.textBox2.Size = new System.Drawing.Size(245, 27);
             this.textBox2.TabIndex = 12;
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -177,32 +176,30 @@
             // 
             this.textBox1.Enabled = false;
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(103, 358);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Location = new System.Drawing.Point(138, 494);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(185, 23);
+            this.textBox1.Size = new System.Drawing.Size(245, 27);
             this.textBox1.TabIndex = 11;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(2, 360);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(10, 495);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(106, 21);
+            this.label3.Size = new System.Drawing.Size(115, 23);
             this.label3.TabIndex = 10;
             this.label3.Text = "Tổng giờ chơi";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(4, 333);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 461);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 21);
+            this.label2.Size = new System.Drawing.Size(100, 23);
             this.label2.TabIndex = 9;
             this.label2.Text = "Giờ bắt đầu";
             // 
@@ -211,10 +208,10 @@
             this.txtTongTien.Enabled = false;
             this.txtTongTien.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTongTien.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.txtTongTien.Location = new System.Drawing.Point(103, 411);
-            this.txtTongTien.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTongTien.Location = new System.Drawing.Point(138, 559);
+            this.txtTongTien.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtTongTien.Name = "txtTongTien";
-            this.txtTongTien.Size = new System.Drawing.Size(185, 23);
+            this.txtTongTien.Size = new System.Drawing.Size(245, 27);
             this.txtTongTien.TabIndex = 8;
             this.txtTongTien.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -222,10 +219,10 @@
             // 
             this.btnChuyenBan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.btnChuyenBan.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChuyenBan.Location = new System.Drawing.Point(22, 444);
-            this.btnChuyenBan.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnChuyenBan.Location = new System.Drawing.Point(30, 599);
+            this.btnChuyenBan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnChuyenBan.Name = "btnChuyenBan";
-            this.btnChuyenBan.Size = new System.Drawing.Size(118, 33);
+            this.btnChuyenBan.Size = new System.Drawing.Size(157, 41);
             this.btnChuyenBan.TabIndex = 7;
             this.btnChuyenBan.Text = "Chuyển bàn";
             this.btnChuyenBan.UseVisualStyleBackColor = false;
@@ -238,17 +235,20 @@
             this.colSoLuong,
             this.colDonGia,
             this.colThanhTien});
+            this.lsvBill.ContextMenuStrip = this.contextMenuStrip2;
             this.lsvBill.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lsvBill.GridLines = true;
             this.lsvBill.HideSelection = false;
-            this.lsvBill.Location = new System.Drawing.Point(11, 48);
-            this.lsvBill.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lsvBill.Location = new System.Drawing.Point(14, 116);
+            this.lsvBill.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lsvBill.Name = "lsvBill";
-            this.lsvBill.Size = new System.Drawing.Size(276, 268);
+            this.lsvBill.Size = new System.Drawing.Size(367, 329);
             this.lsvBill.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.lsvBill, "Nhấp chuột phải để chỉnh sửa món ăn");
             this.lsvBill.UseCompatibleStateImageBehavior = false;
             this.lsvBill.View = System.Windows.Forms.View.Details;
             this.lsvBill.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.lsvBill.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lsvBill_MouseDoubleClick);
             // 
             // colTenMon
             // 
@@ -274,10 +274,9 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(2, 413);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(9, 555);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 21);
+            this.label1.Size = new System.Drawing.Size(103, 28);
             this.label1.TabIndex = 5;
             this.label1.Text = "Tổng tiền";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -286,10 +285,10 @@
             // 
             this.btnThanhToan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnThanhToan.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThanhToan.Location = new System.Drawing.Point(160, 444);
-            this.btnThanhToan.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnThanhToan.Location = new System.Drawing.Point(214, 599);
+            this.btnThanhToan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnThanhToan.Name = "btnThanhToan";
-            this.btnThanhToan.Size = new System.Drawing.Size(118, 33);
+            this.btnThanhToan.Size = new System.Drawing.Size(157, 41);
             this.btnThanhToan.TabIndex = 4;
             this.btnThanhToan.Text = "Thanh Toán";
             this.btnThanhToan.UseVisualStyleBackColor = false;
@@ -300,22 +299,22 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 24);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl1.Location = new System.Drawing.Point(0, 28);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(597, 493);
+            this.tabControl1.Size = new System.Drawing.Size(796, 660);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.flpTable);
             this.tabPage1.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tabPage1.Size = new System.Drawing.Size(589, 467);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage1.Size = new System.Drawing.Size(788, 631);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Danh Sách Bàn";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -324,10 +323,10 @@
             // 
             this.flpTable.AutoScroll = true;
             this.flpTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpTable.Location = new System.Drawing.Point(2, 2);
-            this.flpTable.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flpTable.Location = new System.Drawing.Point(3, 2);
+            this.flpTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flpTable.Name = "flpTable";
-            this.flpTable.Size = new System.Drawing.Size(585, 463);
+            this.flpTable.Size = new System.Drawing.Size(782, 627);
             this.flpTable.TabIndex = 0;
             this.flpTable.Paint += new System.Windows.Forms.PaintEventHandler(this.flpTable_Paint);
             // 
@@ -335,11 +334,11 @@
             // 
             this.tabPage2.Controls.Add(this.flpFood);
             this.tabPage2.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tabPage2.Size = new System.Drawing.Size(590, 468);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage2.Size = new System.Drawing.Size(788, 631);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Thực Đơn";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -348,22 +347,60 @@
             // 
             this.flpFood.AutoScroll = true;
             this.flpFood.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpFood.Location = new System.Drawing.Point(2, 2);
-            this.flpFood.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flpFood.Location = new System.Drawing.Point(3, 2);
+            this.flpFood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flpFood.Name = "flpFood";
-            this.flpFood.Size = new System.Drawing.Size(586, 464);
+            this.flpFood.Size = new System.Drawing.Size(782, 627);
             this.flpFood.TabIndex = 0;
+            // 
+            // btnCancelTable
+            // 
+            this.btnCancelTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnCancelTable.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelTable.Location = new System.Drawing.Point(290, 10);
+            this.btnCancelTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCancelTable.Name = "btnCancelTable";
+            this.btnCancelTable.Size = new System.Drawing.Size(91, 34);
+            this.btnCancelTable.TabIndex = 17;
+            this.btnCancelTable.Text = "Hủy bàn";
+            this.btnCancelTable.UseVisualStyleBackColor = false;
+            this.btnCancelTable.Click += new System.EventHandler(this.btnCancelTable_Click);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.giảm1MónToolStripMenuItem,
+            this.xóaHẳnMónNàyToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(194, 52);
+            this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
+            // 
+            // giảm1MónToolStripMenuItem
+            // 
+            this.giảm1MónToolStripMenuItem.Name = "giảm1MónToolStripMenuItem";
+            this.giảm1MónToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
+            this.giảm1MónToolStripMenuItem.Text = "Giảm 1 món";
+            this.giảm1MónToolStripMenuItem.Click += new System.EventHandler(this.giảm1MónToolStripMenuItem_Click);
+            // 
+            // xóaHẳnMónNàyToolStripMenuItem
+            // 
+            this.xóaHẳnMónNàyToolStripMenuItem.Name = "xóaHẳnMónNàyToolStripMenuItem";
+            this.xóaHẳnMónNàyToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
+            this.xóaHẳnMónNàyToolStripMenuItem.Text = "Xóa hẳn món này";
+            this.xóaHẳnMónNàyToolStripMenuItem.Click += new System.EventHandler(this.xóaHẳnMónNàyToolStripMenuItem_Click_1);
             // 
             // fTableManager
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(893, 517);
+            this.ClientSize = new System.Drawing.Size(1191, 688);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "fTableManager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Quản lý bàn bida";
@@ -375,6 +412,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -385,7 +423,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem adminToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem thôngTinTàiKhoảnToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnThanhToan;
@@ -409,5 +446,10 @@
         private System.Windows.Forms.FlowLayoutPanel flpTable;
         private System.Windows.Forms.FlowLayoutPanel flpFood;
         private System.Windows.Forms.ComboBox cbDiscount;
+        private System.Windows.Forms.Button btnCancelTable;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem giảm1MónToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem xóaHẳnMónNàyToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

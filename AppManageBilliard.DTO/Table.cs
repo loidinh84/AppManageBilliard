@@ -12,10 +12,14 @@ namespace AppManageBilliard.DTO
         private int id;
         private string name;
         private string status;
+        private float price;
+        private string categoryName;
 
         public int ID { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
         public string Status { get => status; set => status = value; }
+        public float Price { get => price; set => price = value; }
+        public string CategoryName { get => categoryName; set => categoryName = value; }
 
         public Table() { }
 
@@ -30,6 +34,15 @@ namespace AppManageBilliard.DTO
             this.ID = (int)row["id"];
             this.Name = row["name"].ToString();
             this.Status = row["status"].ToString();
+            if (row["pricePerHour"].ToString() != "")
+                this.Price = (float)Convert.ToDouble(row["pricePerHour"]);
+            else
+                this.Price = 0;
+
+            if (row["categoryName"].ToString() != "")
+                this.CategoryName = row["categoryName"].ToString();
+            else
+                this.CategoryName = "Chưa phân loại";
         }
     }
 }

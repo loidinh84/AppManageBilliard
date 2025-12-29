@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fAdmin));
             this.panelMenu = new System.Windows.Forms.Panel();
             this.btnAccount = new System.Windows.Forms.Button();
             this.btnTable = new System.Windows.Forms.Button();
@@ -975,6 +976,7 @@
             this.ClientSize = new System.Drawing.Size(1200, 578);
             this.Controls.Add(this.tcAdmin);
             this.Controls.Add(this.panelMenu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "fAdmin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trang Quản Trị";

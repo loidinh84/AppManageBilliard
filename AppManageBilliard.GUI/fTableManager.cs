@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
-using AppManageBilliard.DTO;
+﻿using AppManageBida.DAL;
 using AppManageBilliard.BUS;
-using System.Globalization;
-using MenuDTO = AppManageBilliard.DTO.Menu;
 using AppManageBilliard.DAL;
+using AppManageBilliard.DTO;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.Windows.Forms;
+using MenuDTO = AppManageBilliard.DTO.Menu;
 
 namespace AppManageBilliard.GUI
 {
@@ -120,7 +121,6 @@ namespace AppManageBilliard.GUI
                 btn.UseVisualStyleBackColor = false;
                 if (item.Status == "Trống")
                 {
-                    // Bàn trống: nền xanh dương nhạt
                     btn.BackColor = Color.FromArgb(0, 191, 255);
                     btn.ForeColor = Color.White;
                     btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(100, 210, 255);
@@ -128,14 +128,11 @@ namespace AppManageBilliard.GUI
                 }
                 else
                 {
-                    // Bàn có khách: nền hồng 
                     btn.BackColor = Color.FromArgb(255, 182, 193);
                     btn.ForeColor = Color.White;
 
-                    // Hover: hồng sáng hơn (đẹp, nhất quán tông hồng)
                     btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(250, 80, 130);
 
-                    // Khi ấn: hồng đậm hơn để có hiệu ứng nhấn
                     btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(210, 20, 80);
                 }
 
@@ -143,7 +140,6 @@ namespace AppManageBilliard.GUI
                 btn.Tag = item;
                 btn.Click += btn_Click;
 
-                // Bo tròn viên thuốc
                 int diameter = btn.Height;
                 System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
                 path.AddArc(0, 0, diameter, diameter, 180, 90);
@@ -152,6 +148,7 @@ namespace AppManageBilliard.GUI
                 path.AddArc(0, btn.Height - diameter, diameter, diameter, 90, 90);
                 path.CloseAllFigures();
                 btn.Region = new Region(path);
+               
 
                 flpTable.Controls.Add(btn);
             }
@@ -282,25 +279,36 @@ namespace AppManageBilliard.GUI
         {
             Table table = lsvBill.Tag as Table;
             if (table == null) return;
-
             int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
-            DiscountItem selectedDiscount = cbDiscount.SelectedItem as DiscountItem;
-            int discount = selectedDiscount.Value;
-            double totalPrice = Convert.ToDouble(txtTongTien.Tag);
-            double finalTotalPrice = totalPrice - (totalPrice / 100) * discount;
-
             if (idBill != -1)
             {
-                string msg = string.Format("Thanh toán cho {0}\n{1}\nTổng tiền: {2:N0} đ\n\nCẦN TRẢ: {3:N0} đ",
-                                    table.Name, selectedDiscount.Name, totalPrice, finalTotalPrice);
+                DateTime dateCheckIn = BillDAL.Instance.GetDateCheckIn(idBill);
+                double hours = (DateTime.Now - dateCheckIn).TotalHours;
 
-                if (MessageBox.Show(msg, "Thông báo", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                double pricePerHour = BillDAL.Instance.GetTablePriceFromBill(idBill);
+
+                double foodPrice = BillDAL.Instance.GetFoodTotalPrice(idBill);
+
+                if (pricePerHour == 0)
+                {
+                    MessageBox.Show("Hóa đơn chưa có 'Loại Bàn'! \nVui lòng vào Thực đơn chọn loại bàn (Lỗ/Phăng) trước khi thanh toán.", "Thiếu thông tin");
+                    return;
+                }
+
+                int discount = 0;
+                int.TryParse(cbDiscount.Text, out discount);
+
+                double totalPrice = (pricePerHour * hours) + foodPrice;
+                double finalTotalPrice = totalPrice - (totalPrice / 100) * discount;
+
+                string msg = string.Format("Bàn: {0}\nGiá bàn: {1:0,0}/h (Đã chơi: {2:0.00} giờ)\n -> Tiền giờ: {3:0,0} đ\nTiền nước: {4:0,0} đ\nGiảm giá: {5}%\nTổng cộng: {6:0,0} đ",
+                                           table.Name, pricePerHour, hours, pricePerHour * hours, foodPrice, discount, finalTotalPrice);
+
+                if (MessageBox.Show(msg, "Thanh toán", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     BillDAL.Instance.CheckOut(idBill, discount, (float)finalTotalPrice);
                     ShowBill(table.ID);
                     LoadTable();
-                    MessageBox.Show("Thanh toán thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    cbDiscount.SelectedIndex = 0;
                 }
             }
         }
@@ -383,7 +391,163 @@ namespace AppManageBilliard.GUI
         // Các event khác giữ nguyên
         private void listView1_SelectedIndexChanged(object sender, EventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
-        private void fTableManager_Load(object sender, EventArgs e) { }
+        private void fTableManager_Load(object sender, EventArgs e) 
+        {
+            LoadAllFood();
+        }
         private void flpTable_Paint(object sender, PaintEventArgs e) { }
+
+        private void btnCancelTable_Click(object sender, EventArgs e)
+        {
+            Table table = lsvBill.Tag as Table;
+            if (table == null) return;
+
+            int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
+
+            if (idBill == -1)
+            {
+                string query = "UPDATE dbo.TableFood SET status = N'Trống' WHERE id = " + table.ID;
+                DataProvider.Instance.ExecuteNonQuery(query);
+
+                LoadTable();
+                ShowBill(table.ID);
+                return;
+            }
+
+            int countFood = BillDAL.Instance.GetCountBillInfo(idBill);
+            if (countFood > 0)
+            {
+                MessageBox.Show("Bàn đang có món, không thể hủy!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
+            if (MessageBox.Show("Hủy bàn " + table.Name + "?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                BillDAL.Instance.DeleteBill(idBill);
+                LoadTable();
+                ShowBill(table.ID);
+            }
+        }
+
+        private void contextMenuStrip2_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+        private void xóaHẳnMónNàyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lsvBill.SelectedItems.Count > 0)
+            {
+                ListViewItem item = lsvBill.SelectedItems[0];
+                int soLuongHienTai = int.Parse(item.SubItems[1].Text);
+
+                GiamMonAn(-soLuongHienTai);
+            }
+        }
+        void GiamMonAn(int soLuongTru)
+        {
+            if (lsvBill.SelectedItems.Count == 0) return;
+
+            Table table = lsvBill.Tag as Table;
+            int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
+
+            // 1. Dùng .Trim() để CẮT BỎ KHOẢNG TRẮNG thừa ở đầu/đuôi (Rất quan trọng!)
+            string foodName = lsvBill.SelectedItems[0].Text.Trim();
+
+            // 2. Tìm ID món ăn
+            string query = "SELECT id FROM Food WHERE name = N'" + foodName + "'";
+            object result = DataProvider.Instance.ExecuteScalar(query);
+
+            // 3. Kiểm tra an toàn: Nếu không tìm thấy thì báo lỗi chứ không cho Crash
+            if (result == null)
+            {
+                // Có thể do tên món trong Database và hiển thị đang không khớp nhau
+                MessageBox.Show("Không tìm thấy món '" + foodName + "' trong dữ liệu gốc!", "Lỗi lệch dữ liệu");
+                return;
+            }
+
+            int idFood = (int)result;
+
+            // 4. Thực hiện trừ món
+            BillDAL.Instance.InsertBillInfo(idBill, idFood, soLuongTru);
+
+            // 5. Load lại
+            ShowBill(table.ID);
+            LoadTable();
+        }
+
+        private void giảm1MónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GiamMonAn(-1);
+        }
+
+        private void xóaHẳnMónNàyToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (lsvBill.SelectedItems.Count > 0)
+            {
+                int soLuongHienTai = 0;
+
+                try
+                {
+                    soLuongHienTai = int.Parse(lsvBill.SelectedItems[0].SubItems[1].Text);
+                }
+                catch
+                {
+                    return;
+                }
+                GiamMonAn(-soLuongHienTai);
+            }
+        }
+
+        private void lsvBill_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            GiamMonAn(-1);
+        }
+        void LoadAllFood()
+        {
+            List<Food> listFood = FoodDAL.Instance.GetListFood();
+
+            flpFood.Controls.Clear();
+
+            foreach (Food item in listFood)
+            {
+                Button btn = new Button() { Width = FoodDAL.ButtonWidth, Height = FoodDAL.ButtonHeight };
+
+                btn.Text = item.Name + Environment.NewLine + item.Price.ToString("#,##0") + " đ";
+
+                btn.Click += btnAddFood_Click;
+
+                btn.Tag = item;
+
+                flpFood.Controls.Add(btn);
+            }
+        }
+        private void btnAddFood_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            Food food = btn.Tag as Food;
+
+            Table table = lsvBill.Tag as Table;
+            if (table == null)
+            {
+                MessageBox.Show("Hãy chọn bàn trước!");
+                return;
+            }
+
+            int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
+            int idFood = food.ID;
+            int count = 1;
+
+            if (idBill == -1)
+            {
+                BillDAL.Instance.InsertBill(table.ID);
+
+                idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
+            }
+
+            BillDAL.Instance.InsertBillInfo(idBill, idFood, count);
+
+            ShowBill(table.ID);
+            LoadTable();
+        }
     }
 }

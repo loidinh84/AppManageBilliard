@@ -61,5 +61,59 @@ namespace AppManageBilliard.DAL
         {
             DataProvider.Instance.ExecuteNonQuery("EXEC USP_DeleteBill @idBill", new object[] { id });
         }
+        public int GetCountBillInfo(int idBill)
+        {
+            string query = "SELECT COUNT(*) FROM dbo.BillInfo WHERE idBill = " + idBill;
+
+            try
+            {
+                return (int)DataProvider.Instance.ExecuteScalar(query);
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+        public DateTime GetDateCheckIn(int idBill)
+        {
+            string query = "SELECT DateCheckIn FROM dbo.Bill WHERE id = " + idBill;
+            try
+            {
+                return (DateTime)DataProvider.Instance.ExecuteScalar(query);
+            }
+            catch
+            {
+                return DateTime.Now;
+            }
+        }
+        public double GetFoodTotalPrice(int idBill)
+        {
+            string query = "SELECT SUM(f.price * bi.count) FROM dbo.BillInfo AS bi " +
+                   "JOIN dbo.Food AS f ON bi.idFood = f.id " +
+                   "JOIN dbo.FoodCategory AS fc ON f.idCategory = fc.id " +
+                   "WHERE bi.idBill = " + idBill + " AND fc.name != N'Loại Bàn'"; // <--- Khác Loại Bàn
+            try
+            {
+                object result = DataProvider.Instance.ExecuteScalar(query);
+                if (result == DBNull.Value) return 0;
+                return Convert.ToDouble(result);
+            }
+            catch { return 0; }
+        }
+        public double GetTablePriceFromBill(int idBill)
+        {
+            string query = "SELECT f.price FROM dbo.BillInfo bi " +
+                           "JOIN dbo.Food f ON bi.idFood = f.id " +
+                           "JOIN dbo.FoodCategory fc ON f.idCategory = fc.id " +
+                           "WHERE bi.idBill = " + idBill + " AND fc.name = N'Loại Bàn'";
+
+            try
+            {
+                object result = DataProvider.Instance.ExecuteScalar(query);
+                if (result == null) return 0; // Nếu chưa chọn loại bàn thì giá = 0
+                return Convert.ToDouble(result);
+            }
+            catch { return 0; }
+        }
     }
 }
