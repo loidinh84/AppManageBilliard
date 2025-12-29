@@ -25,7 +25,7 @@ namespace AppManageBilliard.GUI
         {
             InitializeComponent();
             this.LoginAccount = acc;
-            CustomizeDesign();      // Áp dụng giao diện trắng xanh mới
+            CustomizeDesign();      
             LoadTable();
             LoadFoodToTab();
             LoadDiscount();
@@ -80,8 +80,7 @@ namespace AppManageBilliard.GUI
 
             // Tổng tiền nổi bật
             txtTongTien.ReadOnly = true;
-            txtTongTien.BackColor = Color.FromArgb(0, 150, 136); // Teal xanh lá
-            txtTongTien.ForeColor = Color.White;
+            txtTongTien.BackColor = Color.FromArgb(255, 255, 255);
             txtTongTien.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
             txtTongTien.TextAlign = HorizontalAlignment.Right;
             txtTongTien.BorderStyle = BorderStyle.None;
@@ -109,8 +108,8 @@ namespace AppManageBilliard.GUI
             {
                 Button btn = new Button
                 {
-                    Width = 170,
-                    Height = 80,
+                    Width = 140,
+                    Height = 70,
                     FlatStyle = FlatStyle.Flat,
                     Font = new Font("Segoe UI", 12F, FontStyle.Bold),
                     TextAlign = ContentAlignment.MiddleCenter,
@@ -185,12 +184,10 @@ namespace AppManageBilliard.GUI
 
             foreach (MenuDTO item in listMenu)
             {
-                ListViewItem lsvItem = new ListViewItem("  " + item.FoodName);
+                ListViewItem lsvItem = new ListViewItem(" " + item.FoodName);
                 lsvItem.SubItems.Add(item.Count.ToString());
                 lsvItem.SubItems.Add(item.Price.ToString("N0") + " đ");
                 lsvItem.SubItems.Add(item.TotalPrice.ToString("N0") + " đ");
-
-                // Thành tiền nổi bật đỏ
                 lsvItem.SubItems[3].ForeColor = Color.FromArgb(220, 53, 69);
                 lsvItem.SubItems[3].Font = new Font("Segoe UI", 11F, FontStyle.Bold);
 
@@ -201,6 +198,16 @@ namespace AppManageBilliard.GUI
             CultureInfo culture = new CultureInfo("vi-VN");
             txtTongTien.Text = totalMoney > 0 ? totalMoney.ToString("c", culture) : "0 đ";
             txtTongTien.Tag = totalMoney;
+            if (totalMoney > 0)
+            {
+                txtTongTien.ForeColor = Color.Red; 
+                txtTongTien.Font = new Font("Segoe UI", 20F, FontStyle.Bold); 
+            }
+            else
+            {
+                txtTongTien.ForeColor = Color.Gray; 
+                txtTongTien.Font = new Font("Segoe UI", 20F, FontStyle.Regular);
+            }
         }
 
         void LoadFoodToTab()
@@ -245,8 +252,6 @@ namespace AppManageBilliard.GUI
                 path.AddArc(0, btn.Height - diameter, diameter, diameter, 90, 90);
                 path.CloseAllFigures();
                 btn.Region = new Region(path);
-                // ============================================
-
                 flpFood.Controls.Add(btn);
             }
         }
@@ -350,7 +355,6 @@ namespace AppManageBilliard.GUI
                 return Name;
             }
         }
-
         void LoadDiscount()
         {
             List<DiscountItem> listDiscount = new List<DiscountItem>();
@@ -431,7 +435,6 @@ namespace AppManageBilliard.GUI
 
         private void contextMenuStrip2_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
         }
         private void xóaHẳnMónNàyToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -464,7 +467,6 @@ namespace AppManageBilliard.GUI
                 MessageBox.Show("Không tìm thấy món '" + foodName + "' trong dữ liệu gốc!", "Lỗi lệch dữ liệu");
                 return;
             }
-
             int idFood = (int)result;
 
             // 4. Thực hiện trừ món
@@ -479,7 +481,6 @@ namespace AppManageBilliard.GUI
         {
             GiamMonAn(-1);
         }
-
         private void xóaHẳnMónNàyToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             if (lsvBill.SelectedItems.Count > 0)

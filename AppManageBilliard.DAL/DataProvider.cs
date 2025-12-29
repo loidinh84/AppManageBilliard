@@ -24,7 +24,7 @@ namespace AppManageBida.DAL
             private set { DataProvider.instance = value; }
         }
         private DataProvider() { }
-        private string connectionSTR = @"Data Source= LAPTOP-D7025PB6\SQLEXPRESS;Initial Catalog=QuanLyQuanBida;Integrated Security=True";
+        private string connectionSTR = @"Data Source= DESKTOP-B5BA4CB\SQLEXPRESS;Initial Catalog=QuanLyQuanBida;Integrated Security=True";
 
         public DataTable ExecuteQuery(string query, object[] parameter = null)
         {
