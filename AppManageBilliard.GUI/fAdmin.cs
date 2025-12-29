@@ -122,8 +122,10 @@ namespace AppManageBilliard.GUI
             List<Category> list = CategoryDAL.Instance.GetListCategory();
             if (list == null || list.Count == 0) return;
 
+            cb.DataSource = list;
             cb.DisplayMember = "Name";
             cb.ValueMember = "ID";
+            cb.SelectedIndex = 0;
         }
 
         void AddFoodBinding()
@@ -196,7 +198,10 @@ namespace AppManageBilliard.GUI
             txtFoodID.Text = "";
             txtFoodName.Text = "";
             nmFoodPrice.Value = 0;
-            cbFoodCategory.SelectedIndex = 0;
+            if (cbFoodCategory.Items.Count > 0)
+            {
+                cbFoodCategory.SelectedIndex = 0;
+            }
 
             txtFoodName.Focus();
         }
@@ -212,8 +217,6 @@ namespace AppManageBilliard.GUI
                 MessageBox.Show("Vui lòng nhập tên món!");
                 return;
             }
-
-            // 3. Phân loại: THÊM hay SỬA?
             if (string.IsNullOrEmpty(txtFoodID.Text))
             {
                 if (FoodDAL.Instance.InsertFood(name, categoryID, price))
@@ -312,7 +315,6 @@ namespace AppManageBilliard.GUI
                 return;
             }
 
-            // Nếu ID trống -> THÊM MỚI
             if (string.IsNullOrEmpty(txtCategoryID.Text))
             {
                 if (CategoryDAL.Instance.InsertCategory(name))
@@ -547,6 +549,15 @@ namespace AppManageBilliard.GUI
             pnlTableBox.Invalidate();
             pnlAccountBox.Value = soTK.ToString(); 
             pnlAccountBox.Invalidate();
+        }
+
+        private void btnReset_Click_1(object sender, EventArgs e)
+        {
+            txtCategoryID.Text = "";
+
+            txtCategoryName.Text = "";
+
+            txtCategoryName.Focus();
         }
     }
 }

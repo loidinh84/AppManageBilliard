@@ -38,6 +38,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dtgvBill = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDeleteBill = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnViewBill = new System.Windows.Forms.Button();
             this.dtpkToDate = new System.Windows.Forms.DateTimePicker();
@@ -73,6 +74,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dtgvTable = new System.Windows.Forms.DataGridView();
+            this.pnlTableBox = new GradientPanel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
             this.txtTableStatus = new System.Windows.Forms.TextBox();
@@ -85,6 +87,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.dtgvAccount = new System.Windows.Forms.DataGridView();
+            this.pnlAccountBox = new GradientPanel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.cbbType = new System.Windows.Forms.ComboBox();
             this.btnEditAccount = new System.Windows.Forms.Button();
@@ -97,9 +100,6 @@
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.btnDeleteBill = new System.Windows.Forms.Button();
-            this.pnlTableBox = new GradientPanel();
-            this.pnlAccountBox = new GradientPanel();
             this.panelMenu.SuspendLayout();
             this.tcAdmin.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -133,7 +133,7 @@
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelMenu.Location = new System.Drawing.Point(0, 0);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(200, 637);
+            this.panelMenu.Size = new System.Drawing.Size(200, 578);
             this.panelMenu.TabIndex = 0;
             // 
             // btnAccount
@@ -237,7 +237,7 @@
             this.tcAdmin.Location = new System.Drawing.Point(200, 0);
             this.tcAdmin.Name = "tcAdmin";
             this.tcAdmin.SelectedIndex = 0;
-            this.tcAdmin.Size = new System.Drawing.Size(1000, 637);
+            this.tcAdmin.Size = new System.Drawing.Size(1000, 578);
             this.tcAdmin.TabIndex = 1;
             // 
             // tabPage1
@@ -247,7 +247,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(992, 608);
+            this.tabPage1.Size = new System.Drawing.Size(992, 549);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -265,7 +265,7 @@
             this.dtgvBill.RowHeadersWidth = 51;
             this.dtgvBill.RowTemplate.Height = 24;
             this.dtgvBill.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtgvBill.Size = new System.Drawing.Size(986, 502);
+            this.dtgvBill.Size = new System.Drawing.Size(986, 443);
             this.dtgvBill.TabIndex = 1;
             // 
             // panel1
@@ -280,6 +280,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(986, 100);
             this.panel1.TabIndex = 0;
+            // 
+            // btnDeleteBill
+            // 
+            this.btnDeleteBill.Location = new System.Drawing.Point(833, 56);
+            this.btnDeleteBill.Name = "btnDeleteBill";
+            this.btnDeleteBill.Size = new System.Drawing.Size(104, 34);
+            this.btnDeleteBill.TabIndex = 4;
+            this.btnDeleteBill.Text = "Xóa";
+            this.btnDeleteBill.UseVisualStyleBackColor = true;
+            this.btnDeleteBill.Click += new System.EventHandler(this.btnDeleteBill_Click);
             // 
             // label1
             // 
@@ -323,7 +333,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(992, 608);
+            this.tabPage2.Size = new System.Drawing.Size(992, 549);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -334,7 +344,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 73);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(686, 532);
+            this.panel4.Size = new System.Drawing.Size(686, 473);
             this.panel4.TabIndex = 2;
             // 
             // dtgvFood
@@ -350,7 +360,7 @@
             this.dtgvFood.RowHeadersWidth = 51;
             this.dtgvFood.RowTemplate.Height = 24;
             this.dtgvFood.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtgvFood.Size = new System.Drawing.Size(686, 532);
+            this.dtgvFood.Size = new System.Drawing.Size(686, 473);
             this.dtgvFood.TabIndex = 0;
             // 
             // panel3
@@ -410,7 +420,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel2.Location = new System.Drawing.Point(689, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(300, 602);
+            this.panel2.Size = new System.Drawing.Size(300, 543);
             this.panel2.TabIndex = 0;
             // 
             // btnDeleteFood
@@ -531,7 +541,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(992, 608);
+            this.tabPage3.Size = new System.Drawing.Size(992, 549);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -549,7 +559,7 @@
             this.dtgvCategory.RowHeadersWidth = 51;
             this.dtgvCategory.RowTemplate.Height = 24;
             this.dtgvCategory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtgvCategory.Size = new System.Drawing.Size(686, 602);
+            this.dtgvCategory.Size = new System.Drawing.Size(686, 543);
             this.dtgvCategory.TabIndex = 2;
             // 
             // panel5
@@ -564,7 +574,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel5.Location = new System.Drawing.Point(689, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(300, 602);
+            this.panel5.Size = new System.Drawing.Size(300, 543);
             this.panel5.TabIndex = 1;
             // 
             // btnDelete
@@ -587,6 +597,7 @@
             this.btnReset.TabIndex = 11;
             this.btnReset.Text = "Làm mới";
             this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click_1);
             // 
             // btnAddEdit
             // 
@@ -612,6 +623,7 @@
             this.txtCategoryID.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCategoryID.Location = new System.Drawing.Point(106, 31);
             this.txtCategoryID.Name = "txtCategoryID";
+            this.txtCategoryID.ReadOnly = true;
             this.txtCategoryID.Size = new System.Drawing.Size(174, 27);
             this.txtCategoryID.TabIndex = 3;
             // 
@@ -643,7 +655,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(992, 608);
+            this.tabPage4.Size = new System.Drawing.Size(992, 549);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -661,8 +673,22 @@
             this.dtgvTable.RowHeadersWidth = 51;
             this.dtgvTable.RowTemplate.Height = 24;
             this.dtgvTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtgvTable.Size = new System.Drawing.Size(686, 521);
+            this.dtgvTable.Size = new System.Drawing.Size(686, 462);
             this.dtgvTable.TabIndex = 4;
+            // 
+            // pnlTableBox
+            // 
+            this.pnlTableBox.Angle = 45F;
+            this.pnlTableBox.BottomColor = System.Drawing.Color.Navy;
+            this.pnlTableBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTableBox.Icon = global::AppManageBilliard.GUI.Properties.Resources.billiard_ball;
+            this.pnlTableBox.Location = new System.Drawing.Point(3, 3);
+            this.pnlTableBox.Name = "pnlTableBox";
+            this.pnlTableBox.Size = new System.Drawing.Size(686, 81);
+            this.pnlTableBox.TabIndex = 5;
+            this.pnlTableBox.Title = "Tổng số bàn";
+            this.pnlTableBox.TopColor = System.Drawing.Color.RoyalBlue;
+            this.pnlTableBox.Value = "0";
             // 
             // panel6
             // 
@@ -678,7 +704,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel6.Location = new System.Drawing.Point(689, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(300, 602);
+            this.panel6.Size = new System.Drawing.Size(300, 543);
             this.panel6.TabIndex = 3;
             // 
             // label11
@@ -777,7 +803,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(992, 608);
+            this.tabPage5.Size = new System.Drawing.Size(992, 549);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "tabPage5";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -795,9 +821,23 @@
             this.dtgvAccount.RowHeadersWidth = 51;
             this.dtgvAccount.RowTemplate.Height = 24;
             this.dtgvAccount.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtgvAccount.Size = new System.Drawing.Size(638, 521);
+            this.dtgvAccount.Size = new System.Drawing.Size(638, 462);
             this.dtgvAccount.TabIndex = 6;
             this.dtgvAccount.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvAccount_CellContentClick);
+            // 
+            // pnlAccountBox
+            // 
+            this.pnlAccountBox.Angle = 45F;
+            this.pnlAccountBox.BottomColor = System.Drawing.Color.DarkViolet;
+            this.pnlAccountBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlAccountBox.Icon = global::AppManageBilliard.GUI.Properties.Resources.user;
+            this.pnlAccountBox.Location = new System.Drawing.Point(3, 3);
+            this.pnlAccountBox.Name = "pnlAccountBox";
+            this.pnlAccountBox.Size = new System.Drawing.Size(638, 81);
+            this.pnlAccountBox.TabIndex = 7;
+            this.pnlAccountBox.Title = "Tổng số tài khoản";
+            this.pnlAccountBox.TopColor = System.Drawing.Color.MediumPurple;
+            this.pnlAccountBox.Value = "0";
             // 
             // panel7
             // 
@@ -815,7 +855,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel7.Location = new System.Drawing.Point(641, 3);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(348, 602);
+            this.panel7.Size = new System.Drawing.Size(348, 543);
             this.panel7.TabIndex = 5;
             // 
             // cbbType
@@ -830,7 +870,7 @@
             // btnEditAccount
             // 
             this.btnEditAccount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditAccount.Location = new System.Drawing.Point(207, 455);
+            this.btnEditAccount.Location = new System.Drawing.Point(207, 380);
             this.btnEditAccount.Name = "btnEditAccount";
             this.btnEditAccount.Size = new System.Drawing.Size(117, 31);
             this.btnEditAccount.TabIndex = 17;
@@ -841,7 +881,7 @@
             // btnResetPass
             // 
             this.btnResetPass.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResetPass.Location = new System.Drawing.Point(61, 549);
+            this.btnResetPass.Location = new System.Drawing.Point(61, 474);
             this.btnResetPass.Name = "btnResetPass";
             this.btnResetPass.Size = new System.Drawing.Size(263, 31);
             this.btnResetPass.TabIndex = 16;
@@ -862,7 +902,7 @@
             // btnDeleteAccount
             // 
             this.btnDeleteAccount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteAccount.Location = new System.Drawing.Point(61, 502);
+            this.btnDeleteAccount.Location = new System.Drawing.Point(61, 427);
             this.btnDeleteAccount.Name = "btnDeleteAccount";
             this.btnDeleteAccount.Size = new System.Drawing.Size(121, 31);
             this.btnDeleteAccount.TabIndex = 12;
@@ -873,7 +913,7 @@
             // btnWatchAccount
             // 
             this.btnWatchAccount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnWatchAccount.Location = new System.Drawing.Point(61, 455);
+            this.btnWatchAccount.Location = new System.Drawing.Point(61, 380);
             this.btnWatchAccount.Name = "btnWatchAccount";
             this.btnWatchAccount.Size = new System.Drawing.Size(121, 31);
             this.btnWatchAccount.TabIndex = 11;
@@ -884,7 +924,7 @@
             // btnAddAccount
             // 
             this.btnAddAccount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddAccount.Location = new System.Drawing.Point(207, 502);
+            this.btnAddAccount.Location = new System.Drawing.Point(207, 427);
             this.btnAddAccount.Name = "btnAddAccount";
             this.btnAddAccount.Size = new System.Drawing.Size(117, 31);
             this.btnAddAccount.TabIndex = 3;
@@ -928,49 +968,11 @@
             this.label14.TabIndex = 3;
             this.label14.Text = "Tên tài khoản";
             // 
-            // btnDeleteBill
-            // 
-            this.btnDeleteBill.Location = new System.Drawing.Point(833, 56);
-            this.btnDeleteBill.Name = "btnDeleteBill";
-            this.btnDeleteBill.Size = new System.Drawing.Size(104, 34);
-            this.btnDeleteBill.TabIndex = 4;
-            this.btnDeleteBill.Text = "Xóa";
-            this.btnDeleteBill.UseVisualStyleBackColor = true;
-            this.btnDeleteBill.Click += new System.EventHandler(this.btnDeleteBill_Click);
-            // 
-            // pnlTableBox
-            // 
-            this.pnlTableBox.Angle = 45F;
-            this.pnlTableBox.BottomColor = System.Drawing.Color.Navy;
-            this.pnlTableBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTableBox.Icon = global::AppManageBilliard.GUI.Properties.Resources.billiard_ball;
-            this.pnlTableBox.Location = new System.Drawing.Point(3, 3);
-            this.pnlTableBox.Name = "pnlTableBox";
-            this.pnlTableBox.Size = new System.Drawing.Size(686, 81);
-            this.pnlTableBox.TabIndex = 5;
-            this.pnlTableBox.Title = "Tổng số bàn";
-            this.pnlTableBox.TopColor = System.Drawing.Color.RoyalBlue;
-            this.pnlTableBox.Value = "0";
-            // 
-            // pnlAccountBox
-            // 
-            this.pnlAccountBox.Angle = 45F;
-            this.pnlAccountBox.BottomColor = System.Drawing.Color.DarkViolet;
-            this.pnlAccountBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlAccountBox.Icon = global::AppManageBilliard.GUI.Properties.Resources.user;
-            this.pnlAccountBox.Location = new System.Drawing.Point(3, 3);
-            this.pnlAccountBox.Name = "pnlAccountBox";
-            this.pnlAccountBox.Size = new System.Drawing.Size(638, 81);
-            this.pnlAccountBox.TabIndex = 7;
-            this.pnlAccountBox.Title = "Tổng số tài khoản";
-            this.pnlAccountBox.TopColor = System.Drawing.Color.MediumPurple;
-            this.pnlAccountBox.Value = "0";
-            // 
             // fAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1200, 637);
+            this.ClientSize = new System.Drawing.Size(1200, 578);
             this.Controls.Add(this.tcAdmin);
             this.Controls.Add(this.panelMenu);
             this.Name = "fAdmin";
