@@ -34,21 +34,21 @@
             this.adminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.thôngTinTàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnCancelTable = new System.Windows.Forms.Button();
             this.cbDiscount = new System.Windows.Forms.ComboBox();
             this.lblCurrentTable = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtTongTien = new System.Windows.Forms.TextBox();
             this.btnChuyenBan = new System.Windows.Forms.Button();
             this.lsvBill = new System.Windows.Forms.ListView();
             this.colTenMon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSoLuong = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDonGia = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colThanhTien = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.giảm1MónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xóaHẳnMónNàyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.btnThanhToan = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -56,17 +56,18 @@
             this.flpTable = new System.Windows.Forms.FlowLayoutPanel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flpFood = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnCancelTable = new System.Windows.Forms.Button();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.giảm1MónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.xóaHẳnMónNàyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.txtGioVao = new System.Windows.Forms.Label();
+            this.txtTongGio = new System.Windows.Forms.Label();
+            this.txtTongMon = new System.Windows.Forms.Label();
+            this.txtTongTien = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -98,16 +99,16 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.txtTongTien);
+            this.panel1.Controls.Add(this.txtTongMon);
+            this.panel1.Controls.Add(this.txtTongGio);
+            this.panel1.Controls.Add(this.txtGioVao);
             this.panel1.Controls.Add(this.btnCancelTable);
             this.panel1.Controls.Add(this.cbDiscount);
             this.panel1.Controls.Add(this.lblCurrentTable);
-            this.panel1.Controls.Add(this.textBox3);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.textBox2);
-            this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.txtTongTien);
             this.panel1.Controls.Add(this.btnChuyenBan);
             this.panel1.Controls.Add(this.lsvBill);
             this.panel1.Controls.Add(this.label1);
@@ -118,6 +119,20 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(395, 660);
             this.panel1.TabIndex = 2;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // btnCancelTable
+            // 
+            this.btnCancelTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnCancelTable.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelTable.Location = new System.Drawing.Point(290, 10);
+            this.btnCancelTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCancelTable.Name = "btnCancelTable";
+            this.btnCancelTable.Size = new System.Drawing.Size(91, 34);
+            this.btnCancelTable.TabIndex = 17;
+            this.btnCancelTable.Text = "Hủy bàn";
+            this.btnCancelTable.UseVisualStyleBackColor = false;
+            this.btnCancelTable.Click += new System.EventHandler(this.btnCancelTable_Click);
             // 
             // cbDiscount
             // 
@@ -140,17 +155,6 @@
             this.lblCurrentTable.TabIndex = 15;
             this.lblCurrentTable.Text = "Chưa chọn bàn";
             // 
-            // textBox3
-            // 
-            this.textBox3.Enabled = false;
-            this.textBox3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(138, 526);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(245, 27);
-            this.textBox3.TabIndex = 14;
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -160,28 +164,6 @@
             this.label4.Size = new System.Drawing.Size(89, 23);
             this.label4.TabIndex = 13;
             this.label4.Text = "Tổng món";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(138, 460);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(245, 27);
-            this.textBox2.TabIndex = 12;
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(138, 494);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(245, 27);
-            this.textBox1.TabIndex = 11;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label3
             // 
@@ -203,21 +185,10 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "Giờ bắt đầu";
             // 
-            // txtTongTien
-            // 
-            this.txtTongTien.Enabled = false;
-            this.txtTongTien.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTongTien.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.txtTongTien.Location = new System.Drawing.Point(138, 559);
-            this.txtTongTien.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtTongTien.Name = "txtTongTien";
-            this.txtTongTien.Size = new System.Drawing.Size(245, 27);
-            this.txtTongTien.TabIndex = 8;
-            this.txtTongTien.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
             // btnChuyenBan
             // 
             this.btnChuyenBan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.btnChuyenBan.FlatAppearance.BorderSize = 0;
             this.btnChuyenBan.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnChuyenBan.Location = new System.Drawing.Point(30, 599);
             this.btnChuyenBan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -270,6 +241,30 @@
             this.colThanhTien.Text = "Thành tiền";
             this.colThanhTien.Width = 92;
             // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.giảm1MónToolStripMenuItem,
+            this.xóaHẳnMónNàyToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(194, 52);
+            this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
+            // 
+            // giảm1MónToolStripMenuItem
+            // 
+            this.giảm1MónToolStripMenuItem.Name = "giảm1MónToolStripMenuItem";
+            this.giảm1MónToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
+            this.giảm1MónToolStripMenuItem.Text = "Giảm 1 món";
+            this.giảm1MónToolStripMenuItem.Click += new System.EventHandler(this.giảm1MónToolStripMenuItem_Click);
+            // 
+            // xóaHẳnMónNàyToolStripMenuItem
+            // 
+            this.xóaHẳnMónNàyToolStripMenuItem.Name = "xóaHẳnMónNàyToolStripMenuItem";
+            this.xóaHẳnMónNàyToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
+            this.xóaHẳnMónNàyToolStripMenuItem.Text = "Xóa hẳn món này";
+            this.xóaHẳnMónNàyToolStripMenuItem.Click += new System.EventHandler(this.xóaHẳnMónNàyToolStripMenuItem_Click_1);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -284,8 +279,9 @@
             // btnThanhToan
             // 
             this.btnThanhToan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnThanhToan.FlatAppearance.BorderSize = 0;
             this.btnThanhToan.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThanhToan.Location = new System.Drawing.Point(214, 599);
+            this.btnThanhToan.Location = new System.Drawing.Point(207, 599);
             this.btnThanhToan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnThanhToan.Name = "btnThanhToan";
             this.btnThanhToan.Size = new System.Drawing.Size(157, 41);
@@ -353,42 +349,48 @@
             this.flpFood.Size = new System.Drawing.Size(782, 627);
             this.flpFood.TabIndex = 0;
             // 
-            // btnCancelTable
+            // timer1
             // 
-            this.btnCancelTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnCancelTable.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelTable.Location = new System.Drawing.Point(290, 10);
-            this.btnCancelTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnCancelTable.Name = "btnCancelTable";
-            this.btnCancelTable.Size = new System.Drawing.Size(91, 34);
-            this.btnCancelTable.TabIndex = 17;
-            this.btnCancelTable.Text = "Hủy bàn";
-            this.btnCancelTable.UseVisualStyleBackColor = false;
-            this.btnCancelTable.Click += new System.EventHandler(this.btnCancelTable_Click);
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // contextMenuStrip2
+            // txtGioVao
             // 
-            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.giảm1MónToolStripMenuItem,
-            this.xóaHẳnMónNàyToolStripMenuItem});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(194, 52);
-            this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
+            this.txtGioVao.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGioVao.Location = new System.Drawing.Point(203, 461);
+            this.txtGioVao.Name = "txtGioVao";
+            this.txtGioVao.Size = new System.Drawing.Size(158, 23);
+            this.txtGioVao.TabIndex = 18;
+            this.txtGioVao.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // giảm1MónToolStripMenuItem
+            // txtTongGio
             // 
-            this.giảm1MónToolStripMenuItem.Name = "giảm1MónToolStripMenuItem";
-            this.giảm1MónToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
-            this.giảm1MónToolStripMenuItem.Text = "Giảm 1 món";
-            this.giảm1MónToolStripMenuItem.Click += new System.EventHandler(this.giảm1MónToolStripMenuItem_Click);
+            this.txtTongGio.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTongGio.Location = new System.Drawing.Point(201, 497);
+            this.txtTongGio.Name = "txtTongGio";
+            this.txtTongGio.Size = new System.Drawing.Size(160, 23);
+            this.txtTongGio.TabIndex = 19;
+            this.txtTongGio.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.txtTongGio.Click += new System.EventHandler(this.txtTongGio_Click);
             // 
-            // xóaHẳnMónNàyToolStripMenuItem
+            // txtTongMon
             // 
-            this.xóaHẳnMónNàyToolStripMenuItem.Name = "xóaHẳnMónNàyToolStripMenuItem";
-            this.xóaHẳnMónNàyToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
-            this.xóaHẳnMónNàyToolStripMenuItem.Text = "Xóa hẳn món này";
-            this.xóaHẳnMónNàyToolStripMenuItem.Click += new System.EventHandler(this.xóaHẳnMónNàyToolStripMenuItem_Click_1);
+            this.txtTongMon.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTongMon.Location = new System.Drawing.Point(217, 527);
+            this.txtTongMon.Name = "txtTongMon";
+            this.txtTongMon.Size = new System.Drawing.Size(144, 23);
+            this.txtTongMon.TabIndex = 20;
+            this.txtTongMon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtTongTien
+            // 
+            this.txtTongTien.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTongTien.Location = new System.Drawing.Point(171, 555);
+            this.txtTongTien.Name = "txtTongTien";
+            this.txtTongTien.Size = new System.Drawing.Size(193, 28);
+            this.txtTongTien.TabIndex = 21;
+            this.txtTongTien.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // fTableManager
             // 
@@ -409,10 +411,10 @@
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.contextMenuStrip2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -432,12 +434,8 @@
         private System.Windows.Forms.ColumnHeader colDonGia;
         private System.Windows.Forms.ColumnHeader colThanhTien;
         private System.Windows.Forms.Button btnChuyenBan;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtTongTien;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblCurrentTable;
         private System.Windows.Forms.TabControl tabControl1;
@@ -451,5 +449,10 @@
         private System.Windows.Forms.ToolStripMenuItem giảm1MónToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem xóaHẳnMónNàyToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label txtGioVao;
+        private System.Windows.Forms.Label txtTongGio;
+        private System.Windows.Forms.Label txtTongMon;
+        private System.Windows.Forms.Label txtTongTien;
     }
 }

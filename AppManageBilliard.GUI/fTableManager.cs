@@ -5,6 +5,7 @@ using AppManageBilliard.DTO;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Windows.Forms;
 using MenuDTO = AppManageBilliard.DTO.Menu;
@@ -29,6 +30,15 @@ namespace AppManageBilliard.GUI
             LoadTable();
             LoadFoodToTab();
             LoadDiscount();
+            BoTronButton(btnChuyenBan, 25, Color.FromArgb(255, 140, 0), Color.FromArgb(255, 170, 70));
+            BoTronButton(btnThanhToan, 25, Color.FromArgb(40, 167, 69), Color.FromArgb(70, 200, 100));
+            TaoHinhVienThuoc(btnChuyenBan, btnChuyenBan.Width, btnChuyenBan.Height,
+                          Color.FromArgb(255, 140, 0),
+                          Color.FromArgb(255, 170, 70));
+
+            TaoHinhVienThuoc(btnThanhToan, btnThanhToan.Width, btnThanhToan.Height,
+                          Color.FromArgb(40, 167, 69),
+                          Color.FromArgb(70, 200, 100));
         }
 
         public fTableManager()
@@ -36,35 +46,28 @@ namespace AppManageBilliard.GUI
             InitializeComponent();
         }
 
-        // Hàm tùy chỉnh giao diện trắng - xanh sạch sẽ
         private void CustomizeDesign()
         {
-            // Nền form trắng nhẹ, sạch
-            this.BackColor = Color.FromArgb(240, 248, 255); // AliceBlue rất nhẹ
+            this.BackColor = Color.FromArgb(240, 248, 255);
 
-            // Font chung hiện đại, dễ đọc
             this.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
 
-            // MenuStrip (nếu có)
             if (menuStrip1 != null)
             {
                 menuStrip1.BackColor = Color.White;
                 menuStrip1.ForeColor = Color.FromArgb(30, 144, 255); // Xanh dương
             }
 
-            // Tiêu đề bàn hiện tại
             lblCurrentTable.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             lblCurrentTable.ForeColor = Color.FromArgb(0, 128, 255); // Xanh dương đậm
             lblCurrentTable.TextAlign = ContentAlignment.MiddleCenter;
 
-            // ListView hóa đơn
             lsvBill.BackColor = Color.White;
             lsvBill.ForeColor = Color.Black;
             lsvBill.GridLines = true;
             lsvBill.FullRowSelect = true;
             lsvBill.Font = new Font("Segoe UI", 11F);
 
-            // Thiết lập cột nếu chưa có (trong Designer bạn có thể thêm sẵn)
             if (lsvBill.Columns.Count == 0)
             {
                 lsvBill.Columns.Add("Tên món", 220);
@@ -73,81 +76,172 @@ namespace AppManageBilliard.GUI
                 lsvBill.Columns.Add("Thành tiền", 140, HorizontalAlignment.Right);
             }
 
-            // ComboBox giảm giá
             cbDiscount.FlatStyle = FlatStyle.Flat;
             cbDiscount.BackColor = Color.White;
             cbDiscount.ForeColor = Color.Black;
 
-            // Tổng tiền nổi bật
-            txtTongTien.ReadOnly = true;
-            txtTongTien.BackColor = Color.FromArgb(255, 255, 255);
-            txtTongTien.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            txtTongTien.TextAlign = HorizontalAlignment.Right;
-            txtTongTien.BorderStyle = BorderStyle.None;
+            txtTongTien.BackColor = Color.Transparent;
+            txtTongTien.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            txtTongTien.TextAlign = ContentAlignment.MiddleRight;
             txtTongTien.Text = "0 đ";
 
-            // Nút chức năng đẹp hơn
             btnChuyenBan.FlatStyle = FlatStyle.Flat;
-            btnChuyenBan.BackColor = Color.FromArgb(255, 140, 0); // Cam nổi bật
+            btnChuyenBan.BackColor = Color.FromArgb(255, 140, 0);
             btnChuyenBan.ForeColor = Color.White;
             btnChuyenBan.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             btnChuyenBan.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 170, 70);
 
             btnThanhToan.FlatStyle = FlatStyle.Flat;
-            btnThanhToan.BackColor = Color.FromArgb(40, 167, 69); // Xanh lá thành công
+            btnThanhToan.BackColor = Color.FromArgb(40, 167, 69);
             btnThanhToan.ForeColor = Color.White;
             btnThanhToan.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             btnThanhToan.FlatAppearance.MouseOverBackColor = Color.FromArgb(70, 200, 100);
         }
 
-        void LoadTable()
+        void BoTronButton(Button btn, int radius, Color backColor, Color hoverColor)
         {
-            flpTable.Controls.Clear();
-            List<Table> tableList = TableBUS.Instance.LoadTableList();
-            foreach (Table item in tableList)
+            btn.FlatStyle = FlatStyle.Flat;
+            btn.FlatAppearance.BorderSize = 0;
+            btn.BackColor = Color.Transparent;
+            btn.Cursor = Cursors.Hand;
+            btn.ForeColor = Color.White;
+
+            btn.TabStop = false;
+
+            Color parentColor = btn.Parent != null ? btn.Parent.BackColor : Color.White;
+            btn.FlatAppearance.BorderColor = parentColor;
+
+            btn.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn.FlatAppearance.MouseOverBackColor = Color.Transparent;
+
+            Color originalColor = backColor;
+            Color curColor = backColor;
+
+            btn.MouseEnter += (s, e) => { curColor = hoverColor; btn.Invalidate(); };
+            btn.MouseLeave += (s, e) => { curColor = originalColor; btn.Invalidate(); };
+
+            btn.Paint += (sender, e) =>
             {
-                Button btn = new Button
-                {
-                    Width = 140,
-                    Height = 70,
-                    FlatStyle = FlatStyle.Flat,
-                    Font = new Font("Segoe UI", 12F, FontStyle.Bold),
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Margin = new Padding(15)
-                };
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-                btn.FlatAppearance.BorderSize = 0;
-                btn.UseVisualStyleBackColor = false;
-                if (item.Status == "Trống")
-                {
-                    btn.BackColor = Color.FromArgb(0, 191, 255);
-                    btn.ForeColor = Color.White;
-                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(100, 210, 255);
-                    btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 170, 230);
-                }
-                else
-                {
-                    btn.BackColor = Color.FromArgb(255, 182, 193);
-                    btn.ForeColor = Color.White;
+                Color currentParentColor = btn.Parent != null ? btn.Parent.BackColor : Color.White;
 
-                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(250, 80, 130);
-
-                    btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(210, 20, 80);
+                RectangleF rect = new RectangleF(0, 0, btn.Width, btn.Height);
+                using (SolidBrush brushParent = new SolidBrush(currentParentColor))
+                {
+                    e.Graphics.FillRectangle(brushParent, rect);
                 }
 
-                btn.Text = item.Name + Environment.NewLine + item.Status;
-                btn.Tag = item;
-                btn.Click += btn_Click;
+                GraphicsPath path = new GraphicsPath();
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.Width - radius, rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Height - radius, radius, radius, 90, 90);
+                path.CloseFigure();
 
-                int diameter = btn.Height;
-                System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+                using (SolidBrush brushBtn = new SolidBrush(curColor))
+                {
+                    e.Graphics.FillPath(brushBtn, path);
+                }
+
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+
+                using (SolidBrush brushText = new SolidBrush(btn.ForeColor))
+                {
+                    e.Graphics.DrawString(btn.Text, btn.Font, brushText, rect, sf);
+                }
+            };
+        }
+
+        void TaoHinhVienThuoc(Button btn, int width, int height, Color backColor, Color hoverColor)
+        {
+            btn.FlatStyle = FlatStyle.Flat;
+            btn.FlatAppearance.BorderSize = 0;
+            btn.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
+            btn.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            btn.BackColor = Color.Transparent;
+
+            btn.TabStop = false;
+            btn.Cursor = Cursors.Hand;
+            btn.ForeColor = Color.White;
+
+            btn.Width = width;
+            btn.Height = height;
+
+            Color originalColor = backColor;
+            Color curColor = backColor;
+
+            btn.MouseEnter += (s, e) => { curColor = hoverColor; btn.Invalidate(); };
+            btn.MouseLeave += (s, e) => { curColor = originalColor; btn.Invalidate(); };
+
+            btn.Paint += (sender, e) =>
+            {
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+                Color parentColor = btn.Parent != null ? btn.Parent.BackColor : Color.White;
+                using (SolidBrush brushParent = new SolidBrush(parentColor))
+                {
+                    e.Graphics.FillRectangle(brushParent, new RectangleF(-1, -1, btn.Width + 2, btn.Height + 2));
+                }
+
+                GraphicsPath path = new GraphicsPath();
+                float diameter = btn.Height;
+
                 path.AddArc(0, 0, diameter, diameter, 180, 90);
                 path.AddArc(btn.Width - diameter, 0, diameter, diameter, 270, 90);
                 path.AddArc(btn.Width - diameter, btn.Height - diameter, diameter, diameter, 0, 90);
                 path.AddArc(0, btn.Height - diameter, diameter, diameter, 90, 90);
                 path.CloseAllFigures();
-                btn.Region = new Region(path);
-               
+
+                using (SolidBrush brushBtn = new SolidBrush(curColor))
+                {
+                    e.Graphics.FillPath(brushBtn, path);
+                }
+
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+
+                using (SolidBrush brushText = new SolidBrush(Color.White))
+                {
+                    e.Graphics.DrawString(btn.Text, btn.Font, brushText, new RectangleF(0, 0, btn.Width, btn.Height), sf);
+                }
+            };
+        }
+
+
+        void LoadTable()
+        {
+            flpTable.Controls.Clear();
+            List<Table> tableList = TableBUS.Instance.LoadTableList();
+
+            foreach (Table item in tableList)
+            {
+                Button btn = new Button();
+                btn.Width = TableDAL.TableWidth;
+                btn.Height = TableDAL.TableHeight;
+
+                btn.Text = item.Name + Environment.NewLine + item.Status;
+                btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+                btn.Tag = item;
+
+                btn.Click += btn_Click;
+
+                if (item.Status == "Trống")
+                {
+                    TaoHinhVienThuoc(btn, 140, 70,
+                                  Color.FromArgb(0, 191, 255),
+                                  Color.FromArgb(0, 170, 230));
+                }
+                else
+                {
+                    TaoHinhVienThuoc(btn, 140, 70,
+                                  Color.FromArgb(255, 182, 193),
+                                  Color.FromArgb(250, 80, 130));
+                }
 
                 flpTable.Controls.Add(btn);
             }
@@ -181,6 +275,7 @@ namespace AppManageBilliard.GUI
             lsvBill.Items.Clear();
             List<MenuDTO> listMenu = MenuBUS.Instance.GetListMenuByTable(id);
             float totalMoney = 0;
+            int totalCount = 0;
 
             foreach (MenuDTO item in listMenu)
             {
@@ -192,6 +287,7 @@ namespace AppManageBilliard.GUI
                 lsvItem.SubItems[3].Font = new Font("Segoe UI", 11F, FontStyle.Bold);
 
                 totalMoney += item.TotalPrice;
+                totalCount += item.Count;
                 lsvBill.Items.Add(lsvItem);
             }
 
@@ -201,12 +297,31 @@ namespace AppManageBilliard.GUI
             if (totalMoney > 0)
             {
                 txtTongTien.ForeColor = Color.Red; 
-                txtTongTien.Font = new Font("Segoe UI", 20F, FontStyle.Bold); 
+                txtTongTien.Font = new Font("Segoe UI", 15F, FontStyle.Bold); 
             }
             else
             {
                 txtTongTien.ForeColor = Color.Gray; 
-                txtTongTien.Font = new Font("Segoe UI", 20F, FontStyle.Regular);
+                txtTongTien.Font = new Font("Segoe UI", 15F, FontStyle.Regular);
+            }
+
+            int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(id);
+
+            if (idBill != -1) 
+            {
+                DateTime dateCheckIn = BillDAL.Instance.GetDateCheckIn(idBill);
+
+                txtGioVao.Text = dateCheckIn.ToString("HH:mm:ss");
+                TimeSpan timeSpan = DateTime.Now - dateCheckIn;
+                txtTongGio.Text = string.Format("{0}h {1}p", (int)timeSpan.TotalHours, timeSpan.Minutes);
+                txtTongMon.Text = totalCount.ToString();
+                
+            }
+            else 
+            {
+                txtGioVao.Text = "";
+                txtTongGio.Text = "";
+                txtTongMon.Text = "0";
             }
         }
 
@@ -392,7 +507,6 @@ namespace AppManageBilliard.GUI
             this.thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản (" + e.Acc.DisplayName + ")";
         }
 
-        // Các event khác giữ nguyên
         private void listView1_SelectedIndexChanged(object sender, EventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
         private void fTableManager_Load(object sender, EventArgs e) 
@@ -453,26 +567,20 @@ namespace AppManageBilliard.GUI
             Table table = lsvBill.Tag as Table;
             int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
 
-            // 1. Dùng .Trim() để CẮT BỎ KHOẢNG TRẮNG thừa ở đầu/đuôi (Rất quan trọng!)
             string foodName = lsvBill.SelectedItems[0].Text.Trim();
 
-            // 2. Tìm ID món ăn
             string query = "SELECT id FROM Food WHERE name = N'" + foodName + "'";
             object result = DataProvider.Instance.ExecuteScalar(query);
 
-            // 3. Kiểm tra an toàn: Nếu không tìm thấy thì báo lỗi chứ không cho Crash
             if (result == null)
             {
-                // Có thể do tên món trong Database và hiển thị đang không khớp nhau
                 MessageBox.Show("Không tìm thấy món '" + foodName + "' trong dữ liệu gốc!", "Lỗi lệch dữ liệu");
                 return;
             }
             int idFood = (int)result;
 
-            // 4. Thực hiện trừ món
             BillDAL.Instance.InsertBillInfo(idBill, idFood, soLuongTru);
 
-            // 5. Load lại
             ShowBill(table.ID);
             LoadTable();
         }
@@ -549,6 +657,30 @@ namespace AppManageBilliard.GUI
 
             ShowBill(table.ID);
             LoadTable();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Table table = lsvBill.Tag as Table;
+            if (table == null) return;
+            int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
+            if (idBill != -1)
+            {
+                DateTime dateCheckIn = BillDAL.Instance.GetDateCheckIn(idBill);
+                TimeSpan timeSpan = DateTime.Now - dateCheckIn;
+
+                txtTongGio.Text = string.Format("{0}h {1}p {2}s", (int)timeSpan.TotalHours, timeSpan.Minutes, timeSpan.Seconds);
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void txtTongGio_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
