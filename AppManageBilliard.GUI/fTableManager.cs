@@ -270,12 +270,19 @@ namespace AppManageBilliard.GUI
             }
         }
 
+
+        private double tongTienNuoc = 0;
+        private double giaGioHienTai = 0;
+
         void ShowBill(int id)
         {
             lsvBill.Items.Clear();
             List<MenuDTO> listMenu = MenuBUS.Instance.GetListMenuByTable(id);
-            float totalMoney = 0;
-            int totalCount = 0;
+
+            tongTienNuoc = 0;
+            int tongSoMon = 0;
+
+            giaGioHienTai = TableDAL.Instance.GetPriceByTableID(id);
 
             foreach (MenuDTO item in listMenu)
             {
@@ -283,41 +290,52 @@ namespace AppManageBilliard.GUI
                 lsvItem.SubItems.Add(item.Count.ToString());
                 lsvItem.SubItems.Add(item.Price.ToString("N0") + " đ");
                 lsvItem.SubItems.Add(item.TotalPrice.ToString("N0") + " đ");
-                lsvItem.SubItems[3].ForeColor = Color.FromArgb(220, 53, 69);
-                lsvItem.SubItems[3].Font = new Font("Segoe UI", 11F, FontStyle.Bold);
 
-                totalMoney += item.TotalPrice;
-                totalCount += item.Count;
+                if (item.IsService == true)
+                {
+                    giaGioHienTai = item.Price;
+
+                    lsvItem.ForeColor = Color.Blue;
+                    lsvItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+                }
+                else
+                {
+                    tongTienNuoc += item.TotalPrice;
+
+                    lsvItem.SubItems[3].ForeColor = Color.FromArgb(220, 53, 69);
+                    
+                    tongSoMon += item.Count;
+                }
+
                 lsvBill.Items.Add(lsvItem);
             }
 
             CultureInfo culture = new CultureInfo("vi-VN");
-            txtTongTien.Text = totalMoney > 0 ? totalMoney.ToString("c", culture) : "0 đ";
-            txtTongTien.Tag = totalMoney;
-            if (totalMoney > 0)
+
+            txtTongTien.Text = tongTienNuoc > 0 ? tongTienNuoc.ToString("c", culture) : "0 đ";
+
+            if (tongTienNuoc > 0)
             {
-                txtTongTien.ForeColor = Color.Red; 
-                txtTongTien.Font = new Font("Segoe UI", 15F, FontStyle.Bold); 
+                txtTongTien.ForeColor = Color.Red;
+                txtTongTien.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+                txtTongMon.Text = tongSoMon.ToString();
             }
             else
             {
-                txtTongTien.ForeColor = Color.Gray; 
+                txtTongTien.ForeColor = Color.Gray;
                 txtTongTien.Font = new Font("Segoe UI", 15F, FontStyle.Regular);
             }
-
             int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(id);
-
-            if (idBill != -1) 
+            if (idBill != -1)
             {
                 DateTime dateCheckIn = BillDAL.Instance.GetDateCheckIn(idBill);
-
                 txtGioVao.Text = dateCheckIn.ToString("HH:mm:ss");
+
                 TimeSpan timeSpan = DateTime.Now - dateCheckIn;
                 txtTongGio.Text = string.Format("{0}h {1}p", (int)timeSpan.TotalHours, timeSpan.Minutes);
-                txtTongMon.Text = totalCount.ToString();
-                
             }
-            else 
+            else
             {
                 txtGioVao.Text = "";
                 txtTongGio.Text = "";
@@ -398,37 +416,49 @@ namespace AppManageBilliard.GUI
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
             Table table = lsvBill.Tag as Table;
-            if (table == null) return;
             int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
+            string strDiscount = cbDiscount.Text;
+            string strNumber = strDiscount.Replace("Giảm", "").Replace("%", "").Trim();
+            int discount = 0;
+            int.TryParse(strNumber, out discount);
+
             if (idBill != -1)
             {
+                
+
                 DateTime dateCheckIn = BillDAL.Instance.GetDateCheckIn(idBill);
-                double hours = (DateTime.Now - dateCheckIn).TotalHours;
+                TimeSpan timeSpan = DateTime.Now - dateCheckIn;
+                double pricePerHour = TableDAL.Instance.GetPriceByTableID(table.ID);
+                double tienGio = timeSpan.TotalHours * giaGioHienTai;
 
-                double pricePerHour = BillDAL.Instance.GetTablePriceFromBill(idBill);
+                double tongTien = tongTienNuoc + tienGio;
+                tongTien = Math.Ceiling(tongTien / 1000) * 1000;
+                double finalTotalPrice = tongTien - (tongTien / 100) * discount;
 
-                double foodPrice = BillDAL.Instance.GetFoodTotalPrice(idBill);
+                string thongBao = string.Format("Tổng tiền {0} là: {1}\nBạn có muốn in hóa đơn không?",
+                                                table.Name,
+                                                finalTotalPrice.ToString("c", new CultureInfo("vi-VN")));
 
-                if (pricePerHour == 0)
+                DialogResult result = MessageBox.Show(thongBao, "Xác nhận thanh toán", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Cancel)
                 {
-                    MessageBox.Show("Hóa đơn chưa có 'Loại Bàn'! \nVui lòng vào Thực đơn chọn loại bàn (Lỗ/Phăng) trước khi thanh toán.", "Thiếu thông tin");
                     return;
                 }
 
-                int discount = 0;
-                int.TryParse(cbDiscount.Text, out discount);
-
-                double totalPrice = (pricePerHour * hours) + foodPrice;
-                double finalTotalPrice = totalPrice - (totalPrice / 100) * discount;
-
-                string msg = string.Format("Bàn: {0}\nGiá bàn: {1:0,0}/h (Đã chơi: {2:0.00} giờ)\n -> Tiền giờ: {3:0,0} đ\nTiền nước: {4:0,0} đ\nGiảm giá: {5}%\nTổng cộng: {6:0,0} đ",
-                                           table.Name, pricePerHour, hours, pricePerHour * hours, foodPrice, discount, finalTotalPrice);
-
-                if (MessageBox.Show(msg, "Thanh toán", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if (idBill != -1)
                 {
+                    if (result == DialogResult.Yes)
+                    {
+                        MessageBox.Show("Đang in hóa đơn...", "Thông báo");
+                    }
+
                     BillDAL.Instance.CheckOut(idBill, discount, (float)finalTotalPrice);
+
                     ShowBill(table.ID);
                     LoadTable();
+
+                    this.ActiveControl = null;
                 }
             }
         }
@@ -663,13 +693,28 @@ namespace AppManageBilliard.GUI
         {
             Table table = lsvBill.Tag as Table;
             if (table == null) return;
+
             int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
-            if (idBill != -1)
+
+            if (idBill != -1) 
             {
                 DateTime dateCheckIn = BillDAL.Instance.GetDateCheckIn(idBill);
                 TimeSpan timeSpan = DateTime.Now - dateCheckIn;
 
-                txtTongGio.Text = string.Format("{0}h {1}p {2}s", (int)timeSpan.TotalHours, timeSpan.Minutes, timeSpan.Seconds);
+                txtTongGio.Text = string.Format("{0}h {1}p {2}s",
+                                                (int)timeSpan.TotalHours,
+                                                timeSpan.Minutes,
+                                                timeSpan.Seconds);
+
+                double tienGio = timeSpan.TotalHours * giaGioHienTai;
+
+                double tongCong = tongTienNuoc + tienGio;
+                tongCong = Math.Ceiling(tongCong / 1000) * 1000;
+
+                CultureInfo culture = new CultureInfo("vi-VN");
+                txtTongTien.Text = tongCong.ToString("c", culture);
+
+                txtTongTien.ForeColor = Color.Red;
             }
         }
 

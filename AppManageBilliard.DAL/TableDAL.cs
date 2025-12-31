@@ -70,5 +70,21 @@ namespace AppManageBilliard.DAL
 
             return (int)DataProvider.Instance.ExecuteScalar(query);
         }
+        public double GetPriceByTableID(int id)
+        {
+            string query = "SELECT c.price FROM dbo.TableFood AS t JOIN dbo.TableCategory AS c ON t.idTableCategory = c.id WHERE t.id = " + id;
+
+            try
+            {
+                object result = DataProvider.Instance.ExecuteScalar(query);
+                if (result != null) return Convert.ToDouble(result);
+            }
+            catch
+            {
+                return 0;
+            }
+
+            return 0;
+        }
     }
 }

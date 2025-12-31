@@ -13,12 +13,12 @@ namespace AppManageBilliard.DTO
         private int count;
         private float price;
         private float totalPrice;
-
+        private bool isService;
         public string FoodName { get => foodName; set => foodName = value; }
         public int Count { get => count; set => count = value; }
         public float Price { get => price; set => price = value; }
         public float TotalPrice { get => totalPrice; set => totalPrice = value; }
-
+        public bool IsService { get => isService; set => isService = value; }
         public Menu(string foodName, int count, float price, float totalPrice = 0)
         {
             this.FoodName = foodName;
@@ -33,6 +33,14 @@ namespace AppManageBilliard.DTO
             this.Count = (int)row["count"];
             this.Price = (float)Convert.ToDouble(row["price"].ToString());
             this.TotalPrice = (float)Convert.ToDouble(row["totalPrice"].ToString());
+            if (row.Table.Columns.Contains("isService") && row["isService"].ToString() != "")
+            {
+                this.IsService = (bool)row["isService"];
+            }
+            else
+            {
+                this.IsService = false; 
+            }
         }
     }
 }
