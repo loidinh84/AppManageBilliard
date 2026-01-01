@@ -154,5 +154,10 @@ namespace AppManageBilliard.GUI
         private void fLogin_Load(object sender, EventArgs e)
         {
         }
+
+        private void txtPassWord_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
