@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Printing;
 using System.Globalization;
 using System.Windows.Forms;
 using MenuDTO = AppManageBilliard.DTO.Menu;
@@ -432,7 +433,7 @@ namespace AppManageBilliard.GUI
                 double tienGio = timeSpan.TotalHours * giaGioHienTai;
 
                 double tongTien = tongTienNuoc + tienGio;
-                tongTien = Math.Ceiling(tongTien / 1000) * 1000;
+                tongTien = Math.Round(tongTien / 1000) * 1000;
                 double finalTotalPrice = tongTien - (tongTien / 100) * discount;
 
                 string thongBao = string.Format("Tổng tiền {0} là: {1}\nBạn có muốn in hóa đơn không?",
@@ -450,7 +451,22 @@ namespace AppManageBilliard.GUI
                 {
                     if (result == DialogResult.Yes)
                     {
-                        MessageBox.Show("Đang in hóa đơn...", "Thông báo");
+                        printDocument1.DefaultPageSettings.PaperSize = new PaperSize("Bill", 300, 600);
+                        printDocument1.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
+
+                        printPreviewDialog1.WindowState = FormWindowState.Normal;
+
+                        printPreviewDialog1.Size = new Size(450, 600);
+
+                        printPreviewDialog1.StartPosition = FormStartPosition.CenterScreen;
+
+                        printPreviewDialog1.PrintPreviewControl.AutoZoom = false;
+
+                        printPreviewDialog1.PrintPreviewControl.Zoom = 1.0;
+
+                        printPreviewDialog1.Document = printDocument1;
+                        printPreviewDialog1.ShowDialog();
+                        printDocument1.Print();
                     }
 
                     BillDAL.Instance.CheckOut(idBill, discount, (float)finalTotalPrice);
@@ -541,7 +557,9 @@ namespace AppManageBilliard.GUI
         private void label1_Click(object sender, EventArgs e) { }
         private void fTableManager_Load(object sender, EventArgs e) 
         {
+            LoadTable();
             LoadAllFood();
+            LoadCategory();
         }
         private void flpTable_Paint(object sender, PaintEventArgs e) { }
 
@@ -709,7 +727,7 @@ namespace AppManageBilliard.GUI
                 double tienGio = timeSpan.TotalHours * giaGioHienTai;
 
                 double tongCong = tongTienNuoc + tienGio;
-                tongCong = Math.Ceiling(tongCong / 1000) * 1000;
+                tongCong = Math.Round(tongCong / 1000) * 1000;
 
                 CultureInfo culture = new CultureInfo("vi-VN");
                 txtTongTien.Text = tongCong.ToString("c", culture);
@@ -726,6 +744,329 @@ namespace AppManageBilliard.GUI
         private void txtTongGio_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            Table table = lsvBill.Tag as Table;
+            int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
+
+            Graphics g = e.Graphics;
+            Font fontTitle = new Font("Arial", 14, FontStyle.Bold); 
+            Font fontHeader = new Font("Arial", 9, FontStyle.Bold); 
+            Font fontBody = new Font("Arial", 9, FontStyle.Regular);
+            Font fontBold = new Font("Arial", 9, FontStyle.Bold);
+            Brush brush = Brushes.Black;
+
+            StringFormat centerFormat = new StringFormat() { Alignment = StringAlignment.Center };
+            StringFormat rightFormat = new StringFormat() { Alignment = StringAlignment.Far };
+
+            int width = 300;
+            int y = 10;
+
+            g.DrawString("HÓA ĐƠN THANH TOÁN", fontTitle, brush, new Rectangle(0, y, width, 25), centerFormat);
+            y += 25;
+            g.DrawString("Billiards Club Vip Pro", fontHeader, brush, new Rectangle(0, y, width, 20), centerFormat);
+            y += 20;
+            g.DrawString("Ngày: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"), fontBody, brush, new Rectangle(0, y, width, 20), centerFormat);
+            y += 20;
+            g.DrawString("------------------------------------------------------------", fontBody, brush, new Point(5, y));
+            y += 15;
+
+            g.DrawString("Tên món", fontBold, brush, new Point(5, y));
+            g.DrawString("SL", fontBold, brush, new Point(130, y));
+            g.DrawString("Đ.Giá", fontBold, brush, new Point(160, y));
+            g.DrawString("T.Tiền", fontBold, brush, new Rectangle(215, y, 80, 20), rightFormat);
+            y += 15;
+            g.DrawString("------------------------------------------------------------", fontBody, brush, new Point(5, y));
+            y += 15;
+
+            List<MenuDTO> listMenu = MenuBUS.Instance.GetListMenuByTable(table.ID);
+            double tongTienNuoc = 0;
+            double giaGioHienTai = TableDAL.Instance.GetPriceByTableID(table.ID);
+
+            foreach (MenuDTO item in listMenu)
+            {
+                if (item.IsService == true)
+                {
+                    giaGioHienTai = item.Price;
+                    continue;
+                }
+
+                string tenMon = item.FoodName;
+                if (tenMon.Length > 18) tenMon = tenMon.Substring(0, 15) + "...";
+
+                g.DrawString(tenMon, fontBody, brush, new Point(5, y));
+                g.DrawString(item.Count.ToString(), fontBody, brush, new Point(135, y)); 
+                g.DrawString(item.Price.ToString("##,###"), fontBody, brush, new Point(160, y));
+                g.DrawString(item.TotalPrice.ToString("##,###"), fontBody, brush, new Rectangle(215, y, 80, 20), rightFormat);
+
+                tongTienNuoc += item.TotalPrice;
+                y += 20;
+            }
+
+            g.DrawString("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -", fontBody, brush, new Point(5, y));
+            y += 15;
+
+            DateTime dateCheckIn = BillDAL.Instance.GetDateCheckIn(idBill);
+            TimeSpan timeSpan = DateTime.Now - dateCheckIn;
+            double tienGio = timeSpan.TotalHours * giaGioHienTai;
+
+            g.DrawString(string.Format("Tiền giờ ({0}h {1}p) {2}s", (int)timeSpan.TotalHours, timeSpan.Minutes, timeSpan.Seconds), fontBody, brush, new Point(5, y));
+            g.DrawString(tienGio.ToString("N0"), fontBody, brush, new Rectangle(215, y, 80, 20), rightFormat);
+            y += 25;
+
+            double tongCong = tongTienNuoc + tienGio;
+            tongCong = Math.Round(tongCong / 1000) * 1000;
+
+            string strDiscount = cbDiscount.Text.Replace("Giảm", "").Replace("%", "").Trim();
+            int discount = 0;
+            int.TryParse(strDiscount, out discount);
+            double tienGiam = (tongCong / 100) * discount;
+            double phaiTra = tongCong - tienGiam;
+
+            g.DrawString("Tổng cộng:", fontBold, brush, new Point(120, y));
+            g.DrawString(tongCong.ToString("N0"), fontBold, brush, new Rectangle(215, y, 80, 20), rightFormat);
+            y += 20;
+
+            if (discount > 0)
+            {
+                g.DrawString("Giảm giá " + discount + "%:", fontBody, brush, new Point(120, y));
+                g.DrawString("-" + tienGiam.ToString("N0"), fontBody, brush, new Rectangle(215, y, 80, 20), rightFormat);
+                y += 20;
+            }
+
+            Font fontTotalBig = new Font("Arial", 12, FontStyle.Bold);
+            g.DrawString("THANH TOÁN:", fontBold, brush, new Point(80, y + 5));
+            g.DrawString(phaiTra.ToString("N0") + " đ", fontTotalBig, brush, new Rectangle(180, y, 115, 30), rightFormat);
+            y += 40;
+
+            g.DrawString("Cảm ơn Quý Khách!", fontBody, brush, new Rectangle(0, y, width, 20), centerFormat);
+            g.DrawString("Hẹn Gặp Lại", fontBody, brush, new Rectangle(0, y + 15, width, 20), centerFormat);
+        }
+
+        Button currentCategoryButton = null;
+
+        void LoadFoodListByCategoryID(int id)
+        {
+            flpFood.Controls.Clear();
+
+            List<Food> listFood = FoodDAL.Instance.GetFoodByCategoryID(id);
+
+            foreach (Food item in listFood)
+            {
+                Button btn = new Button() { Width = 90, Height = 90 };
+                btn.Text = item.Name + "\n" + item.Price.ToString("N0");
+                btn.Click += btn_Click;
+                btn.Tag = item;
+
+                btn.BackColor = Color.White;
+
+                flpFood.Controls.Add(btn);
+            }
+        }
+
+        void LoadCategory()
+        {
+            flpCategory.Controls.Clear();
+            flpCategory.WrapContents = false;
+            flpCategory.AutoScroll = true;
+            List<Category> listCategory = CategoryDAL.Instance.GetListCategory();
+
+            Button btnAll = new Button();
+            int textWidth = TextRenderer.MeasureText(btnAll.Text, btnAll.Font).Width;
+
+            btnAll.Text = "Tất cả";
+            btnAll.Tag = null;
+            btnAll.Margin = new Padding(3);
+            btnAll.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            btnAll.Width = textWidth + 80;
+            btnAll.Height = 45;
+
+            btnAll.Click += CategoryBtn_Click;
+
+            currentCategoryButton = btnAll;
+
+            TaoNutTronMin(btnAll);
+            flpCategory.Controls.Add(btnAll);
+
+            foreach (Category item in listCategory)
+            {
+                Button btn = new Button();
+                int width = TextRenderer.MeasureText(btn.Text, btn.Font).Width;
+                btn.Text = item.Name;
+                btn.Tag = item;
+                btn.Width = width + 80;
+                btn.Height = 45;
+                btn.Margin = new Padding(5);
+                btn.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+
+                btn.Click += CategoryBtn_Click;
+
+                TaoNutTronMin(btn); 
+                flpCategory.Controls.Add(btn);
+            }
+        }
+
+        void TaoNutTronMin(Button btn)
+        {
+            btn.Region = null;          
+            btn.FlatStyle = FlatStyle.Flat;
+            btn.FlatAppearance.BorderSize = 0;
+            btn.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btn.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            btn.UseVisualStyleBackColor = false; 
+
+            btn.BackColor = Color.White; 
+            btn.ForeColor = Color.DimGray;
+            btn.Cursor = Cursors.Hand;
+            btn.TabStop = false;           
+
+            btn.Paint -= Btn_Paint;
+            btn.Paint += Btn_Paint;
+        }
+
+        private void Btn_Paint(object sender, PaintEventArgs e)
+        {
+            Button btn = sender as Button;
+            Graphics g = e.Graphics;
+
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+
+            g.Clear(Color.White);
+
+            Color activeColor = Color.DodgerBlue;
+            Color normalColor = Color.FromArgb(225, 225, 225); 
+
+            Color backColor = (btn == currentCategoryButton) ? activeColor : normalColor;
+            Color textColor = (btn == currentCategoryButton) ? Color.White : Color.Black;
+
+            Rectangle rect = new Rectangle(0, 0, btn.Width - 1, btn.Height - 1);
+            int radius = 18; 
+
+            System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90);
+            path.CloseFigure();
+
+            using (SolidBrush brush = new SolidBrush(backColor))
+            {
+                g.FillPath(brush, path);
+            }
+
+            TextRenderer.DrawText(g, btn.Text, btn.Font, new Rectangle(0, 0, btn.Width, btn.Height), textColor, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+        }
+
+        void CategoryBtn_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            Button oldBtn = currentCategoryButton;
+
+            if (currentCategoryButton != null)
+            {
+                currentCategoryButton.BackColor = Color.FromArgb(240, 240, 240);
+                currentCategoryButton.ForeColor = Color.DimGray;
+            }
+
+            currentCategoryButton = btn;
+            currentCategoryButton.BackColor = Color.DodgerBlue;
+            currentCategoryButton.ForeColor = Color.Black;
+
+            if (oldBtn != null)
+            {
+                oldBtn.Invalidate();
+            }
+            btn.Invalidate();
+
+            Category category = btn.Tag as Category;
+
+            if (category == null)
+            {
+                LoadAllFood();
+            }
+            else
+            {
+                LoadFoodListByCategoryID(category.ID);
+            }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string keyword = txtSearch.Text;
+
+            if (string.IsNullOrEmpty(keyword))
+            {
+                if (currentCategoryButton == null || currentCategoryButton.Text == "Tất cả")
+                {
+                    LoadAllFood();
+                }
+                else
+                {
+                    Category cat = currentCategoryButton.Tag as Category;
+                    if (cat != null) LoadFoodListByCategoryID(cat.ID);
+                }
+                return;
+            }
+
+            flpFood.Controls.Clear();
+            List<Food> listSearch = FoodDAL.Instance.SearchFoodByName(keyword);
+
+            foreach (Food item in listSearch)
+            {
+                Button btn = new Button() { Width = 90, Height = 90 };
+                btn.Text = item.Name + "\n" + item.Price.ToString("N0");
+                btn.Click += btn_Click;
+                btn.Tag = item;
+                btn.BackColor = Color.White;
+
+                flpFood.Controls.Add(btn);
+            }
+        }
+
+        private void txtSearch_Leave(object sender, EventArgs e)
+        {
+            txtSearch.Visible = false;
+        }
+
+        private void fTableManager_Click(object sender, EventArgs e)
+        {
+            txtSearch.Visible = false;
+        }
+
+        private void flpFood_Click(object sender, EventArgs e)
+        {
+            if (txtSearch.Visible)
+            {
+                txtSearch.Visible = false;
+            }
+            this.Focus();
+        }
+
+        private void panel1_Click(object sender, EventArgs e)
+        {
+            if (txtSearch.Visible)
+            {
+                txtSearch.Visible = false;
+            }
+            this.Focus();
+        }
+
+        private void btnSearch_Click_1(object sender, EventArgs e)
+        {
+            txtSearch.Visible = !txtSearch.Visible;
+
+            if (txtSearch.Visible)
+            {
+                txtSearch.Focus();
+                txtSearch.SelectAll();
+            }
+            else
+            {
+                LoadAllFood();
+            }
         }
     }
 }

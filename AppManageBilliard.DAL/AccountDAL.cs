@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace AppManageBilliard.DAL
 {
@@ -27,11 +28,30 @@ namespace AppManageBilliard.DAL
         }
         private AccountDAL() { }
 
+        public string ToSHA256(string password) 
+        {
+            string salt = "Bida@2026";
+            string rawInput = password + salt;
+            using(SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(rawInput));
+                StringBuilder builder = new StringBuilder();
+                for(int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+               
+        }
+
         public bool Login(string userName, string passWord)
         {
+            string passHash = ToSHA256(passWord);
+
             string query = "SELECT * FROM Account WHERE UserName = @userName AND PassWord = @passWord";
 
-            DataTable result = DataProvider.Instance.ExecuteQuery(query, new object[] { userName, passWord });
+            DataTable result = DataProvider.Instance.ExecuteQuery(query, new object[] { userName, passHash });
 
             return result.Rows.Count > 0;
         }
@@ -61,7 +81,10 @@ namespace AppManageBilliard.DAL
         }
         public bool UpdateAccountProfile(string userName, string displayName, string pass, string newPass)
         {
-            int result = DataProvider.Instance.ExecuteNonQuery("EXEC USP_UpdateAccountProfile @userName , @displayName , @password , @newPassword", new object[] { userName, displayName, pass, newPass });
+            string passHash = ToSHA256(pass);
+            string newPassHash = ToSHA256(newPass);
+
+            int result = DataProvider.Instance.ExecuteNonQuery("EXEC USP_UpdateAccountProfile @userName , @displayName , @password , @newPassword", new object[] { userName, displayName, passHash, newPassHash });
             return result > 0;
         }
         public Account GetAccountByUserName(string userName)

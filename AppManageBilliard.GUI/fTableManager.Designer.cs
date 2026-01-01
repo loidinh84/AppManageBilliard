@@ -34,6 +34,10 @@
             this.adminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.thôngTinTàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtTongTien = new System.Windows.Forms.Label();
+            this.txtTongMon = new System.Windows.Forms.Label();
+            this.txtTongGio = new System.Windows.Forms.Label();
+            this.txtGioVao = new System.Windows.Forms.Label();
             this.btnCancelTable = new System.Windows.Forms.Button();
             this.cbDiscount = new System.Windows.Forms.ComboBox();
             this.lblCurrentTable = new System.Windows.Forms.Label();
@@ -55,13 +59,14 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.flpTable = new System.Windows.Forms.FlowLayoutPanel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.flpCategory = new System.Windows.Forms.FlowLayoutPanel();
             this.flpFood = new System.Windows.Forms.FlowLayoutPanel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.txtGioVao = new System.Windows.Forms.Label();
-            this.txtTongGio = new System.Windows.Forms.Label();
-            this.txtTongMon = new System.Windows.Forms.Label();
-            this.txtTongTien = new System.Windows.Forms.Label();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
@@ -119,7 +124,45 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(395, 660);
             this.panel1.TabIndex = 2;
+            this.panel1.Click += new System.EventHandler(this.panel1_Click);
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // txtTongTien
+            // 
+            this.txtTongTien.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTongTien.Location = new System.Drawing.Point(171, 555);
+            this.txtTongTien.Name = "txtTongTien";
+            this.txtTongTien.Size = new System.Drawing.Size(193, 28);
+            this.txtTongTien.TabIndex = 21;
+            this.txtTongTien.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtTongMon
+            // 
+            this.txtTongMon.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTongMon.Location = new System.Drawing.Point(217, 527);
+            this.txtTongMon.Name = "txtTongMon";
+            this.txtTongMon.Size = new System.Drawing.Size(144, 23);
+            this.txtTongMon.TabIndex = 20;
+            this.txtTongMon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtTongGio
+            // 
+            this.txtTongGio.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTongGio.Location = new System.Drawing.Point(201, 497);
+            this.txtTongGio.Name = "txtTongGio";
+            this.txtTongGio.Size = new System.Drawing.Size(160, 23);
+            this.txtTongGio.TabIndex = 19;
+            this.txtTongGio.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.txtTongGio.Click += new System.EventHandler(this.txtTongGio_Click);
+            // 
+            // txtGioVao
+            // 
+            this.txtGioVao.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGioVao.Location = new System.Drawing.Point(203, 461);
+            this.txtGioVao.Name = "txtGioVao";
+            this.txtGioVao.Size = new System.Drawing.Size(158, 23);
+            this.txtGioVao.TabIndex = 18;
+            this.txtGioVao.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnCancelTable
             // 
@@ -310,7 +353,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(788, 631);
+            this.tabPage1.Size = new System.Drawing.Size(788, 629);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Danh Sách Bàn";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -328,6 +371,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.txtSearch);
+            this.tabPage2.Controls.Add(this.btnSearch);
+            this.tabPage2.Controls.Add(this.flpCategory);
             this.tabPage2.Controls.Add(this.flpFood);
             this.tabPage2.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
@@ -339,15 +385,53 @@
             this.tabPage2.Text = "Thực Đơn";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // txtSearch
+            // 
+            this.txtSearch.BackColor = System.Drawing.Color.SeaShell;
+            this.txtSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(620, 6);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(162, 34);
+            this.txtSearch.TabIndex = 5;
+            this.txtSearch.Visible = false;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSearch.FlatAppearance.BorderSize = 0;
+            this.btnSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.Image = global::AppManageBilliard.GUI.Properties.Resources.timkiem;
+            this.btnSearch.Location = new System.Drawing.Point(749, 6);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(33, 33);
+            this.btnSearch.TabIndex = 6;
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click_1);
+            // 
+            // flpCategory
+            // 
+            this.flpCategory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flpCategory.Location = new System.Drawing.Point(3, 5);
+            this.flpCategory.Name = "flpCategory";
+            this.flpCategory.Size = new System.Drawing.Size(654, 55);
+            this.flpCategory.TabIndex = 1;
+            this.flpCategory.WrapContents = false;
+            // 
             // flpFood
             // 
             this.flpFood.AutoScroll = true;
-            this.flpFood.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpFood.Location = new System.Drawing.Point(3, 2);
+            this.flpFood.Location = new System.Drawing.Point(3, 57);
             this.flpFood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flpFood.Name = "flpFood";
-            this.flpFood.Size = new System.Drawing.Size(782, 627);
+            this.flpFood.Size = new System.Drawing.Size(782, 570);
             this.flpFood.TabIndex = 0;
+            this.flpFood.Click += new System.EventHandler(this.flpFood_Click);
             // 
             // timer1
             // 
@@ -355,42 +439,20 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // txtGioVao
+            // printDocument1
             // 
-            this.txtGioVao.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGioVao.Location = new System.Drawing.Point(203, 461);
-            this.txtGioVao.Name = "txtGioVao";
-            this.txtGioVao.Size = new System.Drawing.Size(158, 23);
-            this.txtGioVao.TabIndex = 18;
-            this.txtGioVao.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
             // 
-            // txtTongGio
+            // printPreviewDialog1
             // 
-            this.txtTongGio.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTongGio.Location = new System.Drawing.Point(201, 497);
-            this.txtTongGio.Name = "txtTongGio";
-            this.txtTongGio.Size = new System.Drawing.Size(160, 23);
-            this.txtTongGio.TabIndex = 19;
-            this.txtTongGio.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.txtTongGio.Click += new System.EventHandler(this.txtTongGio_Click);
-            // 
-            // txtTongMon
-            // 
-            this.txtTongMon.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTongMon.Location = new System.Drawing.Point(217, 527);
-            this.txtTongMon.Name = "txtTongMon";
-            this.txtTongMon.Size = new System.Drawing.Size(144, 23);
-            this.txtTongMon.TabIndex = 20;
-            this.txtTongMon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // txtTongTien
-            // 
-            this.txtTongTien.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTongTien.Location = new System.Drawing.Point(171, 555);
-            this.txtTongTien.Name = "txtTongTien";
-            this.txtTongTien.Size = new System.Drawing.Size(193, 28);
-            this.txtTongTien.TabIndex = 21;
-            this.txtTongTien.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Document = this.printDocument1;
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Visible = false;
             // 
             // fTableManager
             // 
@@ -407,6 +469,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Quản lý bàn bida";
             this.Load += new System.EventHandler(this.fTableManager_Load);
+            this.Click += new System.EventHandler(this.fTableManager_Click);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -415,6 +478,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -454,5 +518,10 @@
         private System.Windows.Forms.Label txtTongGio;
         private System.Windows.Forms.Label txtTongMon;
         private System.Windows.Forms.Label txtTongTien;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Windows.Forms.FlowLayoutPanel flpCategory;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
