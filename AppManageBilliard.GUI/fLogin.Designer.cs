@@ -42,7 +42,7 @@
             // 
             this.txtUserName.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUserName.Location = new System.Drawing.Point(202, 106);
-            this.txtUserName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtUserName.Margin = new System.Windows.Forms.Padding(2);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(126, 26);
             this.txtUserName.TabIndex = 0;
@@ -62,11 +62,12 @@
             // 
             this.txtPassWord.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassWord.Location = new System.Drawing.Point(202, 164);
-            this.txtPassWord.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPassWord.Margin = new System.Windows.Forms.Padding(2);
             this.txtPassWord.Name = "txtPassWord";
             this.txtPassWord.Size = new System.Drawing.Size(126, 26);
             this.txtPassWord.TabIndex = 3;
             this.txtPassWord.UseSystemPasswordChar = true;
+            this.txtPassWord.TextChanged += new System.EventHandler(this.txtPassWord_TextChanged);
             // 
             // label2
             // 
@@ -83,7 +84,7 @@
             // 
             this.btnLogin.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogin.Location = new System.Drawing.Point(124, 225);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(2);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(108, 28);
             this.btnLogin.TabIndex = 5;
@@ -95,7 +96,7 @@
             // 
             this.btnExit.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExit.Location = new System.Drawing.Point(250, 225);
-            this.btnExit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(2);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(108, 28);
             this.btnExit.TabIndex = 6;
@@ -129,7 +130,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtUserName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "fLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Đăng nhập";
