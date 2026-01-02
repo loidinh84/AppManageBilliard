@@ -6,42 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
 
-    <Grid Background="#F0F2F5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
-            <RadioButton Content="Tất cả" IsChecked="True" Style="{StaticResource FilterButtonStyle}"/>
-            <RadioButton Content="Đang sử dụng" Style="{StaticResource FilterButtonStyle}"/>
-            <RadioButton Content="Còn trống" Style="{StaticResource FilterButtonStyle}"/>
-        </StackPanel>
-
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <WrapPanel x:Name="wpTableList" Margin="10" ItemWidth="140" ItemHeight="140">
-
-                <Button Style="{StaticResource TableButtonStyle}" Background="#4CAF50" Tag="Trong">
-                    <StackPanel>
-                        <TextBlock Text="Bàn 1" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Trống" FontSize="12" Foreground="#E8F5E9" HorizontalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-
-                <Button Style="{StaticResource TableButtonStyle}" Background="#F44336" Tag="CoNguoi">
-                    <StackPanel>
-                        <TextBlock Text="Bàn 2" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Có người" FontSize="12" Foreground="#FFEBEE" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                        <Border Background="White" CornerRadius="10" Padding="8,2" Margin="0,5,0,0">
-                            <TextBlock Text="00:30:15" FontSize="12" Foreground="Black" FontWeight="Bold"/>
-                        </Border>
-                    </StackPanel>
-                </Button>
-
-            </WrapPanel>
-        </ScrollViewer>
-    </Grid>
-
     <UserControl.Resources>
         <Style x:Key="TableButtonStyle" TargetType="Button">
             <Setter Property="Margin" Value="10"/>
@@ -80,4 +44,41 @@
             </Setter>
         </Style>
     </UserControl.Resources>
+    
+    <Grid Background="#F0F2F5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <RadioButton Content="Tất cả" IsChecked="True" Style="{StaticResource FilterButtonStyle}"/>
+            <RadioButton Content="Đang sử dụng" Style="{StaticResource FilterButtonStyle}"/>
+            <RadioButton Content="Còn trống" Style="{StaticResource FilterButtonStyle}"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="wpTableList" Margin="10" ItemWidth="140" ItemHeight="140">
+
+                <Button Style="{StaticResource TableButtonStyle}" Background="#4CAF50" Tag="Trong">
+                    <StackPanel>
+                        <TextBlock Text="Bàn 1" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Trống" FontSize="12" Foreground="#E8F5E9" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource TableButtonStyle}" Background="#F44336" Tag="CoNguoi">
+                    <StackPanel>
+                        <TextBlock Text="Bàn 2" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Có người" FontSize="12" Foreground="#FFEBEE" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                        <Border Background="White" CornerRadius="10" Padding="8,2" Margin="0,5,0,0">
+                            <TextBlock Text="00:30:15" FontSize="12" Foreground="Black" FontWeight="Bold"/>
+                        </Border>
+                    </StackPanel>
+                </Button>
+
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+
 </UserControl>

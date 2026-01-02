@@ -100,7 +100,7 @@
             </Grid>
         </Border>
 
-        <Grid x:Name="grdLoginOverlay" Background="#F0F2F5" Visibility="Visible" Grid.ColumnSpan="2">
+        <Grid x:Name="grdLoginOverlay" Background="#F0F2F5" Visibility="Collapsed" Grid.ColumnSpan="2">
             <uc:ucLogin x:Name="AreaLogin" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
 
