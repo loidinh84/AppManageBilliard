@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D; // Để vẽ gradient và bo tròn
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,104 +16,133 @@ namespace AppManageBilliard.GUI
 {
     public partial class fLogin : Form
     {
+        private bool isPasswordVisible = false;
+
         public fLogin()
         {
             InitializeComponent();
-            this.Opacity = 0; // Bắt đầu trong suốt để fade in
-            CustomizeDesign(); // Chỉ thêm dòng này để làm đẹp giao diện
+            this.Opacity = 0;
+            CustomizeDesign();
+
+            // Thêm 2 event này để bo góc đúng (fix lỗi chính)
+            this.Load += fLogin_Load;
+            this.Resize += fLogin_Resize;
         }
 
-        // === HÀM LÀM ĐẸP GIAO DIỆN - KHÔNG ĐỘNG VÀO LOGIC ===
         private void CustomizeDesign()
         {
-            // 1. Nền gradient xanh nhạt rất nhẹ
-            this.BackColor = Color.FromArgb(240, 248, 255); // AliceBlue
-            this.Paint += (s, e) =>
-            {
-                using (LinearGradientBrush brush = new LinearGradientBrush(
-                    this.ClientRectangle,
-                    Color.FromArgb(240, 248, 255),
-                    Color.White,
-                    90F))
-                {
-                    e.Graphics.FillRectangle(brush, this.ClientRectangle);
-                }
-            };
-
-            // 2. Bo tròn form nhẹ + bóng đổ mềm
+            // ===== FORM =====
             this.FormBorderStyle = FormBorderStyle.None;
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.BackColor = Color.FromArgb(245, 248, 250);
 
-            GraphicsPath path = new GraphicsPath();
-            int radius = 30;
-            path.AddArc(0, 0, radius, radius, 180, 90);
-            path.AddArc(this.Width - radius, 0, radius, radius, 270, 90);
-            path.AddArc(this.Width - radius, this.Height - radius, radius, radius, 0, 90);
-            path.AddArc(0, this.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            this.Region = new Region(path);
+            // ===== TEXTBOX USER =====
+            StyleTextBox(txtUserName);
 
-            // 3. Làm đẹp TextBox (viền dưới xanh)
-            txtUserName.BorderStyle = BorderStyle.None;
-            txtUserName.BackColor = Color.White;
-            txtUserName.Font = new Font("Segoe UI", 12F);
-            txtUserName.ForeColor = Color.Black;
-            txtUserName.Padding = new Padding(10);
-            txtUserName.Paint += (s, e) =>
-            {
-                using (Pen pen = new Pen(Color.FromArgb(0, 123, 255), 2))
-                {
-                    e.Graphics.DrawLine(pen, 0, txtUserName.Height - 1, txtUserName.Width, txtUserName.Height - 1);
-                }
-            };
-
-            txtPassWord.BorderStyle = BorderStyle.None;
-            txtPassWord.BackColor = Color.White;
-            txtPassWord.Font = new Font("Segoe UI", 12F);
-            txtPassWord.ForeColor = Color.Black;
-            txtPassWord.Padding = new Padding(10);
+            // ===== TEXTBOX PASSWORD =====
+            StyleTextBox(txtPassWord);
             txtPassWord.UseSystemPasswordChar = true;
-            txtPassWord.Paint += (s, e) =>
+
+            // ===== PICTUREBOX EYE =====
+            pbEye.SizeMode = PictureBoxSizeMode.Zoom;
+            pbEye.Cursor = Cursors.Hand;
+            pbEye.BackColor = Color.Transparent;
+
+            // Dùng icon từ Resources bạn đã thêm (eye_show và eye_hide)
+            pbEye.Image = Properties.Resources.eye_hide; // Ban đầu ẩn mật khẩu
+
+            pbEye.Click += (s, e) =>
             {
-                using (Pen pen = new Pen(Color.FromArgb(0, 123, 255), 2))
-                {
-                    e.Graphics.DrawLine(pen, 0, txtPassWord.Height - 1, txtPassWord.Width, txtPassWord.Height - 1);
-                }
+                isPasswordVisible = !isPasswordVisible;
+                txtPassWord.UseSystemPasswordChar = !isPasswordVisible;
+                pbEye.Image = isPasswordVisible ? Properties.Resources.eye_show : Properties.Resources.eye_hide;
             };
 
-            // 4. Button Đăng nhập đẹp, hover mượt
+            pbEye.MouseEnter += (s, e) => pbEye.BackColor = Color.FromArgb(230, 240, 255);
+            pbEye.MouseLeave += (s, e) => pbEye.BackColor = Color.Transparent;
+
+            // ===== BUTTON LOGIN =====
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.FlatAppearance.BorderSize = 0;
             btnLogin.BackColor = Color.FromArgb(0, 123, 255);
             btnLogin.ForeColor = Color.White;
             btnLogin.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnLogin.Height = 50;
             btnLogin.Cursor = Cursors.Hand;
+            btnLogin.Text = "Đăng nhập";
+            btnLogin.TextAlign = ContentAlignment.MiddleCenter;
+
             btnLogin.MouseEnter += (s, e) => btnLogin.BackColor = Color.FromArgb(0, 105, 220);
             btnLogin.MouseLeave += (s, e) => btnLogin.BackColor = Color.FromArgb(0, 123, 255);
 
-            // 5. Button Thoát nhẹ nhàng
+            // ===== BUTTON THOÁT =====
             btnExit.FlatStyle = FlatStyle.Flat;
             btnExit.FlatAppearance.BorderSize = 0;
-            btnExit.BackColor = Color.Transparent;
-            btnExit.ForeColor = Color.FromArgb(220, 53, 69);
-            btnExit.Font = new Font("Segoe UI", 11F);
+            btnExit.BackColor = Color.FromArgb(220, 53, 69);
+            btnExit.ForeColor = Color.White;
+            btnExit.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnExit.Height = 50;
+            btnExit.Width = 120;
+            btnExit.Text = "Thoát";
+            btnExit.TextAlign = ContentAlignment.MiddleCenter;
             btnExit.Cursor = Cursors.Hand;
-            btnExit.MouseEnter += (s, e) => btnExit.ForeColor = Color.Red;
-            btnExit.MouseLeave += (s, e) => btnExit.ForeColor = Color.FromArgb(220, 53, 69);
 
-            // 6. Fade in khi mở form
-            Timer fadeInTimer = new Timer { Interval = 20 };
-            fadeInTimer.Tick += (s, e) =>
+            btnExit.MouseEnter += (s, e) => btnExit.BackColor = Color.FromArgb(200, 35, 55);
+            btnExit.MouseLeave += (s, e) => btnExit.BackColor = Color.FromArgb(220, 53, 69);
+
+            // ===== FADE IN =====
+            Timer fade = new Timer { Interval = 15 };
+            fade.Tick += (s, e) =>
             {
-                if (this.Opacity < 1)
-                    this.Opacity += 0.05;
-                else
-                    fadeInTimer.Stop();
+                if (this.Opacity < 1) this.Opacity += 0.05;
+                else fade.Stop();
             };
-            fadeInTimer.Start();
+            fade.Start();
         }
-        // ================================================
 
+        // Hàm bo góc đúng - gọi khi form load và resize
+        private void ApplyRoundedCorners()
+        {
+            int radius = 20;
+            GraphicsPath path = new GraphicsPath();
+            Rectangle rect = this.ClientRectangle;
+            path.AddArc(0, 0, radius, radius, 180, 90);
+            path.AddArc(rect.Width - radius, 0, radius, radius, 270, 90);
+            path.AddArc(rect.Width - radius, rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(0, rect.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            this.Region = new Region(path);
+        }
+
+        private void fLogin_Load(object sender, EventArgs e)
+        {
+            ApplyRoundedCorners(); // Bo góc đúng sau khi form có kích thước
+        }
+
+        private void fLogin_Resize(object sender, EventArgs e)
+        {
+            ApplyRoundedCorners(); // An toàn nếu form bị resize
+        }
+
+        private void StyleTextBox(TextBox txt)
+        {
+            txt.BorderStyle = BorderStyle.None;
+            txt.BackColor = Color.White;
+            txt.Font = new Font("Segoe UI", 11F);
+            txt.ForeColor = Color.Black;
+            txt.Height = 40;
+
+            Panel line = new Panel();
+            line.Height = 2;
+            line.Dock = DockStyle.Bottom;
+            line.BackColor = Color.LightGray;
+            txt.Controls.Add(line);
+
+            txt.Enter += (s, e) => line.BackColor = Color.FromArgb(0, 123, 255);
+            txt.Leave += (s, e) => line.BackColor = Color.LightGray;
+        }
+
+        // LOGIC GIỮ NGUYÊN
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string userName = txtUserName.Text;
@@ -149,15 +178,6 @@ namespace AppManageBilliard.GUI
             {
                 e.Cancel = true;
             }
-        }
-
-        private void fLogin_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void txtPassWord_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
