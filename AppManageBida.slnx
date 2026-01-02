@@ -3,4 +3,5 @@
   <Project Path="AppManageBilliard.DAL/AppManageBilliard.DAL.csproj" Id="a5717882-1006-411f-8e7c-e80bd013a64d" />
   <Project Path="AppManageBilliard.DTO/AppManageBilliard.DTO.csproj" Id="ea6674d8-4c8c-4da0-8443-06b26bd08d1e" />
   <Project Path="AppManageBilliard.GUI/AppManageBilliard.GUI.csproj" Id="f98a0a9e-2771-4f98-b603-948213497b56" />
+  <Project Path="AppManageBilliard/AppManageBilliard.csproj" Id="b057083d-9ea1-4239-a5d8-0cd6db6719ea" />
 </Solution>
