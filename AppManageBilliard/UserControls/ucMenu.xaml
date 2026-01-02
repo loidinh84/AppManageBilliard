@@ -3,10 +3,114 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:AppManageBilliard.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style x:Key="FoodButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8" Padding="10">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.1" Color="Black"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding Name}" 
+                                           TextWrapping="Wrap" TextAlignment="Center"
+                                           FontSize="15" FontWeight="Bold" Foreground="#333"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1" Text="{Binding Price, StringFormat={}{0:N0} đ}" 
+                                           TextAlignment="Center"
+                                           FontSize="14" FontWeight="SemiBold" Foreground="#007ACC"
+                                           Margin="0,8,0,0"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#F5F9FF"/>
+                                <Setter Property="BorderBrush" Value="#007ACC"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#E6F2FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CategoryButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Background" Value="#F0F2F5"/>
+            <Setter Property="Foreground" Value="#555"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Tag" Value="Selected">
+                    <Setter Property="Background" Value="#007ACC"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="10">
+            <Border CornerRadius="20" BorderBrush="#DDD" BorderThickness="1" Padding="10,5" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="🔍" VerticalAlignment="Center" Margin="5,0,10,0" Foreground="Gray"/>
+                    <TextBox x:Name="txtSearch" Grid.Column="1" BorderThickness="0" FontSize="14" 
+                             VerticalContentAlignment="Center" Background="Transparent"
+                             TextChanged="txtSearch_TextChanged"
+                             Tag="Tìm món ăn... (Nhập tên món)"/>
+                    <TextBlock Grid.Column="1" Text="Tìm tên món ăn..." Foreground="#BBB" 
+                               IsHitTestVisible="False" VerticalAlignment="Center"
+                               Visibility="{Binding Text.IsEmpty, ElementName=txtSearch, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </Grid>
+            </Border>
+
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly">
+                <StackPanel x:Name="pnlCategories" Orientation="Horizontal" Margin="0,0,0,5"/>
+            </ScrollViewer>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="wpFoodList" Margin="5" ItemWidth="130" ItemHeight="100"/>
+        </ScrollViewer>
     </Grid>
 </UserControl>

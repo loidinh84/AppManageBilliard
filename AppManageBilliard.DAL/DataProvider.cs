@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -24,7 +25,8 @@ namespace AppManageBida.DAL
             private set { DataProvider.instance = value; }
         }
         private DataProvider() { }
-        private string connectionSTR = @"Data Source= LAPTOP-D7025PB6\SQLEXPRESS;Initial Catalog=QuanLyQuanBida;Integrated Security=True";
+        private string connectionSTR = ConfigurationManager.ConnectionStrings["QuanLyBiaString"]?.ConnectionString
+    ?? @"Data Source=.\SQLEXPRESS;Initial Catalog=QuanLyQuanBida;Integrated Security=True";
 
         public DataTable ExecuteQuery(string query, object[] parameter = null)
         {

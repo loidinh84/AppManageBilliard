@@ -28,5 +28,9 @@ namespace AppManageBilliard.BUS
         {
             return FoodDAL.Instance.GetFoodByCategoryID(id);
         }
+        public List<Food> GetListFood()
+        {
+            return FoodDAL.Instance.GetListFood(); 
+        }
     }
 }

@@ -25,8 +25,6 @@ namespace AppManageBilliard.DAL
             }
             private set { TableDAL.instance = value; }
         }
-        public static int TableWidth = 90;
-        public static int TableHeight = 90;
         private TableDAL() { }
 
         public List<Table> LoadTableList()
