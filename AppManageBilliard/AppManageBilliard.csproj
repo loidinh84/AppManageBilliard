@@ -122,5 +122,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppManageBilliard.BUS\AppManageBilliard.BUS.csproj">
+      <Project>{a0e5407c-2629-4b3b-8816-d876bd5e246b}</Project>
+      <Name>AppManageBilliard.BUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppManageBilliard.DAL\AppManageBilliard.DAL.csproj">
+      <Project>{a5717882-1006-411f-8e7c-e80bd013a64d}</Project>
+      <Name>AppManageBilliard.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppManageBilliard.DTO\AppManageBilliard.DTO.csproj">
+      <Project>{ea6674d8-4c8c-4da0-8443-06b26bd08d1e}</Project>
+      <Name>AppManageBilliard.DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
