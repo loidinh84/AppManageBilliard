@@ -115,5 +115,14 @@ namespace AppManageBilliard.DAL
             }
             catch { return 0; }
         }
+        public Bill GetBillByID(int id)
+        {
+            DataTable data = DataProvider.Instance.ExecuteQuery("SELECT * FROM dbo.Bill WHERE id = " + id);
+            foreach (DataRow item in data.Rows)
+            {
+                return new Bill(item);
+            }
+            return null;
+        }
     }
 }

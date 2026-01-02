@@ -451,30 +451,40 @@ namespace AppManageBilliard.GUI
                 {
                     if (result == DialogResult.Yes)
                     {
-                        printDocument1.DefaultPageSettings.PaperSize = new PaperSize("Bill", 300, 600);
-                        printDocument1.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
+                        //printDocument1.DefaultPageSettings.PaperSize = new PaperSize("Bill", 300, 600);
+                        //printDocument1.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
+                        //printPreviewDialog1.WindowState = FormWindowState.Normal;
+                        //printPreviewDialog1.Size = new Size(450, 600);
+                        //printPreviewDialog1.StartPosition = FormStartPosition.CenterScreen;
+                        //printPreviewDialog1.PrintPreviewControl.AutoZoom = false;
+                        //printPreviewDialog1.PrintPreviewControl.Zoom = 1.0;
+                        //printPreviewDialog1.Document = printDocument1;
+                        //printPreviewDialog1.ShowDialog();
+                        //printDocument1.Print();
 
-                        printPreviewDialog1.WindowState = FormWindowState.Normal;
+                        Bill bill = BillDAL.Instance.GetBillByID(idBill);
+                        if (bill != null)
+                        {
+                            DateTime checkIn = bill.DateCheckIn.Value;
+                            DateTime checkOut = DateTime.Now;
+                            TimeSpan duration = checkOut - checkIn;
 
-                        printPreviewDialog1.Size = new Size(450, 600);
+                            string strGioChoi = string.Format("{0}h {1}p {2}s",
+                                                            (int)duration.TotalHours,
+                                                            duration.Minutes,
+                                                            duration.Seconds);
 
-                        printPreviewDialog1.StartPosition = FormStartPosition.CenterScreen;
+                            double tienGioReport = duration.TotalHours * 50000;
 
-                        printPreviewDialog1.PrintPreviewControl.AutoZoom = false;
-
-                        printPreviewDialog1.PrintPreviewControl.Zoom = 1.0;
-
-                        printPreviewDialog1.Document = printDocument1;
-                        printPreviewDialog1.ShowDialog();
-                        printDocument1.Print();
+                            fReport f = new fReport(table.ID, strGioChoi, tienGioReport, finalTotalPrice, table.Name);
+                            f.ShowDialog();
+                        }
                     }
 
                     BillDAL.Instance.CheckOut(idBill, discount, (float)finalTotalPrice);
 
                     ShowBill(table.ID);
                     LoadTable();
-
-                    this.ActiveControl = null;
                 }
             }
         }
