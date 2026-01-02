@@ -187,6 +187,7 @@
             this.cbDiscount.Name = "cbDiscount";
             this.cbDiscount.Size = new System.Drawing.Size(129, 28);
             this.cbDiscount.TabIndex = 16;
+            this.cbDiscount.SelectedIndexChanged += new System.EventHandler(this.cbDiscount_SelectedIndexChanged);
             // 
             // lblCurrentTable
             // 
@@ -353,7 +354,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(788, 629);
+            this.tabPage1.Size = new System.Drawing.Size(788, 631);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Danh Sách Bàn";
             this.tabPage1.UseVisualStyleBackColor = true;

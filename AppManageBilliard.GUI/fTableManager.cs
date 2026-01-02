@@ -4,6 +4,7 @@ using AppManageBilliard.DAL;
 using AppManageBilliard.DTO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
@@ -40,6 +41,8 @@ namespace AppManageBilliard.GUI
             TaoHinhVienThuoc(btnThanhToan, btnThanhToan.Width, btnThanhToan.Height,
                           Color.FromArgb(40, 167, 69),
                           Color.FromArgb(70, 200, 100));
+
+            LoadCurrentDiscount();
         }
 
         public fTableManager()
@@ -1077,6 +1080,20 @@ namespace AppManageBilliard.GUI
             {
                 LoadAllFood();
             }
+        }
+
+        private void cbDiscount_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        void LoadCurrentDiscount()
+        {
+            string query = "SELECT discountPercent FROM EventsDiscount WHERE status = 1 ORDER BY discountPercent ASC";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+
+            cbDiscount.DataSource = data;
+            cbDiscount.DisplayMember = "discountPercent";
+            cbDiscount.ValueMember = "discountPercent";
         }
     }
 }
