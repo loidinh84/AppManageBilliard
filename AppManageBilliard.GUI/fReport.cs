@@ -43,6 +43,19 @@ namespace AppManageBilliard.GUI
             report.SetParameterValue("pTongTien", this.tongTien);
             report.SetParameterValue("pTenBan", this.tenBan);
 
+            string noiDung = "Thanh toan " + tenBan;
+            string qrUrl = string.Format("https://img.vietqr.io/image/BIDV-7290384088-qr_only.jpg?amount={0}&addInfo={1}", tongTien, noiDung);
+            byte[] qrImage = GetImageFromUrl(qrUrl);
+
+            foreach (DataRow row in data.Rows)
+            {
+
+            }
+            data.Columns.Add("qrCode", typeof(byte[]));
+            foreach (DataRow row in data.Rows) { row["qrCode"] = qrImage; }
+            dataSet.Tables["dtBill"].Merge(data);
+
+
             crystalReportViewer1.ReportSource = report;
 
             crystalReportViewer1.DisplayToolbar = true;
@@ -50,7 +63,14 @@ namespace AppManageBilliard.GUI
             crystalReportViewer1.ShowGroupTreeButton = false;
             crystalReportViewer1.ShowParameterPanelButton = false;
             crystalReportViewer1.Zoom(100);
-            this.Size = new System.Drawing.Size(500, 700);
+            this.Size = new System.Drawing.Size(400, 700);
+        }
+        private byte[] GetImageFromUrl(string url)
+        {
+            using (System.Net.WebClient webClient = new System.Net.WebClient())
+            {
+                return webClient.DownloadData(url);
+            }
         }
     }
 }

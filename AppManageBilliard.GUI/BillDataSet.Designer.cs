@@ -287,6 +287,8 @@ namespace AppManageBilliard.GUI {
             
             private global::System.Data.DataColumn columntotalPrice;
             
+            private global::System.Data.DataColumn columnqrCode;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public dtBillDataTable() {
@@ -354,6 +356,14 @@ namespace AppManageBilliard.GUI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn qrCodeColumn {
+                get {
+                    return this.columnqrCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -389,13 +399,14 @@ namespace AppManageBilliard.GUI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public dtBillRow AdddtBillRow(string foodName, int count, double price, double totalPrice) {
+            public dtBillRow AdddtBillRow(string foodName, int count, double price, double totalPrice, byte[] qrCode) {
                 dtBillRow rowdtBillRow = ((dtBillRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         foodName,
                         count,
                         price,
-                        totalPrice};
+                        totalPrice,
+                        qrCode};
                 rowdtBillRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdtBillRow);
                 return rowdtBillRow;
@@ -422,6 +433,7 @@ namespace AppManageBilliard.GUI {
                 this.columncount = base.Columns["count"];
                 this.columnprice = base.Columns["price"];
                 this.columntotalPrice = base.Columns["totalPrice"];
+                this.columnqrCode = base.Columns["qrCode"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -435,6 +447,8 @@ namespace AppManageBilliard.GUI {
                 base.Columns.Add(this.columnprice);
                 this.columntotalPrice = new global::System.Data.DataColumn("totalPrice", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columntotalPrice);
+                this.columnqrCode = new global::System.Data.DataColumn("qrCode", typeof(byte[]), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnqrCode);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -641,6 +655,22 @@ namespace AppManageBilliard.GUI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public byte[] qrCode {
+                get {
+                    try {
+                        return ((byte[])(this[this.tabledtBill.qrCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'qrCode\' in table \'dtBill\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtBill.qrCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsfoodNameNull() {
                 return this.IsNull(this.tabledtBill.foodNameColumn);
             }
@@ -685,6 +715,18 @@ namespace AppManageBilliard.GUI {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SettotalPriceNull() {
                 this[this.tabledtBill.totalPriceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsqrCodeNull() {
+                return this.IsNull(this.tabledtBill.qrCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetqrCodeNull() {
+                this[this.tabledtBill.qrCodeColumn] = global::System.Convert.DBNull;
             }
         }
         
