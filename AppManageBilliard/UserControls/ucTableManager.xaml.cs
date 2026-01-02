@@ -16,11 +16,10 @@ namespace AppManageBilliard.UserControls
 
         void LoadTableList()
         {
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
-            {
-                var tables = TableBUS.Instance.LoadTableList();
-                icTableList.ItemsSource = new ObservableCollection<AppManageBilliard.DTO.Table>(tables);
-            }
+            var mockData = new ObservableCollection<AppManageBilliard.DTO.Table>();
+            mockData.Add(new AppManageBilliard.DTO.Table { Name = "Bàn 01", Status = "Trống" });
+
+            icTableList.ItemsSource = mockData;
         }
 
         private void btnTable_Click(object sender, RoutedEventArgs e)
@@ -30,7 +29,8 @@ namespace AppManageBilliard.UserControls
 
             if (table != null)
             {
-                MessageBox.Show($"Bạn đã chọn {table.Name} - Trạng thái: {table.Status}");
+                // Bạn chỉ cần xử lý logic chọn bàn tại đây
+                // Ví dụ: Đổi màu viền bàn đang chọn (mình sẽ hỗ trợ nếu bạn cần)
             }
         }
     }
