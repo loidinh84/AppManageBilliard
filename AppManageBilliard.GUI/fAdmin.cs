@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace AppManageBilliard.GUI
 {
@@ -21,8 +22,9 @@ namespace AppManageBilliard.GUI
         BindingSource CategoryList = new BindingSource();
         BindingSource tableList = new BindingSource();
         BindingSource accountList = new BindingSource();
+        BindingSource discountList = new BindingSource();
+        BindingSource logList = new BindingSource();
 
-        // Các card mới tự tạo giống ảnh
         private Panel cardBan, cardHangHoa, cardNhanSu, cardHoaDon, cardThongKe;
         private Label lblBanCount, lblHangHoaCount, lblNhanSuCount, lblHoaDonCount, lblThongKeCount;
 
@@ -61,75 +63,17 @@ namespace AppManageBilliard.GUI
             AddAccountBinding();
             StylizeGrid(dtgvAccount);
 
-            LoadDashboardStats();
 
-            // Làm đẹp giao diện giống ảnh
-            CreateDashboardLikeImage();
+            dtgvDiscount.DataSource = discountList;
+            LoadListDiscount();
+            AddDiscountBinding();
+
+            dtgvHistory.DataSource = logList;
+            LoadListLogByDate(dtpStartDay.Value, dtpEndDay.Value);
+            dtgvHistory.DataBindingComplete += dtgvHistory_DataBindingComplete;
         }
 
-        private void CreateDashboardLikeImage()
-        {
-            // 1. Sidebar giống ảnh
-            panelMenu.BackColor = Color.FromArgb(0, 102, 153); // Xanh dương đậm sidebar
-            panelMenu.Width = 200;
-
-            Action<Button> styleSidebar = btn =>
-            {
-                btn.FlatStyle = FlatStyle.Flat;
-                btn.FlatAppearance.BorderSize = 0;
-                btn.BackColor = Color.Transparent;
-                btn.ForeColor = Color.White;
-                btn.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-                btn.TextAlign = ContentAlignment.MiddleLeft;
-                btn.Padding = new Padding(15, 12, 0, 12);
-                btn.Cursor = Cursors.Hand;
-
-                btn.MouseEnter += (s, e) => { if (btn != GetActiveButton()) btn.BackColor = Color.FromArgb(0, 130, 180); };
-                btn.MouseLeave += (s, e) => { if (btn != GetActiveButton()) btn.BackColor = Color.Transparent; };
-            };
-
-            styleSidebar(btnRevenue);
-            styleSidebar(btnFood);
-            styleSidebar(btnCategory);
-            styleSidebar(btnTable);
-            styleSidebar(btnAccount);
-            SetActiveButton(btnRevenue);
-
-            // 2. Tiêu đề lớn giống ảnh
-            Label lblWelcome = new Label
-            {
-                Text = "CHÀO MỪNG BẠN ĐẾN VỚI GIAO DIỆN QUẢN LÝ QUÁN BI-A",
-                Font = new Font("Segoe UI", 16F, FontStyle.Bold),
-                ForeColor = Color.Black,
-                AutoSize = true,
-                Location = new Point(220, 30)
-            };
-            tcAdmin.TabPages[0].Controls.Add(lblWelcome);
-
-            // 3. Tạo 5 cards giống hệt ảnh
-            // Card 1: Doanh thu bàn hàng (cam)
-            cardBan = CreateColorfulCard("Doanh thu bàn hàng", "18", Color.FromArgb(255, 153, 51), "Chi tiết ➜", new Point(220, 100));
-            tcAdmin.TabPages[0].Controls.Add(cardBan);
-
-            // Card 2: Quản lý hàng hóa (xanh dương)
-            cardHangHoa = CreateColorfulCard("Quản lý hàng hóa", "11", Color.FromArgb(51, 153, 255), "Xem danh sách ➜", new Point(550, 100));
-            tcAdmin.TabPages[0].Controls.Add(cardHangHoa);
-
-            // Card 3: Quản lý nhân sự (xanh lá)
-            cardNhanSu = CreateColorfulCard("Quản lý nhân sự", "7", Color.FromArgb(51, 204, 51), "Xem danh sách ➜", new Point(220, 280));
-            tcAdmin.TabPages[0].Controls.Add(cardNhanSu);
-
-            // Card 4: Quản lý hóa đơn (vàng cam)
-            cardHoaDon = CreateColorfulCard("Quản lý hóa đơn", "107", Color.FromArgb(255, 204, 0), "Xem danh sách ➜", new Point(550, 280));
-            tcAdmin.TabPages[0].Controls.Add(cardHoaDon);
-
-            // Card 5: Thống kê (đỏ)
-            cardThongKe = CreateColorfulCard("Thống kê", "3", Color.FromArgb(255, 80, 80), "Xem danh sách ➜", new Point(880, 280));
-            tcAdmin.TabPages[0].Controls.Add(cardThongKe);
-
-            // Cập nhật số liệu thực tế
-            UpdateDashboardCards();
-        }
+        
 
         private Panel CreateColorfulCard(string title, string value, Color backColor, string linkText, Point location)
         {
@@ -169,7 +113,6 @@ namespace AppManageBilliard.GUI
             };
             lblLink.Click += (s, e) => MessageBox.Show("Chuyển đến danh sách " + title);
 
-            // Icon giả lập (dùng Label với ký tự)
             Label lblIcon = new Label
             {
                 Text = "●●●", // Giả lập icon
@@ -187,16 +130,7 @@ namespace AppManageBilliard.GUI
             return card;
         }
 
-        private void UpdateDashboardCards()
-        {
-            int soBan = TableDAL.Instance.GetTotalTable();
-            int soTK = AccountDAL.Instance.GetTotalAccount();
-
-            // Cập nhật số liệu (bạn có thể chỉnh theo dữ liệu thực)
-            if (lblBanCount != null) lblBanCount.Text = "18"; // Ví dụ giống ảnh
-            // Thêm các label count nếu cần
-            LoadDashboardStats(); // Giữ cũ nếu có
-        }
+        
 
         private Button GetActiveButton()
         {
@@ -207,6 +141,8 @@ namespace AppManageBilliard.GUI
                 case 2: return btnCategory;
                 case 3: return btnTable;
                 case 4: return btnAccount;
+                case 5: return btnDiscount;
+                case 6: return btnHistory;
                 default: return null;
             }
         }
@@ -226,7 +162,6 @@ namespace AppManageBilliard.GUI
             }
         }
 
-        // ====================== TẤT CẢ LOGIC GỐC GIỮ NGUYÊN 100% ======================
 
         private void fAdmin_Load(object sender, EventArgs e) { }
 
@@ -631,6 +566,180 @@ namespace AppManageBilliard.GUI
             else MessageBox.Show("Cập nhật thất bại!");
         }
 
+        private void tcAdmin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtTableStatus_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtTableName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtTableID_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel6_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        void LoadListDiscount()
+        {
+            discountList.DataSource = DataProvider.Instance.ExecuteQuery("SELECT eventName AS [Tên sự kiện], discountPercent AS [Giảm giá (%)], fromDate AS [Từ ngày], toDate AS [Đến ngày], status AS [Kích hoạt] FROM EventsDiscount");
+        }
+
+        void AddDiscountBinding()
+        {
+            txtEvent.DataBindings.Clear();
+            nudDiscount.DataBindings.Clear();
+            dtpStartDay.DataBindings.Clear();
+            dtpEndDay.DataBindings.Clear();
+            cbStatus.DataBindings.Clear();
+
+            txtEvent.DataBindings.Add(new Binding("Text", dtgvDiscount.DataSource, "Tên sự kiện", true, DataSourceUpdateMode.Never));
+            nudDiscount.DataBindings.Add(new Binding("Value", dtgvDiscount.DataSource, "Giảm giá (%)", true, DataSourceUpdateMode.Never));
+            dtpStartDay.DataBindings.Add(new Binding("Value", dtgvDiscount.DataSource, "Từ ngày", true, DataSourceUpdateMode.Never));
+            dtpEndDay.DataBindings.Add(new Binding("Value", dtgvDiscount.DataSource, "Đến ngày", true, DataSourceUpdateMode.Never));
+            cbStatus.DataBindings.Add(new Binding("Checked", dtgvDiscount.DataSource, "Kích hoạt", true, DataSourceUpdateMode.OnPropertyChanged));
+        }
+        private void dtgvHistory_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgvHistory.Columns.Count >= 4)
+            {
+                dtgvHistory.Columns[0].Width = 75; 
+                dtgvHistory.Columns[1].Width = 90;
+                dtgvHistory.Columns[2].Width = 350;
+                dtgvHistory.Columns[3].Width = 110;
+
+                dtgvHistory.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+                dtgvHistory.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                dtgvHistory.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                dtgvHistory.ScrollBars = ScrollBars.Both;
+            }
+            foreach (DataGridViewRow row in dtgvHistory.Rows)
+            {
+                if (row.Cells[1].Value != null && row.Cells[1].Value.ToString() == "HỦY MÓN")
+                {
+                    row.DefaultCellStyle.ForeColor = Color.IndianRed; 
+                    row.DefaultCellStyle.Font = new Font(dtgvHistory.Font, FontStyle.Regular); 
+                }
+            }
+        }
+
+        void LoadListLogByDate(DateTime fromDate, DateTime toDate)
+        {
+            string query = "SELECT StaffName AS [Nhân viên], ActionType AS [Thao tác], Details AS [Chi tiết], ActionTime AS [Thời gian] " +
+                   "FROM ActionLog WHERE CAST(ActionTime AS DATE) BETWEEN @fromDate AND @toDate";
+            logList.DataSource = DataProvider.Instance.ExecuteQuery(query, new object[] { fromDate.Date, toDate.Date });
+            
+        }
+
+        private void btnLoc_Click(object sender, EventArgs e)
+        {
+            LoadListLogByDate(dtpStartDay.Value, dtpEndDay.Value);
+            DateTime fromDate = dtpStartDay.Value.Date;
+            DateTime toDate = dtpEndDay.Value.Date.AddDays(1).AddTicks(-1);
+
+            LoadListLogByDate(fromDate, toDate);
+        }
+
+        private void btnDeleteDiscount_Click(object sender, EventArgs e)
+        {
+            string name = txtEvent.Text;
+
+            if (MessageBox.Show("Bạn có chắc muốn xóa khuyến mãi: " + name + "?", "Thông báo", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                string query = "EXEC USP_DeleteDiscount @name";
+                if (DataProvider.Instance.ExecuteNonQuery(query, new object[] { name }) > 0)
+                {
+                    MessageBox.Show("Xóa thành công!");
+                    LoadListDiscount();
+                }
+            }
+        }
+
+        private void btnAddDiscount_Click(object sender, EventArgs e)
+        {
+            string name = txtEvent.Text;
+            int percent = (int)nudDiscount.Value;
+            DateTime from = dtpStartDay.Value;
+            DateTime to = dtpEndDay.Value;
+            int status = cbStatus.Checked ? 1 : 0;
+
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Vui lòng nhập tên sự kiện!");
+                return;
+            }
+
+            string checkQuery = "SELECT COUNT(*) FROM EventsDiscount WHERE eventName = N'" + name + "'";
+            int exists = (int)DataProvider.Instance.ExecuteScalar(checkQuery);
+
+            if (exists > 0) 
+            {
+                string query = "EXEC USP_UpdateDiscount @name , @percent , @from , @to , @status";
+                if (DataProvider.Instance.ExecuteNonQuery(query, new object[] { name, percent, from, to, status }) > 0)
+                {
+                    MessageBox.Show("Cập nhật khuyến mãi thành công!");
+                }
+            }
+            else 
+            {
+                string query = "EXEC USP_InsertDiscount @name , @percent , @from , @to , @status";
+                if (DataProvider.Instance.ExecuteNonQuery(query, new object[] { name, percent, from, to, status }) > 0)
+                {
+                    MessageBox.Show("Thêm mới khuyến mãi thành công!");
+                }
+            }
+            LoadListDiscount();
+        }
+
+        private void btnResetDiscount_Click(object sender, EventArgs e)
+        {
+            txtEvent.Text = "";
+            nudDiscount.Value = 0;
+            dtpStartDay.Value = DateTime.Now;
+            dtpEndDay.Value = DateTime.Now;
+            cbStatus.Checked = false;
+            txtEvent.Focus();
+        }
+
+        private void btnDiscount_Click(object sender, EventArgs e)
+        {
+            tcAdmin.SelectedIndex = 5;
+            SetActiveButton(btnDiscount);
+        }
+
+        private void btnHistory_Click(object sender, EventArgs e)
+        {
+            tcAdmin.SelectedIndex = 6;
+            SetActiveButton(btnHistory);
+        }
+
         private void btnDeleteAccount_Click(object sender, EventArgs e)
         {
             string userName = txtUserName.Text;
@@ -677,15 +786,7 @@ namespace AppManageBilliard.GUI
 
         private void dtgvAccount_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
-        void LoadDashboardStats()
-        {
-            int soBan = TableDAL.Instance.GetTotalTable();
-            int soTK = AccountDAL.Instance.GetTotalAccount();
-            pnlTableBox.Text = soBan.ToString(); // Dùng Text nếu Value không tồn tại
-            pnlAccountBox.Text = soTK.ToString();
-            pnlTableBox.Invalidate();
-            pnlAccountBox.Invalidate();
-        }
+       
 
         private void btnReset_Click_1(object sender, EventArgs e)
         {
