@@ -16,7 +16,13 @@ namespace AppManageBilliard.GUI
     {
         private Account loginAccount;
 
-        public event EventHandler<AccountEvent> UpdateAccount;
+        private event EventHandler updateAccount;
+        public event EventHandler UpdateAccount
+        {
+            add { updateAccount += value; }
+            remove { updateAccount -= value; }
+        }
+        
 
         public Account LoginAccount
         {
@@ -113,6 +119,7 @@ namespace AppManageBilliard.GUI
         {
             txtUserName.Text = LoginAccount.UserName;
             txtDisplayName.Text = LoginAccount.DisplayName;
+            lblHello.Text = "Xin chào: " + LoginAccount.DisplayName;
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -137,8 +144,8 @@ namespace AppManageBilliard.GUI
             if (AccountDAL.Instance.UpdateAccountProfile(userName, displayName, password, newpass))
             {
                 MessageBox.Show("Cập nhật thành công!");
-                if (UpdateAccount != null)
-                    UpdateAccount(this, new AccountEvent(AccountDAL.Instance.GetAccountByUserName(userName)));
+                if (updateAccount != null)
+                    updateAccount(this, new AccountEvent(AccountDAL.Instance.GetAccountByUserName(userName)));
             }
             else
             {
@@ -153,6 +160,13 @@ namespace AppManageBilliard.GUI
 
         private void fAccountProfile_Load(object sender, EventArgs e)
         {
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            if (updateAccount != null)
+                updateAccount(this, new AccountEvent(LoginAccount));
+            this.Close();
         }
     }
 

@@ -31,7 +31,6 @@ namespace AppManageBilliard.GUI
             CustomizeDesign();      
             LoadTable();
             LoadFoodToTab();
-            LoadDiscount();
             BoTronButton(btnChuyenBan, 25, Color.FromArgb(255, 140, 0), Color.FromArgb(255, 170, 70));
             BoTronButton(btnThanhToan, 25, Color.FromArgb(40, 167, 69), Color.FromArgb(70, 200, 100));
             TaoHinhVienThuoc(btnChuyenBan, btnChuyenBan.Width, btnChuyenBan.Height,
@@ -529,18 +528,7 @@ namespace AppManageBilliard.GUI
                 return Name;
             }
         }
-        void LoadDiscount()
-        {
-            List<DiscountItem> listDiscount = new List<DiscountItem>();
-            listDiscount.Add(new DiscountItem("Giảm 0%", 0));
-            listDiscount.Add(new DiscountItem("Giảm 5%", 5));
-            listDiscount.Add(new DiscountItem("Giảm 10%", 10));
-            listDiscount.Add(new DiscountItem("Giảm 20%", 20));
-            listDiscount.Add(new DiscountItem("Giảm 50%", 50));
-            listDiscount.Add(new DiscountItem("Giảm 100%", 100));
-            cbDiscount.DataSource = listDiscount;
-            cbDiscount.DisplayMember = "Name";
-        }
+        
 
         private void adminToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -551,19 +539,33 @@ namespace AppManageBilliard.GUI
         private void thôngTinTàiKhoảnToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fAccountProfile f = new fAccountProfile(loginAccount);
+
             f.UpdateAccount += f_UpdateAccount;
+
+            f.UpdateAccount += f_LogoutEvent;
+
             f.ShowDialog();
+        }
+
+        void f_LogoutEvent(object sender, EventArgs e)
+        {
+            this.Close(); 
         }
 
         void ChangeAccount(int type)
         {
             adminToolStripMenuItem.Enabled = type == 1;
             thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản (" + loginAccount.DisplayName + ")";
+            
         }
 
-        void f_UpdateAccount(object sender, AccountEvent e)
+        void f_UpdateAccount(object sender, EventArgs e)
         {
-            this.thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản (" + e.Acc.DisplayName + ")";
+            AccountEvent ev = e as AccountEvent;
+            if (ev != null)
+            {
+                thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản (" + ev.Acc.DisplayName + ")";
+            }
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e) { }
@@ -1094,6 +1096,14 @@ namespace AppManageBilliard.GUI
             cbDiscount.DataSource = data;
             cbDiscount.DisplayMember = "discountPercent";
             cbDiscount.ValueMember = "discountPercent";
+        }
+
+        private void fTableManager_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Bạn có thật sự muốn thoát chương trình?", "Thông báo", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }
