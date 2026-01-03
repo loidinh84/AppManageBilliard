@@ -201,23 +201,24 @@ namespace AppManageBilliard.GUI
 
             if (Login(userName, passWord))
             {
-                if (ckbRemember.Checked)
-                {
-                    Properties.Settings.Default.UserName = userName;
-                    Properties.Settings.Default.PassWord = passWord;
-                    Properties.Settings.Default.IsRemember = true;
-                }
-                else
-                {
-                    Properties.Settings.Default.IsRemember = false;
-                }
+                Properties.Settings.Default.IsRemember = ckbRemember.Checked;
+                Properties.Settings.Default.UserName = userName;
+                Properties.Settings.Default.PassWord = passWord;
                 Properties.Settings.Default.Save();
 
                 Account loginAccount = AccountDAL.Instance.GetAccountByUserName(userName);
                 fTableManager f = new fTableManager(loginAccount);
+
                 this.Hide();
                 f.ShowDialog();
-                this.Show();
+                if (Properties.Settings.Default.IsRemember == false)
+                {
+                    this.Show();
+                }
+                else
+                {
+                    Application.Exit();
+                }
             }
             else
             {

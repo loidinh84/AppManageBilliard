@@ -18,11 +18,11 @@ namespace AppManageBilliard.GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fLogin());
 
-            if (AppManageBilliard.GUI.Properties.Settings.Default.IsRemember)
+            if (Properties.Settings.Default.IsRemember)
             {
-                Account loginAccount = AccountDAL.Instance.GetAccountByUserName(Properties.Settings.Default.UserName);
+                string user = Properties.Settings.Default.UserName;
+                Account loginAccount = AccountDAL.Instance.GetAccountByUserName(user);
 
                 Application.Run(new fTableManager(loginAccount));
             }
