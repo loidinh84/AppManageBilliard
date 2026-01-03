@@ -1,173 +1,185 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
-namespace PoolHallManager.UserControls
+namespace AppManageBilliard.UserControls
 {
-    public partial class ucBill : UserControl
+    public partial class ucBill : UserControl, INotifyPropertyChanged
     {
-        // Model cho mỗi dòng trong hóa đơn
-        public class BillItem
+        // Class model cho món ăn
+        public class BillItem : INotifyPropertyChanged
         {
+            private int _quantity;
+            private decimal _price;
+
             public string Name { get; set; } = "";
-            public int Quantity { get; set; } = 1;
-            public decimal Price { get; set; } = 0;
+            public int Quantity
+            {
+                get => _quantity;
+                set { _quantity = value; OnPropertyChanged(nameof(Quantity)); OnPropertyChanged(nameof(TotalFormatted)); }
+            }
+            public decimal Price
+            {
+                get => _price;
+                set { _price = value; OnPropertyChanged(nameof(Price)); OnPropertyChanged(nameof(PriceFormatted)); OnPropertyChanged(nameof(TotalFormatted)); }
+            }
 
             public decimal Total => Quantity * Price;
-            public string TotalPrice => Total.ToString("N0", CultureInfo.GetCultureInfo("vi-VN")) + " đ";
+            public string PriceFormatted => Price.ToString("N0", new CultureInfo("vi-VN")) + " đ";
+            public string TotalFormatted => Total.ToString("N0", new CultureInfo("vi-VN")) + " đ";
+
+            public event PropertyChangedEventHandler PropertyChanged;
+            protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        // Danh sách món - bind trực tiếp vào DataGrid
+        // Danh sách món ăn - Liên kết trực tiếp với ItemsSource của ListView trong XAML
         public ObservableCollection<BillItem> BillItems { get; set; } = new ObservableCollection<BillItem>();
 
-        // Các giá trị tính toán
-        private decimal totalHour = 0;        // Tổng tiền giờ (từ bàn)
-        private decimal discount = 0;          // Giảm giá nhập tay
-        private decimal customerPaid = 0;     // Tiền khách đưa
+        private DateTime? _startTime;
+        private DispatcherTimer _timer;
+        private decimal _ratePerHour = 0; // Giá tiền mỗi giờ của bàn
+        private decimal _discountPercent = 0;
 
         public ucBill()
         {
             InitializeComponent();
+            this.DataContext = this;
 
-            // Bind DataContext để XAML truy cập BillItems và các TextBlock
-            DataContext = this;
-
-            // KHÔNG có dữ liệu mẫu nữa - bạn sẽ load từ SQL ở đây
-            // LoadDataFromSQL(); // <--- Bạn sẽ gọi hàm này khi mở bill bàn nào đó
+            // Cài đặt Timer để cập nhật tiền giờ mỗi giây
+            _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            _timer.Tick += Timer_Tick;
         }
 
-        // TODO: Hàm bạn sẽ viết để load dữ liệu từ SQL khi mở bàn
-        // private void LoadDataFromSQL(int tableId)
-        // {
-        //     // Ví dụ:
-        //     txtTableInfo.Text = "Bàn 05 - Bàn lỗ VIP";
-        //     txtStartTime.Text = "18:30";
-        //     txtEndTime.Text = "21:45 (hiện tại)";
-        //     txtPlayTime.Text = "3 giờ 15 phút";
-        //     txtRate.Text = "80.000 đ/giờ";
-        //     totalHour = 240000;
-        //
-        //     // Load món từ database vào BillItems
-        //     BillItems.Clear();
-        //     // BillItems.Add(... từ SQL);
-        //
-        //     UpdateAllCalculations();
-        // }
-
-        // Cập nhật tất cả tổng tiền
-        private void UpdateAllCalculations()
+        // 1. HÀM MỞ BÀN (Gọi khi chọn bàn từ danh sách bàn)
+        public void OpenTable(string tableName, DateTime startTime, decimal ratePerHour)
         {
-            decimal totalService = 0;
-            foreach (var item in BillItems)
+            txtTableTitle.Text = tableName;
+            _startTime = startTime;
+            _ratePerHour = ratePerHour;
+            txtStartTime.Text = startTime.ToString("HH:mm:ss");
+
+            BillItems.Clear(); // Reset danh sách món
+            txtFoodCount.Text = "0";
+
+            _timer.Start();
+            UpdateTotal();
+        }
+
+        // 2. HÀM GỌI MÓN (Hàm quan trọng bạn cần gọi từ Menu)
+        public void AddFoodItem(string foodName, decimal price, int quantity = 1)
+        {
+            // Kiểm tra xem món này đã có trong danh sách chưa
+            var existingItem = BillItems.FirstOrDefault(i => i.Name == foodName);
+
+            if (existingItem != null)
             {
-                totalService += item.Total;
+                existingItem.Quantity += quantity; // Nếu có rồi thì tăng số lượng
+            }
+            else
+            {
+                // Nếu chưa có thì thêm món mới vào (Tự động hiện lên ListView nhờ ObservableCollection)
+                BillItems.Add(new BillItem { Name = foodName, Price = price, Quantity = quantity });
             }
 
-            decimal grandTotal = totalHour + totalService - discount;
-            decimal change = customerPaid - grandTotal;
-
-            // Cập nhật lên giao diện
-            txtHourTotal.Text = totalHour.ToString("N0", CultureInfo.GetCultureInfo("vi-VN")) + " đ";
-            txtServiceTotal.Text = totalService.ToString("N0", CultureInfo.GetCultureInfo("vi-VN")) + " đ";
-            txtGrandTotal.Text = grandTotal.ToString("N0", CultureInfo.GetCultureInfo("vi-VN")) + " đ";
-            txtChange.Text = change >= 0
-                ? change.ToString("N0", CultureInfo.GetCultureInfo("vi-VN")) + " đ"
-                : "0 đ";
+            // Cập nhật số lượng tổng món hiển thị trên giao diện
+            txtFoodCount.Text = BillItems.Sum(i => i.Quantity).ToString();
+            UpdateTotal();
         }
 
-        // Khi người dùng nhập giảm giá
-        private void txtDiscount_TextChanged(object sender, TextChangedEventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            if (decimal.TryParse(txtDiscount.Text.Replace(".", "").Replace(",", ""), out decimal value))
-                discount = value;
-            else
-                discount = 0;
-
-            UpdateAllCalculations();
+            if (_startTime.HasValue)
+            {
+                var elapsed = DateTime.Now - _startTime.Value;
+                txtPlayTime.Text = $"{(int)elapsed.TotalHours}h {elapsed.Minutes}p {elapsed.Seconds}s";
+                UpdateTotal();
+            }
         }
 
-        // Khi người dùng nhập tiền khách đưa
-        private void txtCustomerPaid_TextChanged(object sender, TextChangedEventArgs e)
+        // 3. HÀM TÍNH TỔNG TIỀN (Giờ + Món - Giảm giá)
+        private void UpdateTotal()
         {
-            if (decimal.TryParse(txtCustomerPaid.Text.Replace(".", "").Replace(",", ""), out decimal value))
-                customerPaid = value;
-            else
-                customerPaid = 0;
+            // Tính tiền món
+            decimal totalFood = BillItems.Sum(i => i.Total);
 
-            UpdateAllCalculations();
+            // Tính tiền giờ
+            decimal hourCost = 0;
+            if (_startTime.HasValue)
+            {
+                var elapsed = DateTime.Now - _startTime.Value;
+                decimal totalHours = (decimal)elapsed.TotalHours;
+
+                // Logic: Tính tiền giờ thực tế dựa trên giá tiền/giờ
+                hourCost = totalHours * _ratePerHour;
+            }
+
+            // Tính giảm giá và tổng cộng
+            decimal subTotal = totalFood + hourCost;
+            decimal discountValue = subTotal * (_discountPercent / 100);
+            decimal grandTotal = subTotal - discountValue;
+
+            // Hiển thị lên màn hình
+            txtGrandTotal.Text = grandTotal.ToString("N0", new CultureInfo("vi-VN")) + " đ";
         }
 
-        // Nút + Thêm món (bạn sẽ mở form chọn món từ menu SQL)
-        private void btnAddItem_Click(object sender, RoutedEventArgs e)
+        // Xử lý khi chọn giảm giá trong ComboBox
+        private void cbDiscount_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // TODO: Mở form chọn món từ database
-            MessageBox.Show("Chức năng thêm món sẽ mở form chọn từ menu", "Thông báo");
-
-            // Ví dụ tạm thêm 1 món để test
-            // BillItems.Add(new BillItem { Name = "Nước suối", Quantity = 1, Price = 10000 });
-            // UpdateAllCalculations();
+            if (cbDiscount.SelectedItem is ComboBoxItem item)
+            {
+                string content = item.Content.ToString();
+                // Lấy số từ chuỗi "Giảm giá: 10%"
+                string numericPart = new string(content.Where(char.IsDigit).ToArray());
+                if (decimal.TryParse(numericPart, out decimal val))
+                    _discountPercent = val;
+                else
+                    _discountPercent = 0;
+            }
+            UpdateTotal();
         }
 
-        // Nút Thanh toán & In hóa đơn
+        // 4. CÁC NÚT HÀNH ĐỘNG
         private void btnPayment_Click(object sender, RoutedEventArgs e)
         {
-            if (customerPaid < (totalHour + GetServiceTotal() - discount))
-            {
-                MessageBox.Show("Tiền khách đưa chưa đủ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+            if (BillItems.Count == 0 && !_startTime.HasValue) return;
 
-            // TODO: Lưu hóa đơn vào SQL, in bill, reset bàn
-            MessageBox.Show(
-                $"Thanh toán thành công!\nTổng tiền: {txtGrandTotal.Text}\nTiền thừa: {txtChange.Text}",
-                "Hoàn tất",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
-
-            // Reset bill sau khi thanh toán (nếu cần)
-            // ClearBill();
+            MessageBox.Show($"Thanh toán thành công!\nTổng cộng: {txtGrandTotal.Text}", "Thông báo");
+            ResetBill();
         }
 
-        // Nút In bill tạm
-        private void btnPrintTemp_Click(object sender, RoutedEventArgs e)
+        private void btnTransferTable_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: In bill tạm (không lưu database)
-            MessageBox.Show("Đã in bill tạm!", "In bill tạm", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Chức năng chuyển bàn đang được phát triển", "Thông báo");
         }
 
-        // Nút Hủy bàn
         private void btnCancelTable_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Bạn có chắc muốn hủy bàn này? Dữ liệu sẽ mất.", "Xác nhận hủy", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var result = MessageBox.Show("Bạn có chắc chắn muốn hủy bàn này không?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                // TODO: Hủy bàn trong database
-                BillItems.Clear();
-                totalHour = 0;
-                discount = 0;
-                customerPaid = 0;
-                UpdateAllCalculations();
-
-                MessageBox.Show("Đã hủy bàn thành công!", "Hủy bàn", MessageBoxButton.OK, MessageBoxImage.Information);
+                ResetBill();
             }
         }
 
-        // Hàm phụ tính tổng dịch vụ
-        private decimal GetServiceTotal()
+        private void ResetBill()
         {
-            decimal total = 0;
-            foreach (var item in BillItems)
-                total += item.Total;
-            return total;
+            _timer.Stop();
+            _startTime = null;
+            BillItems.Clear();
+            txtTableTitle.Text = "Bàn";
+            txtStartTime.Text = "00:00:00";
+            txtPlayTime.Text = "0h 0p";
+            txtFoodCount.Text = "0";
+            txtGrandTotal.Text = "0 đ";
+            cbDiscount.SelectedIndex = 0;
         }
 
-        // TODO: Bạn sẽ gọi hàm này khi nhận dữ liệu tiền giờ từ timer hoặc bàn
-        public void SetHourAmount(decimal amount)
-        {
-            totalHour = amount;
-            UpdateAllCalculations();
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }
