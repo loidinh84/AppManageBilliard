@@ -164,9 +164,17 @@ namespace AppManageBilliard.GUI
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            if (updateAccount != null)
-                updateAccount(this, new AccountEvent(LoginAccount));
-            this.Close();
+            if (MessageBox.Show("Bạn có muốn đăng xuất không?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Properties.Settings.Default.IsRemember = false;
+                Properties.Settings.Default.Save();
+
+                if (updateAccount != null)
+                {
+                    updateAccount(this, new EventArgs());
+                }
+                this.Close();
+            }
         }
     }
 

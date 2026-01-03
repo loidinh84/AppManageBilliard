@@ -559,12 +559,23 @@ namespace AppManageBilliard.GUI
             
         }
 
+        bool isExit = true;
         void f_UpdateAccount(object sender, EventArgs e)
         {
             AccountEvent ev = e as AccountEvent;
             if (ev != null)
             {
                 thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản (" + ev.Acc.DisplayName + ")";
+            }
+            else
+            {
+                isExit = false;
+                this.Hide();
+
+                fLogin f = new fLogin(); 
+                f.Show(); 
+
+                this.Dispose(); 
             }
         }
 
@@ -1100,9 +1111,12 @@ namespace AppManageBilliard.GUI
 
         private void fTableManager_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show("Bạn có thật sự muốn thoát chương trình?", "Thông báo", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            if (isExit)
             {
-                e.Cancel = true;
+                if (MessageBox.Show("Bạn có thật sự muốn thoát chương trình?", "Thông báo", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                {
+                    e.Cancel = true;
+                }
             }
         }
     }

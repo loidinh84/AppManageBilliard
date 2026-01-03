@@ -64,11 +64,25 @@ namespace AppManageBilliard.GUI
             btnExit.MouseEnter += (s, e) => btnExit.BackColor = Color.FromArgb(200, 35, 55);
             btnExit.MouseLeave += (s, e) => btnExit.BackColor = Color.FromArgb(220, 53, 69);
 
+            this.Opacity = 0;
             Timer fade = new Timer { Interval = 15 };
             fade.Tick += (s, e) =>
             {
-                if (this.Opacity < 1) this.Opacity += 0.05;
-                else fade.Stop();
+                if (this.IsDisposed)
+                {
+                    fade.Stop();
+                    return;
+                }
+
+                if (this.Opacity < 1)
+                {
+                    this.Opacity += 0.05; 
+                }
+                else
+                {
+                    fade.Stop(); 
+                    fade.Dispose();
+                }
             };
             fade.Start();
         }
@@ -148,11 +162,11 @@ namespace AppManageBilliard.GUI
             {
                 string savedUser = Properties.Settings.Default.UserName;
                 string savedPass = Properties.Settings.Default.PassWord;
+                ckbRemember.Checked = true;
+                
 
-                // Kiểm tra xem dữ liệu cũ có hợp lệ không
                 if (Login(savedUser, savedPass))
                 {
-                    // Tự động điền để người dùng thấy (tùy chọn)
                     txtUserName.Text = savedUser;
                     txtPassWord.Text = savedPass;
                     ckbRemember.Checked = true;
@@ -195,8 +209,6 @@ namespace AppManageBilliard.GUI
                 }
                 else
                 {
-                    Properties.Settings.Default.UserName = "";
-                    Properties.Settings.Default.PassWord = "";
                     Properties.Settings.Default.IsRemember = false;
                 }
                 Properties.Settings.Default.Save();
