@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace AppManageBilliard.GUI
 {
@@ -153,6 +154,11 @@ namespace AppManageBilliard.GUI
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void fLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+       
         }
 
         private void txtPassWord_TextChanged(object sender, EventArgs e)

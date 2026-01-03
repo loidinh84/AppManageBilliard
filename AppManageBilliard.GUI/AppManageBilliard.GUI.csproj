@@ -102,6 +102,7 @@
     <Compile Include="GradientPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="cpBill.rpt">
@@ -147,6 +148,8 @@
     <None Include="BillDataSet.xss">
       <DependentUpon>BillDataSet.xsd</DependentUpon>
     </None>
+    <None Include="obj\Debug\AppManageBilliard.GUI.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -185,6 +188,19 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="obj\Debug\TempPE\BillDataSet.Designer.cs.dll" />
+    <Content Include="obj\Debug\TempPE\cpBill.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Properties.Resources.Designer.cs.dll" />
+    <None Include="Resources\hidden.svg" />
+    <None Include="Resources\show.svg" />
+    <None Include="Resources\hidden.png.svg" />
+    <None Include="Resources\show.png.svg" />
+    <None Include="Resources\Icon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
