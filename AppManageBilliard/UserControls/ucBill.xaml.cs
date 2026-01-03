@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace PoolHallManager.UserControls
+namespace AppManageBilliard.UserControls
 {
     public partial class ucBill : UserControl
     {
