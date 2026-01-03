@@ -1,12 +1,155 @@
-﻿<UserControl x:Class="AppManageBilliard.UserControls.ucBill"
+﻿<UserControl x:Class="PoolHallManager.UserControls.ucBill"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:AppManageBilliard.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="900" d:DesignWidth="500"
+             Background="#F8FAFC"
+             FontFamily="Segoe UI">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+
+        <StackPanel Margin="10" HorizontalAlignment="Stretch">
+
+            <!-- TIÊU ĐỀ - tràn rộng -->
+            <Border Background="#1E40AF" Padding="20" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="HÓA ĐƠN THANH TOÁN"
+                               FontSize="28" FontWeight="Bold"
+                               Foreground="White" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="txtTableInfo"
+                               Text="{Binding TableInfo}"
+                               FontSize="18" Foreground="#DBEAFE"
+                               HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- THÔNG TIN THỜI GIAN - tràn rộng -->
+            <Border Background="White" Padding="20" Margin="0,0,0,15" BorderBrush="#E2E8F0" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="THÔNG TIN BÀN" FontSize="16" FontWeight="Bold" Foreground="#475569" Margin="0,0,0,10"/>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Giờ bắt đầu:" Foreground="#64748B"/>
+                            <TextBlock x:Name="txtStartTime" Text="{Binding StartTime}" FontSize="18" FontWeight="Bold"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Giờ kết thúc:" Foreground="#64748B"/>
+                            <TextBlock x:Name="txtEndTime" Text="{Binding EndTime}" FontSize="18" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Separator Margin="0,10"/>
+
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Thời gian chơi:" Foreground="#64748B"/>
+                            <TextBlock x:Name="txtPlayTime" Text="{Binding PlayTime}" FontSize="20" FontWeight="Bold" Foreground="#059669"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Đơn giá giờ:" Foreground="#64748B"/>
+                            <TextBlock x:Name="txtRate" Text="{Binding RatePerHour}" FontSize="18" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- TỔNG KẾT - tràn rộng hết khung -->
+            <Border Background="White" Padding="25" Margin="0,0,0,15" BorderBrush="#E2E8F0" BorderThickness="2">
+                <StackPanel>
+
+                    <Grid Margin="0,0,0,10">
+                        <TextBlock Text="Tổng tiền giờ:" FontSize="18"/>
+                        <TextBlock x:Name="txtHourTotal" Text="{Binding HourTotal}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,10">
+                        <TextBlock Text="Tổng đồ uống/dịch vụ:" FontSize="18"/>
+                        <TextBlock x:Name="txtServiceTotal" Text="{Binding ServiceTotal}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,10">
+                        <TextBlock Text="Giảm giá:" FontSize="18"/>
+                        <TextBox x:Name="txtDiscount"
+                                 HorizontalAlignment="Stretch"
+                                 Padding="10"
+                                 FontSize="18"/>
+                    </Grid>
+
+                    <Separator Margin="0,15" Background="#E2E8F0"/>
+
+                    <Grid Margin="0,15,0,10">
+                        <TextBlock Text="TỔNG THANH TOÁN:" FontSize="24" FontWeight="Bold" Foreground="#DC2626"/>
+                        <TextBlock x:Name="txtGrandTotal"
+                                   Text="{Binding GrandTotal}"
+                                   FontSize="32" FontWeight="ExtraBold"
+                                   Foreground="#DC2626" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <Grid Margin="0,10,0,10">
+                        <TextBlock Text="Tiền khách đưa:" FontSize="18"/>
+                        <TextBox x:Name="txtCustomerPaid"
+                                 HorizontalAlignment="Stretch"
+                                 Padding="10"
+                                 FontSize="20"/>
+                    </Grid>
+
+                    <Grid Margin="0,10,0,20">
+                        <TextBlock Text="Tiền thừa:" FontSize="20" FontWeight="Bold"/>
+                        <TextBlock x:Name="txtChange"
+                                   Text="{Binding ChangeAmount}"
+                                   FontSize="28" FontWeight="Bold"
+                                   Foreground="#059669" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <!-- NÚT THANH TOÁN - tràn rộng hết khung -->
+                    <Button x:Name="btnPayment"
+                            Content="THANH TOÁN &amp; IN HÓA ĐƠN"
+                            Height="70"
+                            Background="#10B981"
+                            Foreground="White"
+                            FontSize="22" FontWeight="Bold"
+                            Margin="0,0,0,15"
+                            HorizontalAlignment="Stretch"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnPrintTemp"
+                                Content="In bill tạm"
+                                Grid.Column="0"
+                                Height="50"
+                                Background="#3B82F6"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Stretch"/>
+                        <Button x:Name="btnCancelTable"
+                                Content="Hủy bàn"
+                                Grid.Column="1"
+                                Height="50"
+                                Background="#EF4444"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                HorizontalAlignment="Stretch"/>
+                    </Grid>
+
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
