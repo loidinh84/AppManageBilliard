@@ -73,6 +73,7 @@ namespace AppManageBilliard.GUI
 
             // Textbox Username - hiện đại hóa
             StyleModernInput(txtUserName, "Tên đăng nhập", new Point(50, 170));
+            txtUserName.Size = new Size(260, 45);
             mainPanel.Controls.Add(txtUserName);
 
             // Password - giữ nguyên eye toggle nhưng đẹp hơn
@@ -368,6 +369,11 @@ namespace AppManageBilliard.GUI
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void txtUserName_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
