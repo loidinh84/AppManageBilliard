@@ -764,6 +764,8 @@ namespace AppManageBilliard.GUI
         {
 
         }
+        //Code cho nút thống kê theo hình dang
+     
 
         private void btnHistory_Click(object sender, EventArgs e)
         {

@@ -1,4 +1,8 @@
-﻿ namespace AppManageBilliard.GUI
+﻿using AppManageBilliard.DAL;
+using System;
+using System.Data;
+
+namespace AppManageBilliard.GUI
 {
     partial class fAdmin
     {
@@ -122,6 +126,7 @@
             this.label16 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.button1 = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.tcAdmin.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -162,7 +167,7 @@
             this.panelMenu.Controls.Add(this.btnRevenue);
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelMenu.Location = new System.Drawing.Point(0, 0);
-            this.panelMenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelMenu.Margin = new System.Windows.Forms.Padding(2);
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(150, 474);
             this.panelMenu.TabIndex = 0;
@@ -178,7 +183,7 @@
             this.btnHistory.ForeColor = System.Drawing.Color.White;
             this.btnHistory.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnHistory.Location = new System.Drawing.Point(0, 318);
-            this.btnHistory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnHistory.Margin = new System.Windows.Forms.Padding(2);
             this.btnHistory.Name = "btnHistory";
             this.btnHistory.Size = new System.Drawing.Size(150, 53);
             this.btnHistory.TabIndex = 6;
@@ -197,7 +202,7 @@
             this.btnDiscount.ForeColor = System.Drawing.Color.White;
             this.btnDiscount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDiscount.Location = new System.Drawing.Point(0, 265);
-            this.btnDiscount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDiscount.Margin = new System.Windows.Forms.Padding(2);
             this.btnDiscount.Name = "btnDiscount";
             this.btnDiscount.Size = new System.Drawing.Size(150, 53);
             this.btnDiscount.TabIndex = 5;
@@ -216,7 +221,7 @@
             this.btnAccount.ForeColor = System.Drawing.Color.White;
             this.btnAccount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAccount.Location = new System.Drawing.Point(0, 212);
-            this.btnAccount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAccount.Margin = new System.Windows.Forms.Padding(2);
             this.btnAccount.Name = "btnAccount";
             this.btnAccount.Size = new System.Drawing.Size(150, 53);
             this.btnAccount.TabIndex = 4;
@@ -235,7 +240,7 @@
             this.btnTable.ForeColor = System.Drawing.Color.White;
             this.btnTable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnTable.Location = new System.Drawing.Point(0, 159);
-            this.btnTable.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnTable.Margin = new System.Windows.Forms.Padding(2);
             this.btnTable.Name = "btnTable";
             this.btnTable.Size = new System.Drawing.Size(150, 53);
             this.btnTable.TabIndex = 3;
@@ -254,7 +259,7 @@
             this.btnCategory.ForeColor = System.Drawing.Color.White;
             this.btnCategory.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCategory.Location = new System.Drawing.Point(0, 106);
-            this.btnCategory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCategory.Margin = new System.Windows.Forms.Padding(2);
             this.btnCategory.Name = "btnCategory";
             this.btnCategory.Size = new System.Drawing.Size(150, 53);
             this.btnCategory.TabIndex = 2;
@@ -273,7 +278,7 @@
             this.btnFood.ForeColor = System.Drawing.Color.White;
             this.btnFood.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnFood.Location = new System.Drawing.Point(0, 53);
-            this.btnFood.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnFood.Margin = new System.Windows.Forms.Padding(2);
             this.btnFood.Name = "btnFood";
             this.btnFood.Size = new System.Drawing.Size(150, 53);
             this.btnFood.TabIndex = 1;
@@ -292,7 +297,7 @@
             this.btnRevenue.ForeColor = System.Drawing.Color.White;
             this.btnRevenue.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRevenue.Location = new System.Drawing.Point(0, 0);
-            this.btnRevenue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRevenue.Margin = new System.Windows.Forms.Padding(2);
             this.btnRevenue.Name = "btnRevenue";
             this.btnRevenue.Size = new System.Drawing.Size(150, 53);
             this.btnRevenue.TabIndex = 0;
@@ -312,7 +317,7 @@
             this.tcAdmin.Controls.Add(this.tabPage7);
             this.tcAdmin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcAdmin.Location = new System.Drawing.Point(150, 0);
-            this.tcAdmin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tcAdmin.Margin = new System.Windows.Forms.Padding(2);
             this.tcAdmin.Name = "tcAdmin";
             this.tcAdmin.SelectedIndex = 0;
             this.tcAdmin.Size = new System.Drawing.Size(750, 474);
@@ -324,9 +329,9 @@
             this.tabPage1.Controls.Add(this.dtgvBill);
             this.tabPage1.Controls.Add(this.panel1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(742, 448);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
@@ -340,7 +345,7 @@
             this.dtgvBill.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvBill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtgvBill.Location = new System.Drawing.Point(2, 83);
-            this.dtgvBill.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtgvBill.Margin = new System.Windows.Forms.Padding(2);
             this.dtgvBill.Name = "dtgvBill";
             this.dtgvBill.ReadOnly = true;
             this.dtgvBill.RowHeadersWidth = 51;
@@ -352,6 +357,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.btnDeleteBill);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.btnViewBill);
@@ -359,7 +365,7 @@
             this.panel1.Controls.Add(this.dtpkFromDate);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(2, 2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(738, 81);
             this.panel1.TabIndex = 0;
@@ -367,10 +373,10 @@
             // 
             // btnDeleteBill
             // 
-            this.btnDeleteBill.Location = new System.Drawing.Point(616, 46);
-            this.btnDeleteBill.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDeleteBill.Location = new System.Drawing.Point(658, 51);
+            this.btnDeleteBill.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeleteBill.Name = "btnDeleteBill";
-            this.btnDeleteBill.Size = new System.Drawing.Size(78, 28);
+            this.btnDeleteBill.Size = new System.Drawing.Size(75, 26);
             this.btnDeleteBill.TabIndex = 4;
             this.btnDeleteBill.Text = "Xóa";
             this.btnDeleteBill.UseVisualStyleBackColor = true;
@@ -390,7 +396,7 @@
             // btnViewBill
             // 
             this.btnViewBill.Location = new System.Drawing.Point(388, 19);
-            this.btnViewBill.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnViewBill.Margin = new System.Windows.Forms.Padding(2);
             this.btnViewBill.Name = "btnViewBill";
             this.btnViewBill.Size = new System.Drawing.Size(78, 28);
             this.btnViewBill.TabIndex = 2;
@@ -401,7 +407,7 @@
             // dtpkToDate
             // 
             this.dtpkToDate.Location = new System.Drawing.Point(216, 22);
-            this.dtpkToDate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpkToDate.Margin = new System.Windows.Forms.Padding(2);
             this.dtpkToDate.Name = "dtpkToDate";
             this.dtpkToDate.Size = new System.Drawing.Size(151, 20);
             this.dtpkToDate.TabIndex = 1;
@@ -409,7 +415,7 @@
             // dtpkFromDate
             // 
             this.dtpkFromDate.Location = new System.Drawing.Point(20, 22);
-            this.dtpkFromDate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpkFromDate.Margin = new System.Windows.Forms.Padding(2);
             this.dtpkFromDate.Name = "dtpkFromDate";
             this.dtpkFromDate.Size = new System.Drawing.Size(151, 20);
             this.dtpkFromDate.TabIndex = 0;
@@ -420,9 +426,9 @@
             this.tabPage2.Controls.Add(this.panel3);
             this.tabPage2.Controls.Add(this.panel2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage2.Size = new System.Drawing.Size(742, 448);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
@@ -433,7 +439,7 @@
             this.panel4.Controls.Add(this.dtgvFood);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(2, 59);
-            this.panel4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(513, 387);
             this.panel4.TabIndex = 2;
@@ -446,7 +452,7 @@
             this.dtgvFood.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvFood.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtgvFood.Location = new System.Drawing.Point(0, 0);
-            this.dtgvFood.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtgvFood.Margin = new System.Windows.Forms.Padding(2);
             this.dtgvFood.Name = "dtgvFood";
             this.dtgvFood.ReadOnly = true;
             this.dtgvFood.RowHeadersWidth = 51;
@@ -462,7 +468,7 @@
             this.panel3.Controls.Add(this.txtSearch);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(2, 2);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(513, 57);
             this.panel3.TabIndex = 1;
@@ -482,7 +488,7 @@
             // 
             this.btnSearch.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Location = new System.Drawing.Point(344, 26);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(2);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(81, 24);
             this.btnSearch.TabIndex = 1;
@@ -494,7 +500,7 @@
             // 
             this.txtSearch.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSearch.Location = new System.Drawing.Point(121, 26);
-            this.txtSearch.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtSearch.Margin = new System.Windows.Forms.Padding(2);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(211, 23);
             this.txtSearch.TabIndex = 0;
@@ -515,7 +521,7 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel2.Location = new System.Drawing.Point(515, 2);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(225, 444);
             this.panel2.TabIndex = 0;
@@ -524,7 +530,7 @@
             // 
             this.btnDeleteFood.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeleteFood.Location = new System.Drawing.Point(19, 216);
-            this.btnDeleteFood.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDeleteFood.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeleteFood.Name = "btnDeleteFood";
             this.btnDeleteFood.Size = new System.Drawing.Size(70, 25);
             this.btnDeleteFood.TabIndex = 12;
@@ -536,7 +542,7 @@
             // 
             this.btnShowFood.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnShowFood.Location = new System.Drawing.Point(101, 216);
-            this.btnShowFood.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnShowFood.Margin = new System.Windows.Forms.Padding(2);
             this.btnShowFood.Name = "btnShowFood";
             this.btnShowFood.Size = new System.Drawing.Size(86, 25);
             this.btnShowFood.TabIndex = 11;
@@ -548,7 +554,7 @@
             // 
             this.btnAddEditFood.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddEditFood.Location = new System.Drawing.Point(19, 259);
-            this.btnAddEditFood.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddEditFood.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddEditFood.Name = "btnAddEditFood";
             this.btnAddEditFood.Size = new System.Drawing.Size(169, 25);
             this.btnAddEditFood.TabIndex = 3;
@@ -561,7 +567,7 @@
             this.cbFoodCategory.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbFoodCategory.FormattingEnabled = true;
             this.cbFoodCategory.Location = new System.Drawing.Point(80, 108);
-            this.cbFoodCategory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbFoodCategory.Margin = new System.Windows.Forms.Padding(2);
             this.cbFoodCategory.Name = "cbFoodCategory";
             this.cbFoodCategory.Size = new System.Drawing.Size(132, 23);
             this.cbFoodCategory.TabIndex = 10;
@@ -570,7 +576,7 @@
             // 
             this.nmFoodPrice.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nmFoodPrice.Location = new System.Drawing.Point(80, 154);
-            this.nmFoodPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nmFoodPrice.Margin = new System.Windows.Forms.Padding(2);
             this.nmFoodPrice.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -584,7 +590,7 @@
             // 
             this.txtFoodName.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFoodName.Location = new System.Drawing.Point(80, 63);
-            this.txtFoodName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtFoodName.Margin = new System.Windows.Forms.Padding(2);
             this.txtFoodName.Name = "txtFoodName";
             this.txtFoodName.Size = new System.Drawing.Size(132, 23);
             this.txtFoodName.TabIndex = 7;
@@ -593,7 +599,7 @@
             // 
             this.txtFoodID.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFoodID.Location = new System.Drawing.Point(80, 25);
-            this.txtFoodID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtFoodID.Margin = new System.Windows.Forms.Padding(2);
             this.txtFoodID.Name = "txtFoodID";
             this.txtFoodID.Size = new System.Drawing.Size(132, 23);
             this.txtFoodID.TabIndex = 3;
@@ -647,9 +653,9 @@
             this.tabPage3.Controls.Add(this.dtgvCategory);
             this.tabPage3.Controls.Add(this.panel5);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage3.Size = new System.Drawing.Size(742, 448);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
@@ -663,7 +669,7 @@
             this.dtgvCategory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvCategory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtgvCategory.Location = new System.Drawing.Point(2, 2);
-            this.dtgvCategory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtgvCategory.Margin = new System.Windows.Forms.Padding(2);
             this.dtgvCategory.Name = "dtgvCategory";
             this.dtgvCategory.ReadOnly = true;
             this.dtgvCategory.RowHeadersWidth = 51;
@@ -683,7 +689,7 @@
             this.panel5.Controls.Add(this.label10);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel5.Location = new System.Drawing.Point(515, 2);
-            this.panel5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel5.Margin = new System.Windows.Forms.Padding(2);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(225, 444);
             this.panel5.TabIndex = 1;
@@ -692,7 +698,7 @@
             // 
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.Location = new System.Drawing.Point(19, 216);
-            this.btnDelete.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(2);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(70, 25);
             this.btnDelete.TabIndex = 12;
@@ -704,7 +710,7 @@
             // 
             this.btnReset.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReset.Location = new System.Drawing.Point(101, 216);
-            this.btnReset.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(2);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(86, 25);
             this.btnReset.TabIndex = 11;
@@ -716,7 +722,7 @@
             // 
             this.btnAddEdit.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddEdit.Location = new System.Drawing.Point(19, 259);
-            this.btnAddEdit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddEdit.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddEdit.Name = "btnAddEdit";
             this.btnAddEdit.Size = new System.Drawing.Size(169, 25);
             this.btnAddEdit.TabIndex = 3;
@@ -728,7 +734,7 @@
             // 
             this.txtCategoryName.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCategoryName.Location = new System.Drawing.Point(80, 63);
-            this.txtCategoryName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCategoryName.Margin = new System.Windows.Forms.Padding(2);
             this.txtCategoryName.Name = "txtCategoryName";
             this.txtCategoryName.Size = new System.Drawing.Size(132, 23);
             this.txtCategoryName.TabIndex = 7;
@@ -737,7 +743,7 @@
             // 
             this.txtCategoryID.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCategoryID.Location = new System.Drawing.Point(80, 25);
-            this.txtCategoryID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCategoryID.Margin = new System.Windows.Forms.Padding(2);
             this.txtCategoryID.Name = "txtCategoryID";
             this.txtCategoryID.ReadOnly = true;
             this.txtCategoryID.Size = new System.Drawing.Size(132, 23);
@@ -770,9 +776,9 @@
             this.tabPage4.Controls.Add(this.dtgvTable);
             this.tabPage4.Controls.Add(this.panel6);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage4.Size = new System.Drawing.Size(742, 448);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "tabPage4";
@@ -786,7 +792,7 @@
             this.dtgvTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtgvTable.Location = new System.Drawing.Point(2, 2);
-            this.dtgvTable.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtgvTable.Margin = new System.Windows.Forms.Padding(2);
             this.dtgvTable.Name = "dtgvTable";
             this.dtgvTable.ReadOnly = true;
             this.dtgvTable.RowHeadersWidth = 51;
@@ -808,7 +814,7 @@
             this.panel6.Controls.Add(this.label8);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel6.Location = new System.Drawing.Point(515, 2);
-            this.panel6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel6.Margin = new System.Windows.Forms.Padding(2);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(225, 444);
             this.panel6.TabIndex = 3;
@@ -830,7 +836,7 @@
             // 
             this.txtTableStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTableStatus.Location = new System.Drawing.Point(80, 101);
-            this.txtTableStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTableStatus.Margin = new System.Windows.Forms.Padding(2);
             this.txtTableStatus.Name = "txtTableStatus";
             this.txtTableStatus.ReadOnly = true;
             this.txtTableStatus.Size = new System.Drawing.Size(132, 23);
@@ -841,7 +847,7 @@
             // 
             this.btnDeleteTable.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeleteTable.Location = new System.Drawing.Point(19, 216);
-            this.btnDeleteTable.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDeleteTable.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeleteTable.Name = "btnDeleteTable";
             this.btnDeleteTable.Size = new System.Drawing.Size(70, 25);
             this.btnDeleteTable.TabIndex = 12;
@@ -853,7 +859,7 @@
             // 
             this.btnResetTable.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResetTable.Location = new System.Drawing.Point(101, 216);
-            this.btnResetTable.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnResetTable.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetTable.Name = "btnResetTable";
             this.btnResetTable.Size = new System.Drawing.Size(86, 25);
             this.btnResetTable.TabIndex = 11;
@@ -865,7 +871,7 @@
             // 
             this.btnAddEditTable.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddEditTable.Location = new System.Drawing.Point(19, 259);
-            this.btnAddEditTable.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddEditTable.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddEditTable.Name = "btnAddEditTable";
             this.btnAddEditTable.Size = new System.Drawing.Size(169, 25);
             this.btnAddEditTable.TabIndex = 3;
@@ -877,7 +883,7 @@
             // 
             this.txtTableName.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTableName.Location = new System.Drawing.Point(80, 63);
-            this.txtTableName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTableName.Margin = new System.Windows.Forms.Padding(2);
             this.txtTableName.Name = "txtTableName";
             this.txtTableName.Size = new System.Drawing.Size(132, 23);
             this.txtTableName.TabIndex = 7;
@@ -887,7 +893,7 @@
             // 
             this.txtTableID.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTableID.Location = new System.Drawing.Point(80, 25);
-            this.txtTableID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTableID.Margin = new System.Windows.Forms.Padding(2);
             this.txtTableID.Name = "txtTableID";
             this.txtTableID.Size = new System.Drawing.Size(132, 23);
             this.txtTableID.TabIndex = 3;
@@ -922,9 +928,9 @@
             this.tabPage5.Controls.Add(this.dtgvAccount);
             this.tabPage5.Controls.Add(this.panel7);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage5.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage5.Size = new System.Drawing.Size(742, 448);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "tabPage5";
@@ -938,7 +944,7 @@
             this.dtgvAccount.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvAccount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtgvAccount.Location = new System.Drawing.Point(2, 2);
-            this.dtgvAccount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtgvAccount.Margin = new System.Windows.Forms.Padding(2);
             this.dtgvAccount.Name = "dtgvAccount";
             this.dtgvAccount.ReadOnly = true;
             this.dtgvAccount.RowHeadersWidth = 51;
@@ -963,7 +969,7 @@
             this.panel7.Controls.Add(this.label14);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel7.Location = new System.Drawing.Point(479, 2);
-            this.panel7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel7.Margin = new System.Windows.Forms.Padding(2);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(261, 444);
             this.panel7.TabIndex = 5;
@@ -973,7 +979,7 @@
             this.cbbType.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbbType.FormattingEnabled = true;
             this.cbbType.Location = new System.Drawing.Point(112, 101);
-            this.cbbType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbbType.Margin = new System.Windows.Forms.Padding(2);
             this.cbbType.Name = "cbbType";
             this.cbbType.Size = new System.Drawing.Size(132, 23);
             this.cbbType.TabIndex = 18;
@@ -982,7 +988,7 @@
             // 
             this.btnEditAccount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditAccount.Location = new System.Drawing.Point(155, 268);
-            this.btnEditAccount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEditAccount.Margin = new System.Windows.Forms.Padding(2);
             this.btnEditAccount.Name = "btnEditAccount";
             this.btnEditAccount.Size = new System.Drawing.Size(88, 25);
             this.btnEditAccount.TabIndex = 17;
@@ -994,7 +1000,7 @@
             // 
             this.btnResetPass.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResetPass.Location = new System.Drawing.Point(46, 344);
-            this.btnResetPass.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnResetPass.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetPass.Name = "btnResetPass";
             this.btnResetPass.Size = new System.Drawing.Size(197, 25);
             this.btnResetPass.TabIndex = 16;
@@ -1017,7 +1023,7 @@
             // 
             this.btnDeleteAccount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeleteAccount.Location = new System.Drawing.Point(46, 306);
-            this.btnDeleteAccount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDeleteAccount.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeleteAccount.Name = "btnDeleteAccount";
             this.btnDeleteAccount.Size = new System.Drawing.Size(91, 25);
             this.btnDeleteAccount.TabIndex = 12;
@@ -1029,7 +1035,7 @@
             // 
             this.btnWatchAccount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnWatchAccount.Location = new System.Drawing.Point(46, 268);
-            this.btnWatchAccount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnWatchAccount.Margin = new System.Windows.Forms.Padding(2);
             this.btnWatchAccount.Name = "btnWatchAccount";
             this.btnWatchAccount.Size = new System.Drawing.Size(91, 25);
             this.btnWatchAccount.TabIndex = 11;
@@ -1041,7 +1047,7 @@
             // 
             this.btnAddAccount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddAccount.Location = new System.Drawing.Point(155, 306);
-            this.btnAddAccount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddAccount.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddAccount.Name = "btnAddAccount";
             this.btnAddAccount.Size = new System.Drawing.Size(88, 25);
             this.btnAddAccount.TabIndex = 3;
@@ -1053,7 +1059,7 @@
             // 
             this.txtDisplayName.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDisplayName.Location = new System.Drawing.Point(112, 63);
-            this.txtDisplayName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtDisplayName.Margin = new System.Windows.Forms.Padding(2);
             this.txtDisplayName.Name = "txtDisplayName";
             this.txtDisplayName.Size = new System.Drawing.Size(132, 23);
             this.txtDisplayName.TabIndex = 7;
@@ -1062,7 +1068,7 @@
             // 
             this.txtUserName.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUserName.Location = new System.Drawing.Point(112, 25);
-            this.txtUserName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtUserName.Margin = new System.Windows.Forms.Padding(2);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(132, 23);
             this.txtUserName.TabIndex = 3;
@@ -1094,9 +1100,9 @@
             this.tabPage6.Controls.Add(this.dtgvDiscount);
             this.tabPage6.Controls.Add(this.panel8);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage6.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage6.Size = new System.Drawing.Size(742, 448);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "tabPage6";
@@ -1108,7 +1114,7 @@
             this.dtgvDiscount.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvDiscount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtgvDiscount.Location = new System.Drawing.Point(2, 2);
-            this.dtgvDiscount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtgvDiscount.Margin = new System.Windows.Forms.Padding(2);
             this.dtgvDiscount.Name = "dtgvDiscount";
             this.dtgvDiscount.ReadOnly = true;
             this.dtgvDiscount.RowHeadersWidth = 51;
@@ -1133,7 +1139,7 @@
             this.panel8.Controls.Add(this.btnAddDiscount);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel8.Location = new System.Drawing.Point(515, 2);
-            this.panel8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel8.Margin = new System.Windows.Forms.Padding(2);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(225, 444);
             this.panel8.TabIndex = 4;
@@ -1142,7 +1148,7 @@
             // 
             this.txtEvent.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEvent.Location = new System.Drawing.Point(86, 11);
-            this.txtEvent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtEvent.Margin = new System.Windows.Forms.Padding(2);
             this.txtEvent.Name = "txtEvent";
             this.txtEvent.Size = new System.Drawing.Size(132, 23);
             this.txtEvent.TabIndex = 22;
@@ -1183,7 +1189,7 @@
             // dtpEndDay
             // 
             this.dtpEndDay.Location = new System.Drawing.Point(12, 168);
-            this.dtpEndDay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpEndDay.Margin = new System.Windows.Forms.Padding(2);
             this.dtpEndDay.Name = "dtpEndDay";
             this.dtpEndDay.Size = new System.Drawing.Size(151, 20);
             this.dtpEndDay.TabIndex = 18;
@@ -1191,7 +1197,7 @@
             // dtpStartDay
             // 
             this.dtpStartDay.Location = new System.Drawing.Point(12, 115);
-            this.dtpStartDay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpStartDay.Margin = new System.Windows.Forms.Padding(2);
             this.dtpStartDay.Name = "dtpStartDay";
             this.dtpStartDay.Size = new System.Drawing.Size(151, 20);
             this.dtpStartDay.TabIndex = 17;
@@ -1200,7 +1206,7 @@
             // 
             this.cbStatus.AutoSize = true;
             this.cbStatus.Location = new System.Drawing.Point(12, 202);
-            this.cbStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbStatus.Margin = new System.Windows.Forms.Padding(2);
             this.cbStatus.Name = "cbStatus";
             this.cbStatus.Size = new System.Drawing.Size(80, 17);
             this.cbStatus.TabIndex = 16;
@@ -1211,7 +1217,7 @@
             // 
             this.nudDiscount.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudDiscount.Location = new System.Drawing.Point(86, 56);
-            this.nudDiscount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nudDiscount.Margin = new System.Windows.Forms.Padding(2);
             this.nudDiscount.Name = "nudDiscount";
             this.nudDiscount.Size = new System.Drawing.Size(131, 23);
             this.nudDiscount.TabIndex = 15;
@@ -1231,7 +1237,7 @@
             // 
             this.btnDeleteDiscount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeleteDiscount.Location = new System.Drawing.Point(26, 278);
-            this.btnDeleteDiscount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDeleteDiscount.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeleteDiscount.Name = "btnDeleteDiscount";
             this.btnDeleteDiscount.Size = new System.Drawing.Size(70, 25);
             this.btnDeleteDiscount.TabIndex = 12;
@@ -1243,7 +1249,7 @@
             // 
             this.btnResetDiscount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResetDiscount.Location = new System.Drawing.Point(108, 278);
-            this.btnResetDiscount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnResetDiscount.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetDiscount.Name = "btnResetDiscount";
             this.btnResetDiscount.Size = new System.Drawing.Size(86, 25);
             this.btnResetDiscount.TabIndex = 11;
@@ -1255,7 +1261,7 @@
             // 
             this.btnAddDiscount.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddDiscount.Location = new System.Drawing.Point(26, 321);
-            this.btnAddDiscount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddDiscount.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddDiscount.Name = "btnAddDiscount";
             this.btnAddDiscount.Size = new System.Drawing.Size(169, 25);
             this.btnAddDiscount.TabIndex = 3;
@@ -1271,9 +1277,9 @@
             this.tabPage7.Controls.Add(this.dateTimePicker1);
             this.tabPage7.Controls.Add(this.dateTimePicker2);
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
-            this.tabPage7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage7.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage7.Size = new System.Drawing.Size(742, 448);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "tabPage7";
@@ -1283,7 +1289,7 @@
             // 
             this.btnLoc.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLoc.Location = new System.Drawing.Point(395, 12);
-            this.btnLoc.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLoc.Margin = new System.Windows.Forms.Padding(2);
             this.btnLoc.Name = "btnLoc";
             this.btnLoc.Size = new System.Drawing.Size(60, 25);
             this.btnLoc.TabIndex = 8;
@@ -1296,7 +1302,7 @@
             this.dtgvHistory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtgvHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvHistory.Location = new System.Drawing.Point(2, 45);
-            this.dtgvHistory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtgvHistory.Margin = new System.Windows.Forms.Padding(2);
             this.dtgvHistory.Name = "dtgvHistory";
             this.dtgvHistory.ReadOnly = true;
             this.dtgvHistory.RowHeadersWidth = 51;
@@ -1319,7 +1325,7 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(231, 15);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(151, 20);
             this.dateTimePicker1.TabIndex = 5;
@@ -1327,10 +1333,20 @@
             // dateTimePicker2
             // 
             this.dateTimePicker2.Location = new System.Drawing.Point(35, 15);
-            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(151, 20);
             this.dateTimePicker2.TabIndex = 4;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(485, 22);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(161, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Thống kê theo hình dạng";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // fAdmin
             // 
@@ -1340,7 +1356,7 @@
             this.Controls.Add(this.tcAdmin);
             this.Controls.Add(this.panelMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "fAdmin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trang Quản Trị";
@@ -1382,6 +1398,18 @@
             this.ResumeLayout(false);
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DataTable dtBill = BillDAL.Instance.GetBillListByDate(dtpkFromDate.Value, dtpkToDate.Value);
+            DateTime fromDate = dtpkFromDate.Value;
+            DateTime toDate = dtpkToDate.Value;
+
+            fStatisticsbyshape f = new fStatisticsbyshape(dtBill, fromDate, toDate);
+            f.ShowDialog();
+        }
+
+
 
         #endregion
 
@@ -1478,5 +1506,6 @@
         private System.Windows.Forms.TextBox txtEvent;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button btnLoc;
+        private System.Windows.Forms.Button button1;
     }
 }
