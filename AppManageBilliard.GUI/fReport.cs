@@ -72,5 +72,10 @@ namespace AppManageBilliard.GUI
                 return webClient.DownloadData(url);
             }
         }
+
+        private void crystalReportViewer1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

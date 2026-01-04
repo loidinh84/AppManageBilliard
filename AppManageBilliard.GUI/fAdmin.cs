@@ -243,6 +243,7 @@ namespace AppManageBilliard.GUI
             cbFoodCategory.DataBindings.Add(new Binding("SelectedValue", dtgvFood.DataSource, "CategoryID", true, DataSourceUpdateMode.Never));
         }
 
+
         void LoadAccount()
         {
             accountList.DataSource = DataProvider.Instance.ExecuteQuery("EXEC USP_GetAccountList");
@@ -268,7 +269,7 @@ namespace AppManageBilliard.GUI
             cbbType.DisplayMember = "Name";
             cbbType.ValueMember = "Value";
         }
-
+        
         void StylizeGrid(DataGridView grid)
         {
             // 1. Cấu hình tổng quan
@@ -384,7 +385,6 @@ namespace AppManageBilliard.GUI
                 }
             }
         }
-
         private void btnSearch_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtSearch.Text))
@@ -755,6 +755,16 @@ namespace AppManageBilliard.GUI
             SetActiveButton(btnDiscount);
         }
 
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dtgvBill_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
         private void btnHistory_Click(object sender, EventArgs e)
         {
             tcAdmin.SelectedIndex = 6;
@@ -818,4 +828,5 @@ namespace AppManageBilliard.GUI
 
         private void panelMenu_Paint(object sender, PaintEventArgs e) { }
     }
+
 }

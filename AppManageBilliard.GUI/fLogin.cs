@@ -31,60 +31,187 @@ namespace AppManageBilliard.GUI
 
         private void CustomizeDesign()
         {
+            // Cài đặt form chính
             this.FormBorderStyle = FormBorderStyle.None;
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.FromArgb(245, 248, 250);
+            this.BackColor = Color.FromArgb(40, 44, 52); // Nền tối hiện đại
+            this.Size = new Size(420, 580); // Kích thước cố định đẹp
+            ApplyRoundedCorners(30); // Bo tròn form
 
-            StyleTextBox(txtUserName);
-            StylePasswordSection();
+            // Panel chính (nền trắng nổi bật)
+            Panel mainPanel = new Panel
+            {
+                Size = new Size(380, 520),
+                Location = new Point((this.Width - 380) / 2, (this.Height - 520) / 2),
+                BackColor = Color.White,
+                Name = "mainPanel"
+            };
+            ApplyRoundedCornersToControl(mainPanel, 20);
+            this.Controls.Add(mainPanel);
+            mainPanel.BringToFront();
 
+            // Tiêu đề
+            Label lblTitle = new Label
+            {
+                Text = "Đăng Nhập",
+                Font = new Font("Segoe UI", 28F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(40, 44, 52),
+                AutoSize = true,
+                Location = new Point((mainPanel.Width - 200) / 2, 60)
+            };
+            mainPanel.Controls.Add(lblTitle);
+
+            Label lblSubtitle = new Label
+            {
+                Text = "Quản lý quán billiard",
+                Font = new Font("Segoe UI", 11F, FontStyle.Regular),
+                ForeColor = Color.Gray,
+                AutoSize = true,
+                Location = new Point((mainPanel.Width - 160) / 2, 110)
+            };
+            mainPanel.Controls.Add(lblSubtitle);
+
+            // Textbox Username - hiện đại hóa
+            StyleModernInput(txtUserName, "Tên đăng nhập", new Point(50, 170));
+            mainPanel.Controls.Add(txtUserName);
+
+            // Password - giữ nguyên eye toggle nhưng đẹp hơn
+            StyleModernInput(txtPassWord, "Mật khẩu", new Point(50, 240));
+            StylePasswordSection(); // Giữ nguyên chức năng eye
+            mainPanel.Controls.Add(txtPassWord);
+
+            // Checkbox Remember
             ckbRemember.Text = "Ghi nhớ mật khẩu";
-            ckbRemember.Font = new Font("Segoe UI", 9F);
-            ckbRemember.ForeColor = Color.Gray;
-            ckbRemember.Location = new Point(txtPassWord.Left, txtPassWord.Bottom + 10);
+            ckbRemember.Font = new Font("Segoe UI", 10F);
+            ckbRemember.ForeColor = Color.FromArgb(100, 100, 100);
+            ckbRemember.Location = new Point(50, 310);
             ckbRemember.AutoSize = true;
             ckbRemember.Cursor = Cursors.Hand;
-            this.Controls.Add(ckbRemember);
+            mainPanel.Controls.Add(ckbRemember);
 
+            // Button Login
+            btnLogin.Text = "ĐĂNG NHẬP";
+            btnLogin.Size = new Size(280, 55);
+            btnLogin.Location = new Point(50, 360);
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.FlatAppearance.BorderSize = 0;
             btnLogin.BackColor = Color.FromArgb(0, 123, 255);
             btnLogin.ForeColor = Color.White;
-            btnLogin.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnLogin.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
             btnLogin.Cursor = Cursors.Hand;
-            btnLogin.MouseEnter += (s, e) => btnLogin.BackColor = Color.FromArgb(0, 105, 220);
-            btnLogin.MouseLeave += (s, e) => btnLogin.BackColor = Color.FromArgb(0, 123, 255);
+            ApplyRoundedCornersToControl(btnLogin, 12);
+            mainPanel.Controls.Add(btnLogin);
 
+            // Hover nâng lên cho Login
+            btnLogin.MouseEnter += (s, e) =>
+            {
+                btnLogin.BackColor = Color.FromArgb(0, 105, 220);
+                btnLogin.Location = new Point(btnLogin.Location.X, btnLogin.Location.Y - 3);
+            };
+            btnLogin.MouseLeave += (s, e) =>
+            {
+                btnLogin.BackColor = Color.FromArgb(0, 123, 255);
+                btnLogin.Location = new Point(btnLogin.Location.X, btnLogin.Location.Y + 3);
+            };
+
+            // Button Exit
+            btnExit.Text = "THOÁT";
+            btnExit.Size = new Size(280, 55);
+            btnExit.Location = new Point(50, 430);
             btnExit.FlatStyle = FlatStyle.Flat;
             btnExit.FlatAppearance.BorderSize = 0;
             btnExit.BackColor = Color.FromArgb(220, 53, 69);
             btnExit.ForeColor = Color.White;
-            btnExit.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnExit.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
             btnExit.Cursor = Cursors.Hand;
-            btnExit.MouseEnter += (s, e) => btnExit.BackColor = Color.FromArgb(200, 35, 55);
-            btnExit.MouseLeave += (s, e) => btnExit.BackColor = Color.FromArgb(220, 53, 69);
+            ApplyRoundedCornersToControl(btnExit, 12);
+            mainPanel.Controls.Add(btnExit);
 
+            // Hover cho Exit
+            btnExit.MouseEnter += (s, e) =>
+            {
+                btnExit.BackColor = Color.FromArgb(200, 35, 55);
+                btnExit.Location = new Point(btnExit.Location.X, btnExit.Location.Y - 3);
+            };
+            btnExit.MouseLeave += (s, e) =>
+            {
+                btnExit.BackColor = Color.FromArgb(220, 53, 69);
+                btnExit.Location = new Point(btnExit.Location.X, btnExit.Location.Y + 3);
+            };
+
+            // Fade-in effect (giữ nguyên như cũ nhưng mượt hơn)
             this.Opacity = 0;
-            Timer fade = new Timer { Interval = 15 };
+            Timer fade = new Timer { Interval = 20 };
             fade.Tick += (s, e) =>
             {
-                if (this.IsDisposed)
-                {
-                    fade.Stop();
-                    return;
-                }
-
                 if (this.Opacity < 1)
-                {
-                    this.Opacity += 0.05; 
-                }
+                    this.Opacity += 0.08;
                 else
-                {
-                    fade.Stop(); 
-                    fade.Dispose();
-                }
+                    fade.Stop();
             };
             fade.Start();
+        }
+        private void ApplyRoundedCorners(int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.AddArc(0, 0, radius, radius, 180, 90);
+            path.AddArc(this.Width - radius, 0, radius, radius, 270, 90);
+            path.AddArc(this.Width - radius, this.Height - radius, radius, radius, 0, 90);
+            path.AddArc(0, this.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            this.Region = new Region(path);
+        }
+
+        private void ApplyRoundedCornersToControl(Control control, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            Rectangle rect = new Rectangle(0, 0, control.Width, control.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            control.Region = new Region(path);
+        }
+
+        private void StyleModernInput(TextBox txt, string placeholder, Point location)
+        {
+            txt.BorderStyle = BorderStyle.None;
+            txt.BackColor = Color.FromArgb(248, 249, 251);
+            txt.Font = new Font("Segoe UI", 11F);
+            txt.ForeColor = Color.Gray;
+            txt.Size = new Size(280, 45);
+            txt.Location = location;
+            txt.Padding = new Padding(15, 12, 15, 12);
+
+            // Placeholder
+            txt.Text = placeholder;
+            txt.GotFocus += (s, e) =>
+            {
+                if (txt.Text == placeholder)
+                {
+                    txt.Text = "";
+                    txt.ForeColor = Color.Black;
+                }
+            };
+            txt.LostFocus += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(txt.Text))
+                {
+                    txt.Text = placeholder;
+                    txt.ForeColor = Color.Gray;
+                }
+            };
+
+            // Viền dưới focus
+            Panel bottomLine = new Panel
+            {
+                Height = 2,
+                Dock = DockStyle.Bottom,
+                BackColor = Color.FromArgb(0, 123, 255)
+            };
+            txt.Controls.Add(bottomLine);
+            bottomLine.BringToFront();
         }
 
         private void StylePasswordSection()
@@ -118,11 +245,17 @@ namespace AppManageBilliard.GUI
 
         private void UpdateEyeLocation()
         {
-            int x = txtPassWord.Width - pbEye.Width - 2;
-            int y = (txtPassWord.Height - pbEye.Height) / 2 - 2;
+            int paddingRight = 0;   // Khoảng cách icon với mép phải
+            int paddingTop = 2;     // Điều chỉnh lên/xuống nếu cần
+
+            int x = txtPassWord.ClientSize.Width - pbEye.Width - paddingRight;
+            int y = (txtPassWord.ClientSize.Height - pbEye.Height) / 2 + paddingTop;
+
             pbEye.Location = new Point(x, y);
+            pbEye.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pbEye.BringToFront();
         }
+
 
         private void StyleTextBox(TextBox txt)
         {
