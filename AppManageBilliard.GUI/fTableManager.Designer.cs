@@ -34,10 +34,11 @@
             this.adminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.thôngTinTàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnChange = new System.Windows.Forms.Button();
+            this.txtGioVao = new System.Windows.Forms.Label();
             this.txtTongTien = new System.Windows.Forms.Label();
             this.txtTongMon = new System.Windows.Forms.Label();
             this.txtTongGio = new System.Windows.Forms.Label();
-            this.txtGioVao = new System.Windows.Forms.Label();
             this.btnCancelTable = new System.Windows.Forms.Button();
             this.cbDiscount = new System.Windows.Forms.ComboBox();
             this.lblCurrentTable = new System.Windows.Forms.Label();
@@ -60,9 +61,9 @@
             this.flpTable = new System.Windows.Forms.FlowLayoutPanel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.flpCategory = new System.Windows.Forms.FlowLayoutPanel();
             this.flpFood = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
@@ -104,10 +105,11 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnChange);
+            this.panel1.Controls.Add(this.txtGioVao);
             this.panel1.Controls.Add(this.txtTongTien);
             this.panel1.Controls.Add(this.txtTongMon);
             this.panel1.Controls.Add(this.txtTongGio);
-            this.panel1.Controls.Add(this.txtGioVao);
             this.panel1.Controls.Add(this.btnCancelTable);
             this.panel1.Controls.Add(this.cbDiscount);
             this.panel1.Controls.Add(this.lblCurrentTable);
@@ -126,6 +128,28 @@
             this.panel1.TabIndex = 2;
             this.panel1.Click += new System.EventHandler(this.panel1_Click);
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // btnChange
+            // 
+            this.btnChange.BackColor = System.Drawing.Color.Transparent;
+            this.btnChange.FlatAppearance.BorderSize = 0;
+            this.btnChange.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnChange.Image = global::AppManageBilliard.GUI.Properties.Resources.timerpicker;
+            this.btnChange.Location = new System.Drawing.Point(236, 454);
+            this.btnChange.Name = "btnChange";
+            this.btnChange.Size = new System.Drawing.Size(35, 30);
+            this.btnChange.TabIndex = 24;
+            this.btnChange.UseVisualStyleBackColor = false;
+            this.btnChange.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // txtGioVao
+            // 
+            this.txtGioVao.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGioVao.Location = new System.Drawing.Point(201, 462);
+            this.txtGioVao.Name = "txtGioVao";
+            this.txtGioVao.Size = new System.Drawing.Size(160, 23);
+            this.txtGioVao.TabIndex = 22;
+            this.txtGioVao.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtTongTien
             // 
@@ -154,15 +178,6 @@
             this.txtTongGio.TabIndex = 19;
             this.txtTongGio.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.txtTongGio.Click += new System.EventHandler(this.txtTongGio_Click);
-            // 
-            // txtGioVao
-            // 
-            this.txtGioVao.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGioVao.Location = new System.Drawing.Point(203, 461);
-            this.txtGioVao.Name = "txtGioVao";
-            this.txtGioVao.Size = new System.Drawing.Size(158, 23);
-            this.txtGioVao.TabIndex = 18;
-            this.txtGioVao.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnCancelTable
             // 
@@ -373,15 +388,15 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.txtSearch);
-            this.tabPage2.Controls.Add(this.btnSearch);
             this.tabPage2.Controls.Add(this.flpCategory);
             this.tabPage2.Controls.Add(this.flpFood);
+            this.tabPage2.Controls.Add(this.btnSearch);
             this.tabPage2.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(829, 631);
+            this.tabPage2.Size = new System.Drawing.Size(848, 629);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Thực Đơn";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -398,21 +413,6 @@
             this.txtSearch.Visible = false;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearch.FlatAppearance.BorderSize = 0;
-            this.btnSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSearch.Image = global::AppManageBilliard.GUI.Properties.Resources.timkiem;
-            this.btnSearch.Location = new System.Drawing.Point(749, 6);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(33, 33);
-            this.btnSearch.TabIndex = 6;
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click_1);
             // 
             // flpCategory
             // 
@@ -433,6 +433,21 @@
             this.flpFood.Size = new System.Drawing.Size(782, 570);
             this.flpFood.TabIndex = 0;
             this.flpFood.Click += new System.EventHandler(this.flpFood_Click);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSearch.FlatAppearance.BorderSize = 0;
+            this.btnSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.Image = global::AppManageBilliard.GUI.Properties.Resources.timkiem;
+            this.btnSearch.Location = new System.Drawing.Point(749, 6);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(33, 33);
+            this.btnSearch.TabIndex = 6;
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click_1);
             // 
             // timer1
             // 
@@ -516,7 +531,6 @@
         private System.Windows.Forms.ToolStripMenuItem xóaHẳnMónNàyToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label txtGioVao;
         private System.Windows.Forms.Label txtTongGio;
         private System.Windows.Forms.Label txtTongMon;
         private System.Windows.Forms.Label txtTongTien;
@@ -525,5 +539,7 @@
         private System.Windows.Forms.FlowLayoutPanel flpCategory;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Label txtGioVao;
+        private System.Windows.Forms.Button btnChange;
     }
 }

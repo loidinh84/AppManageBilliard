@@ -16,6 +16,7 @@ namespace AppManageBilliard.GUI
 {
     public partial class fTableManager : Form
     {
+        private DateTime currentCheckInTime;
         private Account loginAccount;
         public Account LoginAccount
         {
@@ -262,7 +263,8 @@ namespace AppManageBilliard.GUI
             {
                 btnThanhToan.BackColor = Color.FromArgb(40, 167, 69);     
                 btnThanhToan.FlatAppearance.MouseOverBackColor = Color.FromArgb(70, 200, 100);
-                btnThanhToan.Enabled = false; 
+                btnThanhToan.Enabled = false;
+                btnChange.Visible = false;
             }
             else
             {
@@ -270,6 +272,7 @@ namespace AppManageBilliard.GUI
                 btnThanhToan.BackColor = Color.FromArgb(220, 53, 69);   
                 btnThanhToan.FlatAppearance.MouseOverBackColor = Color.FromArgb(245, 90, 110); 
                 btnThanhToan.Enabled = true;
+                btnChange.Visible = true;
             }
         }
 
@@ -332,10 +335,10 @@ namespace AppManageBilliard.GUI
             int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(id);
             if (idBill != -1)
             {
-                DateTime dateCheckIn = BillDAL.Instance.GetDateCheckIn(idBill);
-                txtGioVao.Text = dateCheckIn.ToString("HH:mm:ss");
+                currentCheckInTime = BillDAL.Instance.GetDateCheckIn(idBill);
+                txtGioVao.Text = currentCheckInTime.ToString("HH:mm:ss tt");
 
-                TimeSpan timeSpan = DateTime.Now - dateCheckIn;
+                TimeSpan timeSpan = DateTime.Now - currentCheckInTime;
                 txtTongGio.Text = string.Format("{0}h {1}p", (int)timeSpan.TotalHours, timeSpan.Minutes);
             }
             else
@@ -427,9 +430,9 @@ namespace AppManageBilliard.GUI
 
             if (idBill != -1)
             {
-                
 
-                DateTime dateCheckIn = BillDAL.Instance.GetDateCheckIn(idBill);
+
+                DateTime dateCheckIn = currentCheckInTime;
                 TimeSpan timeSpan = DateTime.Now - dateCheckIn;
                 double pricePerHour = TableDAL.Instance.GetPriceByTableID(table.ID);
                 double tienGio = timeSpan.TotalHours * giaGioHienTai;
@@ -555,7 +558,7 @@ namespace AppManageBilliard.GUI
         void ChangeAccount(int type)
         {
             adminToolStripMenuItem.Enabled = type == 1;
-            thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản (" + loginAccount.DisplayName + ")";
+            thôngTinTàiKhoảnToolStripMenuItem.Text = "Xin chào " + loginAccount.DisplayName;
             
         }
 
@@ -565,7 +568,7 @@ namespace AppManageBilliard.GUI
             AccountEvent ev = e as AccountEvent;
             if (ev != null)
             {
-                thôngTinTàiKhoảnToolStripMenuItem.Text = "Thông tin tài khoản (" + ev.Acc.DisplayName + ")";
+                thôngTinTàiKhoảnToolStripMenuItem.Text = "Xin chào " + ev.Acc.DisplayName;
             }
             else if(!(e is AccountEvent))
     {
@@ -582,6 +585,7 @@ namespace AppManageBilliard.GUI
             LoadTable();
             LoadAllFood();
             LoadCategory();
+            btnChange.Visible = false;
         }
         private void flpTable_Paint(object sender, PaintEventArgs e) { }
 
@@ -732,30 +736,9 @@ namespace AppManageBilliard.GUI
         private void timer1_Tick(object sender, EventArgs e)
         {
             Table table = lsvBill.Tag as Table;
-            if (table == null) return;
+            if (table == null || currentCheckInTime == DateTime.MinValue) return;
 
-            int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
-
-            if (idBill != -1) 
-            {
-                DateTime dateCheckIn = BillDAL.Instance.GetDateCheckIn(idBill);
-                TimeSpan timeSpan = DateTime.Now - dateCheckIn;
-
-                txtTongGio.Text = string.Format("{0}h {1}p {2}s",
-                                                (int)timeSpan.TotalHours,
-                                                timeSpan.Minutes,
-                                                timeSpan.Seconds);
-
-                double tienGio = timeSpan.TotalHours * giaGioHienTai;
-
-                double tongCong = tongTienNuoc + tienGio;
-                tongCong = Math.Round(tongCong / 1000) * 1000;
-
-                CultureInfo culture = new CultureInfo("vi-VN");
-                txtTongTien.Text = tongCong.ToString("c", culture);
-
-                txtTongTien.ForeColor = Color.Red;
-            }
+            UpdatePlayTimeDisplay(currentCheckInTime);
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -1117,6 +1100,67 @@ namespace AppManageBilliard.GUI
             else
             {
                 e.Cancel = true; 
+            }
+        }
+
+        private void UpdatePlayTimeDisplay(DateTime startTime)
+        {
+            DateTime now = DateTime.Now;
+            TimeSpan timePlayed = now - startTime;
+
+            if (timePlayed.TotalSeconds < 0) timePlayed = TimeSpan.Zero;
+
+            txtTongGio.Text = string.Format("{0}h {1}p {2}s",
+                (int)timePlayed.TotalHours, timePlayed.Minutes, timePlayed.Seconds);
+
+            UpdateTotalPrice(timePlayed.TotalHours);
+        }
+
+        void UpdateTotalPrice(double totalHours)
+        {
+            if (giaGioHienTai <= 0 && currentTable != null)
+            {
+                giaGioHienTai = TableDAL.Instance.GetPriceByTableID(currentTable.ID);
+            }
+
+            double tienGio = totalHours * giaGioHienTai;
+            double tongCong = tongTienNuoc + tienGio;
+
+            tongCong = Math.Round(tongCong / 1000) * 1000;
+
+            txtTongTien.Text = tongCong.ToString("c", CultureInfo.GetCultureInfo("vi-VN"));
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            fTimePicker f = new fTimePicker();
+            if (f.ShowDialog() == DialogResult.OK)
+            {
+                DateTime now = DateTime.Now;
+                DateTime newCheckInTime = new DateTime(now.Year, now.Month, now.Day, f.SelectedTime.Hours, f.SelectedTime.Minutes, 0);
+
+                if (newCheckInTime > now)
+                {
+                    newCheckInTime = newCheckInTime.AddDays(-1);
+                }
+
+                Table table = lsvBill.Tag as Table;
+                if (table != null)
+                {
+                    int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
+                    if (idBill != -1)
+                    {
+                        BillDAL.Instance.UpdateDateCheckIn(idBill, newCheckInTime);
+
+                        currentCheckInTime = newCheckInTime;
+                        txtGioVao.Text = currentCheckInTime.ToString("HH:mm:ss tt");
+
+                        UpdatePlayTimeDisplay(currentCheckInTime);
+
+                        MessageBox.Show("Cập nhật giờ vào thành công!", "Thông báo");
+                    }
+                }
             }
         }
     }

@@ -124,5 +124,11 @@ namespace AppManageBilliard.DAL
             }
             return null;
         }
+        public void UpdateDateCheckIn(int idBill, DateTime newCheckIn)
+        {
+            string query = string.Format("UPDATE dbo.Bill SET DateCheckIn = '{0}' WHERE id = {1}", newCheckIn.ToString("yyyy-MM-dd HH:mm:ss"), idBill);
+
+            DataProvider.Instance.ExecuteNonQuery(query);
+        }
     }
 }

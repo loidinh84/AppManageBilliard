@@ -113,6 +113,16 @@ namespace AppManageBilliard.GUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap timerpicker {
+            get {
+                object obj = ResourceManager.GetObject("timerpicker", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap timkiem {
             get {
                 object obj = ResourceManager.GetObject("timkiem", resourceCulture);

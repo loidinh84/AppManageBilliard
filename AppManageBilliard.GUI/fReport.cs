@@ -32,6 +32,16 @@ namespace AppManageBilliard.GUI
         {
             DataTable data = DataProvider.Instance.ExecuteQuery("USP_GetListBillByTableForReport @idTable", new object[] { idTable });
 
+            string noiDung = "Thanh toan " + tenBan;
+            string qrUrl = string.Format("https://img.vietqr.io/image/BIDV-7290384088-qr_only.jpg?amount={0}&addInfo={1}", tongTien, noiDung);
+            byte[] qrImage = GetImageFromUrl(qrUrl);
+
+            data.Columns.Add("qrCode", typeof(byte[]));
+            foreach (DataRow row in data.Rows)
+            {
+                row["qrCode"] = qrImage;
+            }
+
             BillDataSet dataSet = new BillDataSet();
             dataSet.Tables["dtBill"].Merge(data);
 
@@ -42,19 +52,6 @@ namespace AppManageBilliard.GUI
             report.SetParameterValue("pTienGio", this.tienGio);
             report.SetParameterValue("pTongTien", this.tongTien);
             report.SetParameterValue("pTenBan", this.tenBan);
-
-            string noiDung = "Thanh toan " + tenBan;
-            string qrUrl = string.Format("https://img.vietqr.io/image/BIDV-7290384088-qr_only.jpg?amount={0}&addInfo={1}", tongTien, noiDung);
-            byte[] qrImage = GetImageFromUrl(qrUrl);
-
-            foreach (DataRow row in data.Rows)
-            {
-
-            }
-            data.Columns.Add("qrCode", typeof(byte[]));
-            foreach (DataRow row in data.Rows) { row["qrCode"] = qrImage; }
-            dataSet.Tables["dtBill"].Merge(data);
-
 
             crystalReportViewer1.ReportSource = report;
 
