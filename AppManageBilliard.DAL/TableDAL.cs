@@ -12,6 +12,8 @@ namespace AppManageBilliard.DAL
     
     public class TableDAL
     {
+        public static int TableWidth = 100;
+        public static int TableHeight = 100;
         private static TableDAL instance;
         public static TableDAL Instance
         {

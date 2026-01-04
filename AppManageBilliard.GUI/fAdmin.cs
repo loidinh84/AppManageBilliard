@@ -271,17 +271,35 @@ namespace AppManageBilliard.GUI
 
         void StylizeGrid(DataGridView grid)
         {
+            // 1. Cấu hình tổng quan
+            grid.BackgroundColor = Color.White;
+            grid.BorderStyle = BorderStyle.None;
             grid.RowHeadersVisible = false;
-            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            grid.AllowUserToResizeRows = false;
+            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            grid.GridColor = Color.FromArgb(235, 237, 239); // Đường kẻ mờ hiện đại
+
+            // 2. Định dạng Header (Tiêu đề cột)
             grid.EnableHeadersVisualStyles = false;
             grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            grid.ColumnHeadersHeight = 40; // Tăng độ cao cho thoáng
+            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(44, 62, 80); // Màu xanh Midnight
             grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            grid.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            grid.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            grid.BackgroundColor = Color.White;
-            grid.ColumnHeadersHeight = 30;
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            // 3. Định dạng Dòng dữ liệu
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+            grid.DefaultCellStyle.ForeColor = Color.FromArgb(71, 89, 126);
+            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(52, 152, 219); // Màu xanh dương sáng
+            grid.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            // Đổ màu xen kẽ giữa các dòng (Zebra stripes)
+            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 249, 250);
+            grid.RowTemplate.Height = 35; // Dòng cao hơn giúp dễ đọc dữ liệu
+
+            // 4. Định dạng ngày tháng (Giữ nguyên logic cũ của bạn)
             if (grid.Columns["Ngày vào"] != null)
             {
                 grid.Columns["Ngày vào"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
@@ -290,6 +308,9 @@ namespace AppManageBilliard.GUI
             {
                 grid.Columns["Ngày ra"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
             }
+
+            // Tự động giãn cách các cột để lấp đầy bảng
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void btnShowFood_Click(object sender, EventArgs e)
@@ -758,7 +779,7 @@ namespace AppManageBilliard.GUI
             {
                 MessageBox.Show("Đặt lại mật khẩu thành công! Mật khẩu mới là: 0");
             }
-            else MessageBox.Show("Có lỗi xảy ra!");
+            else MessageBox.Show("Có lỗi xảy ra!"); 
         }
 
         private void btnDeleteBill_Click(object sender, EventArgs e)

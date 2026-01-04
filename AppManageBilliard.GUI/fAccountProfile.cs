@@ -16,7 +16,13 @@ namespace AppManageBilliard.GUI
     {
         private Account loginAccount;
 
-        public event EventHandler<AccountEvent> UpdateAccount;
+        private event EventHandler updateAccount;
+        public event EventHandler UpdateAccount
+        {
+            add { updateAccount += value; }
+            remove { updateAccount -= value; }
+        }
+        
 
         public Account LoginAccount
         {
@@ -79,40 +85,45 @@ namespace AppManageBilliard.GUI
             txtReEnterPass.Font = new Font("Segoe UI", 12F);
             txtReEnterPass.Padding = new Padding(10);
             txtReEnterPass.UseSystemPasswordChar = true;
-
-            // Nút Cập nhật: Xanh dương lớn hơn, chữ đầy đủ không cắt
+            // Nút Cập nhật (Màu Xanh Dương)
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.FlatAppearance.BorderSize = 0;
-            btnUpdate.BackColor = Color.FromArgb(0, 122, 204); // Xanh dương
+            btnUpdate.BackColor = Color.FromArgb(0, 122, 204);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            btnUpdate.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 150, 255);
+            btnUpdate.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnUpdate.Size = new Size(120, 45); // Đồng bộ kích thước
             btnUpdate.Cursor = Cursors.Hand;
-            btnUpdate.Height = 50;
-            btnUpdate.Width = 120; // Rộng hơn để chữ "Cập nhật" đầy đủ
-            btnUpdate.Text = "Cập nhật"; // Đảm bảo text đúng (nếu trước là "Cập")
-            btnUpdate.TextAlign = ContentAlignment.MiddleCenter;
 
-            // Nút Thoát: Cam lớn hơn, chữ đầy đủ không cắt
+            // Nút Thoát (Màu Cam)
             btnExit.FlatStyle = FlatStyle.Flat;
             btnExit.FlatAppearance.BorderSize = 0;
             btnExit.BackColor = Color.FromArgb(255, 140, 0);
             btnExit.ForeColor = Color.White;
-            btnExit.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            btnExit.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 170, 70);
+            btnExit.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnExit.Size = new Size(120, 45); // Đồng bộ kích thước
             btnExit.Cursor = Cursors.Hand;
-            btnExit.Height = 50;
-            btnExit.Width = 120; // Rộng hơn để chữ "Thoát" đầy đủ
-            btnExit.Text = "Thoát";
-            btnExit.TextAlign = ContentAlignment.MiddleCenter;
 
-            // Gợi ý Designer: Đặt 2 nút cạnh nhau, căn giữa form
+            // --- ĐỒNG BỘ NÚT ĐĂNG XUẤT (Màu Đỏ/Hồng đậm) ---
+            btnLogout.FlatStyle = FlatStyle.Flat;
+            btnLogout.FlatAppearance.BorderSize = 0;
+            btnLogout.BackColor = Color.FromArgb(220, 53, 69); // Màu đỏ chuyên biệt cho Logout
+            btnLogout.ForeColor = Color.White;
+            btnLogout.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnLogout.Size = new Size(120, 45); // Đồng bộ kích thước với 2 nút kia
+            btnLogout.Text = "Đăng xuất";
+            btnLogout.TextAlign = ContentAlignment.MiddleCenter;
+            btnLogout.Cursor = Cursors.Hand;
+
+            // Hiệu ứng di chuột cho nút Đăng xuất
+            btnLogout.MouseEnter += (s, e) => btnLogout.BackColor = Color.FromArgb(200, 35, 50);
+            btnLogout.MouseLeave += (s, e) => btnLogout.BackColor = Color.FromArgb(220, 53, 69);
         }
 
         void ChangeAccount(Account acc)
         {
             txtUserName.Text = LoginAccount.UserName;
             txtDisplayName.Text = LoginAccount.DisplayName;
+            lblHello.Text = "Xin chào: " + LoginAccount.DisplayName;
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -137,8 +148,8 @@ namespace AppManageBilliard.GUI
             if (AccountDAL.Instance.UpdateAccountProfile(userName, displayName, password, newpass))
             {
                 MessageBox.Show("Cập nhật thành công!");
-                if (UpdateAccount != null)
-                    UpdateAccount(this, new AccountEvent(AccountDAL.Instance.GetAccountByUserName(userName)));
+                if (updateAccount != null)
+                    updateAccount(this, new AccountEvent(AccountDAL.Instance.GetAccountByUserName(userName)));
             }
             else
             {
@@ -153,6 +164,21 @@ namespace AppManageBilliard.GUI
 
         private void fAccountProfile_Load(object sender, EventArgs e)
         {
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn đăng xuất không?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Properties.Settings.Default.IsRemember = false;
+                Properties.Settings.Default.Save();
+
+                if (updateAccount != null)
+                {
+                    updateAccount(this, new EventArgs());
+                }
+                this.Close();
+            }
         }
     }
 

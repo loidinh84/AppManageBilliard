@@ -26,7 +26,7 @@ namespace AppManageBida.DAL
         }
         private DataProvider() { }
         private string connectionSTR = ConfigurationManager.ConnectionStrings["QuanLyBiaString"]?.ConnectionString
-    ?? @"Data Source=.\SQLEXPRESS;Initial Catalog=QuanLyQuanBida;Integrated Security=True";
+    ?? @"Data Source= .\SQLEXPRESS;Initial Catalog=QuanLyQuanBida;Integrated Security=True";
 
         public DataTable ExecuteQuery(string query, object[] parameter = null)
         {

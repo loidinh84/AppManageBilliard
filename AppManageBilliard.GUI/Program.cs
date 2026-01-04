@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AppManageBilliard.DAL;
+using AppManageBilliard.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,18 @@ namespace AppManageBilliard.GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fLogin());
+
+            if (Properties.Settings.Default.IsRemember)
+            {
+                string user = Properties.Settings.Default.UserName;
+                Account loginAccount = AccountDAL.Instance.GetAccountByUserName(user);
+
+                Application.Run(new fTableManager(loginAccount));
+            }
+            else
+            {
+                Application.Run(new fLogin());
+            }
         }
     }
 }
