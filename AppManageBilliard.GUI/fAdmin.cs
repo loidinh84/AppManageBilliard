@@ -663,26 +663,37 @@ namespace AppManageBilliard.GUI
             }
             foreach (DataGridViewRow row in dtgvHistory.Rows)
             {
-                if (row.Cells[1].Value != null && row.Cells[1].Value.ToString() == "HỦY MÓN")
+                if (row.Cells[1].Value != null)
                 {
-                    row.DefaultCellStyle.ForeColor = Color.IndianRed; 
-                    row.DefaultCellStyle.Font = new Font(dtgvHistory.Font, FontStyle.Regular); 
+                    string action = row.Cells[1].Value.ToString();
+
+                    if (action == "HỦY MÓN")
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.IndianRed;
+                    }
+                    else if (action == "ĐỔI GIỜ")
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.DarkOrange;
+                    }
+                    else if (action == "THANH TOÁN")
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.DarkGreen;
+                    }
                 }
             }
         }
 
         void LoadListLogByDate(DateTime fromDate, DateTime toDate)
         {
-            string query = "SELECT StaffName AS [Nhân viên], ActionType AS [Thao tác], Details AS [Chi tiết], ActionTime AS [Thời gian] " +
-                   "FROM ActionLog WHERE CAST(ActionTime AS DATE) BETWEEN @fromDate AND @toDate";
-            logList.DataSource = DataProvider.Instance.ExecuteQuery(query, new object[] { fromDate.Date, toDate.Date });
-            
+            string query = "EXEC USP_GetFullHistoryByDate @fromDate , @toDate";
+            logList.DataSource = DataProvider.Instance.ExecuteQuery(query, new object[] { fromDate, toDate });
+
         }
 
         private void btnLoc_Click(object sender, EventArgs e)
         {
-            LoadListLogByDate(dtpStartDay.Value, dtpEndDay.Value);
             DateTime fromDate = dtpStartDay.Value.Date;
+
             DateTime toDate = dtpEndDay.Value.Date.AddDays(1).AddTicks(-1);
 
             LoadListLogByDate(fromDate, toDate);

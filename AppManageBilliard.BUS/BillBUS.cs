@@ -36,9 +36,9 @@ namespace AppManageBilliard.BUS
         {
             BillDAL.Instance.InsertBill(idTable);
         }
-        public void CheckOut(int id, int discount)
+        public void CheckOut(int id, int discount, float totalPrice)
         {
-            BillDAL.Instance.CheckOut(id, discount);
+            BillDAL.Instance.CheckOut(id, discount, totalPrice);
         }
         public DataTable GetBillListByDate(DateTime checkIn, DateTime checkOut)
         {

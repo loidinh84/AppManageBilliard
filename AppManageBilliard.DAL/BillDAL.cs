@@ -43,19 +43,18 @@ namespace AppManageBilliard.DAL
         {
             DataProvider.Instance.ExecuteNonQuery("EXEC USP_InsertBillInfo @idBill , @idFood , @count", new object[] { idBill, idFood, count });
         }
-        public void CheckOut(int id, int discount)
-        {
-            string query = "EXEC USP_CheckOut @idBill , @discount";
-            DataProvider.Instance.ExecuteNonQuery(query, new object[] { id, discount });
-        }
+
         public DataTable GetBillListByDate(DateTime checkIn, DateTime checkOut)
         {
             return DataProvider.Instance.ExecuteQuery("EXEC USP_GetListBillByDate @checkIn , @checkOut", new object[] { checkIn, checkOut });
         }
-        public void CheckOut(int id, int discount, float totalPrice)
+        public bool CheckOut(int idBill, int discount, float totalPrice)
         {
-            string query = "EXEC USP_CheckOut @idBill , @discount , @totalPrice";
-            DataProvider.Instance.ExecuteNonQuery(query, new object[] { id, discount, totalPrice });
+            string query = string.Format("UPDATE dbo.Bill SET dateCheckOut = GETDATE(), status = 1, discount = {0}, totalPrice = {1} WHERE id = {2}", discount, totalPrice, idBill);
+
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+
+            return result > 0;
         }
         public void DeleteBill(int id)
         {
@@ -110,7 +109,7 @@ namespace AppManageBilliard.DAL
             try
             {
                 object result = DataProvider.Instance.ExecuteScalar(query);
-                if (result == null) return 0; // Nếu chưa chọn loại bàn thì giá = 0
+                if (result == null) return 0; 
                 return Convert.ToDouble(result);
             }
             catch { return 0; }
@@ -127,6 +126,18 @@ namespace AppManageBilliard.DAL
         public void UpdateDateCheckIn(int idBill, DateTime newCheckIn)
         {
             string query = string.Format("UPDATE dbo.Bill SET DateCheckIn = '{0}' WHERE id = {1}", newCheckIn.ToString("yyyy-MM-dd HH:mm:ss"), idBill);
+
+            DataProvider.Instance.ExecuteNonQuery(query);
+        }
+        public void InsertTimeChangeLog(int idBill, DateTime oldTime, DateTime newTime, string staff)
+        {
+            string query = string.Format(
+                "INSERT INTO dbo.TimeChangeLog (idBill, oldTime, newTime, staffName) " +
+                "VALUES ({0}, '{1}', '{2}', N'{3}')",
+                idBill,
+                oldTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                newTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                staff);
 
             DataProvider.Instance.ExecuteNonQuery(query);
         }

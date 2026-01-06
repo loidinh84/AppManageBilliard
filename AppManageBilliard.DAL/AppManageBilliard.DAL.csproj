@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountDAL.cs" />
+    <Compile Include="ActionLogDAL.cs" />
     <Compile Include="BillDAL.cs" />
     <Compile Include="CategoryDAL.cs" />
     <Compile Include="DataProvider.cs" />

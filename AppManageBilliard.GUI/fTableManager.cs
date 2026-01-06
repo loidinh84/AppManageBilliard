@@ -10,6 +10,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
 using System.Globalization;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 using MenuDTO = AppManageBilliard.DTO.Menu;
 
 namespace AppManageBilliard.GUI
@@ -358,31 +359,27 @@ namespace AppManageBilliard.GUI
             {
                 Button btn = new Button
                 {
-                    Width = 170,   // Chiều rộng lớn hơn để tạo dạng viên thuốc ngang đẹp
-                    Height = 80,   // Chiều cao vừa đủ cho 2 dòng chữ
+                    Width = 170,
+                    Height = 80, 
                     FlatStyle = FlatStyle.Flat,
                     Font = new Font("Segoe UI", 12F, FontStyle.Bold),
                     ForeColor = Color.White,
-                    BackColor = Color.FromArgb(0, 191, 255), // Xanh dương nhạt giống bàn trống
+                    BackColor = Color.FromArgb(0, 191, 255),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Margin = new Padding(15)
                 };
 
-                // Tắt viền và fix lỗi trắng khi click
                 btn.FlatAppearance.BorderSize = 0;
-                btn.UseVisualStyleBackColor = false; // Quan trọng: tránh màu trắng hệ thống
+                btn.UseVisualStyleBackColor = false; 
 
-                // Hover: xanh sáng hơn (đẹp, mượt)
                 btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(100, 210, 255);
 
-                // Khi ấn: xanh đậm hơn (có cảm giác nhấn nút)
                 btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 170, 230);
 
                 btn.Text = item.Name + Environment.NewLine + item.Price.ToString("N0") + " đ";
                 btn.Tag = item;
                 btn.Click += btnFood_Click;
 
-                // === BO TRÒN VIÊN THUỐC GIỐNG HỆT BÀN ===
                 int diameter = btn.Height;
                 System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
                 path.AddArc(0, 0, diameter, diameter, 180, 90);
@@ -402,19 +399,24 @@ namespace AppManageBilliard.GUI
                 MessageBox.Show("Vui lòng quay lại tab Bàn để chọn bàn trước!");
                 return;
             }
+
             int idBill = BillBUS.Instance.GetUncheckBillID(currentTable.ID);
-            int foodID = ((sender as Button).Tag as AppManageBilliard.DTO.Food).ID;
+            Food food = (sender as Button).Tag as Food;
+            int foodID = food.ID;
+            string foodName = food.Name;
             int count = 1;
+
             if (idBill == -1)
             {
                 BillBUS.Instance.InsertBill(currentTable.ID);
-                int newBillID = BillBUS.Instance.GetUncheckBillID(currentTable.ID);
-                BillBUS.Instance.InsertBillInfo(newBillID, foodID, count);
+                idBill = BillBUS.Instance.GetUncheckBillID(currentTable.ID);
             }
-            else
-            {
-                BillBUS.Instance.InsertBillInfo(idBill, foodID, count);
-            }
+
+            BillBUS.Instance.InsertBillInfo(idBill, foodID, count);
+
+            string logDetails = string.Format("{0}: Thêm {1} (SL: {2})", currentTable.Name, foodName, count);
+            ActionLogDAL.Instance.InsertActionLog(loginAccount.DisplayName, "THÊM MÓN", logDetails);
+
             ShowBill(currentTable.ID);
             LoadTable();
         }
@@ -486,10 +488,20 @@ namespace AppManageBilliard.GUI
                         }
                     }
 
-                    BillDAL.Instance.CheckOut(idBill, discount, (float)finalTotalPrice);
+                    if (BillDAL.Instance.CheckOut(idBill, discount, (float)finalTotalPrice))
+                    {
+                        string tableDisplayName = table.Name;
+                        string logDetails = string.Format("{0} đã thanh toán thành công - Tổng tiền: {1}đ",
+                                                           tableDisplayName, finalTotalPrice.ToString("#,###"));
 
-                    ShowBill(table.ID);
-                    LoadTable();
+                        ActionLogDAL.Instance.InsertActionLog(loginAccount.DisplayName, "THANH TOÁN", logDetails);
+
+                        ShowBill(table.ID);
+                        LoadTable();
+                        currentCheckInTime = DateTime.MinValue;
+                        txtTongGio.Text = "";
+                        btnChange.Visible = false;
+                    }
                 }
             }
         }
@@ -596,29 +608,28 @@ namespace AppManageBilliard.GUI
 
             int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
 
-            if (idBill == -1)
-            {
-                string query = "UPDATE dbo.TableFood SET status = N'Trống' WHERE id = " + table.ID;
-                DataProvider.Instance.ExecuteNonQuery(query);
+            if (MessageBox.Show(string.Format("Bạn có chắc chắn muốn hủy và đưa {0} về trạng thái TRỐNG?", table.Name),
+                "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) return;
 
-                LoadTable();
-                ShowBill(table.ID);
-                return;
-            }
-
-            int countFood = BillDAL.Instance.GetCountBillInfo(idBill);
-            if (countFood > 0)
+            if (idBill != -1) 
             {
-                MessageBox.Show("Bàn đang có món, không thể hủy!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return;
-            }
-
-            if (MessageBox.Show("Hủy bàn " + table.Name + "?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
+                int countFood = BillDAL.Instance.GetCountBillInfo(idBill);
+                if (countFood > 0)
+                {
+                    MessageBox.Show("Bàn đang có món ăn, không thể hủy ngang! Hãy thanh toán hoặc xóa món trước.", "Thông báo");
+                    return;
+                }
                 BillDAL.Instance.DeleteBill(idBill);
-                LoadTable();
-                ShowBill(table.ID);
             }
+            MessageBox.Show("Đã hủy bàn thành công!", "Thông báo");
+            string query = "UPDATE dbo.TableFood SET status = N'Trống' WHERE id = " + table.ID;
+            DataProvider.Instance.ExecuteNonQuery(query);
+
+            string details = string.Format("{0}: Đã thực hiện Hủy bàn", table.Name);
+            ActionLogDAL.Instance.InsertActionLog(loginAccount.DisplayName, "HỦY BÀN", details);
+
+            LoadTable();
+            ShowBill(table.ID);
         }
 
         private void contextMenuStrip2_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -628,13 +639,11 @@ namespace AppManageBilliard.GUI
         {
             if (lsvBill.SelectedItems.Count > 0)
             {
-                ListViewItem item = lsvBill.SelectedItems[0];
-                int soLuongHienTai = int.Parse(item.SubItems[1].Text);
-
-                GiamMonAn(-soLuongHienTai);
+                int soLuongHienTai = int.Parse(lsvBill.SelectedItems[0].SubItems[1].Text);
+                GiamMonAn(-soLuongHienTai, soLuongHienTai);
             }
         }
-        void GiamMonAn(int soLuongTru)
+        void GiamMonAn(int soLuongTru, int hienTai)
         {
             if (lsvBill.SelectedItems.Count == 0) return;
 
@@ -642,6 +651,11 @@ namespace AppManageBilliard.GUI
             int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
 
             string foodName = lsvBill.SelectedItems[0].Text.Trim();
+
+            string actionName = (Math.Abs(soLuongTru) >= hienTai) ? "HỦY MÓN" : "GIẢM MÓN";
+            string details = string.Format("{0}: {1} [{2}] (SL thay đổi: {3})",
+                                table.Name, actionName, foodName, soLuongTru);
+            ActionLogDAL.Instance.InsertActionLog(loginAccount.DisplayName, actionName, details);
 
             string query = "SELECT id FROM Food WHERE name = N'" + foodName + "'";
             object result = DataProvider.Instance.ExecuteScalar(query);
@@ -661,29 +675,28 @@ namespace AppManageBilliard.GUI
 
         private void giảm1MónToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GiamMonAn(-1);
+            if (lsvBill.SelectedItems.Count > 0)
+            {
+                int hienTai = int.Parse(lsvBill.SelectedItems[0].SubItems[1].Text);
+                GiamMonAn(-1, hienTai); 
+            }
         }
         private void xóaHẳnMónNàyToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             if (lsvBill.SelectedItems.Count > 0)
             {
-                int soLuongHienTai = 0;
-
-                try
-                {
-                    soLuongHienTai = int.Parse(lsvBill.SelectedItems[0].SubItems[1].Text);
-                }
-                catch
-                {
-                    return;
-                }
-                GiamMonAn(-soLuongHienTai);
+                int soLuongHienTai = int.Parse(lsvBill.SelectedItems[0].SubItems[1].Text);
+                GiamMonAn(-soLuongHienTai, soLuongHienTai);
             }
         }
 
         private void lsvBill_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            GiamMonAn(-1);
+            if (lsvBill.SelectedItems.Count > 0)
+            {
+                int hienTai = int.Parse(lsvBill.SelectedItems[0].SubItems[1].Text);
+                GiamMonAn(-1, hienTai);
+            }
         }
         void LoadAllFood()
         {
@@ -727,8 +740,12 @@ namespace AppManageBilliard.GUI
                 idBill = BillDAL.Instance.GetUncheckBillIDByTableID(table.ID);
             }
 
-            BillDAL.Instance.InsertBillInfo(idBill, idFood, count);
 
+            string logDetails = string.Format("{0}: Thêm {1} (SL: {2})", table.Name, food.Name, count);
+            ActionLogDAL.Instance.InsertActionLog(loginAccount.DisplayName, "THÊM MÓN", logDetails);
+            
+
+            BillDAL.Instance.InsertBillInfo(idBill, food.ID, count);
             ShowBill(table.ID);
             LoadTable();
         }
@@ -736,7 +753,11 @@ namespace AppManageBilliard.GUI
         private void timer1_Tick(object sender, EventArgs e)
         {
             Table table = lsvBill.Tag as Table;
-            if (table == null || currentCheckInTime == DateTime.MinValue) return;
+
+            if (table == null || currentCheckInTime == DateTime.MinValue || table.Status == "Trống")
+            {
+                return;
+            }
 
             UpdatePlayTimeDisplay(currentCheckInTime);
         }
@@ -1095,7 +1116,7 @@ namespace AppManageBilliard.GUI
             if (MessageBox.Show("Bạn có thật sự muốn thoát chương trình?", "Thông báo", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 Application.ExitThread();
-                Environment.Exit(0);
+                
             }
             else
             {
@@ -1137,6 +1158,7 @@ namespace AppManageBilliard.GUI
             fTimePicker f = new fTimePicker();
             if (f.ShowDialog() == DialogResult.OK)
             {
+                DateTime oldTime = currentCheckInTime;
                 DateTime now = DateTime.Now;
                 DateTime newCheckInTime = new DateTime(now.Year, now.Month, now.Day, f.SelectedTime.Hours, f.SelectedTime.Minutes, 0);
 
@@ -1153,10 +1175,12 @@ namespace AppManageBilliard.GUI
                     {
                         BillDAL.Instance.UpdateDateCheckIn(idBill, newCheckInTime);
 
-                        currentCheckInTime = newCheckInTime;
-                        txtGioVao.Text = currentCheckInTime.ToString("HH:mm:ss tt");
+                        string staff = loginAccount.DisplayName; 
+                        BillDAL.Instance.InsertTimeChangeLog(idBill, oldTime, newCheckInTime, staff);
 
-                        UpdatePlayTimeDisplay(currentCheckInTime);
+                        currentCheckInTime = newCheckInTime;
+                        txtGioVao.Text = newCheckInTime.ToString("HH:mm:ss tt");
+                        UpdatePlayTimeDisplay(newCheckInTime);
 
                         MessageBox.Show("Cập nhật giờ vào thành công!", "Thông báo");
                     }
