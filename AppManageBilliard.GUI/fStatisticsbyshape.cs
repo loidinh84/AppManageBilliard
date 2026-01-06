@@ -13,17 +13,14 @@ namespace AppManageBilliard.GUI
         private DateTime _fromDate;
         private DateTime _toDate;
 
-        // ===== Constructor mặc định (Designer bắt buộc) =====
         public fStatisticsbyshape()
         {
             InitializeComponent();
         }
 
-        // ===== Constructor nhận dữ liệu từ fAdmin =====
         public fStatisticsbyshape(DataTable billData, DateTime fromDate, DateTime toDate)
         {
             InitializeComponent();
-
             _billData = billData;
             _fromDate = fromDate;
             _toDate = toDate;
@@ -42,34 +39,42 @@ namespace AppManageBilliard.GUI
             LoadRevenueChart();
         }
 
-        // ================= VẼ BIỂU ĐỒ DOANH THU 12 THÁNG =================
         private void LoadRevenueChart()
         {
             chartRevenue.Series.Clear();
             chartRevenue.ChartAreas.Clear();
             chartRevenue.Titles.Clear();
 
-            // ===== Chart Area =====
+            // ===== CHART AREA =====
             ChartArea area = new ChartArea("MainArea");
-            area.AxisX.Title = "Tháng";
+           
             area.AxisY.Title = "Doanh thu (VNĐ)";
+
             area.AxisX.Interval = 1;
-            area.AxisX.LabelStyle.Angle = 0;
+            area.AxisX.IsLabelAutoFit = false;
+            area.AxisX.IsMarginVisible = false;   
+            area.AxisX.Minimum = 0.5;             
+            area.AxisX.Maximum = 12.5;            
             area.AxisX.MajorGrid.LineColor = Color.LightGray;
+
+            area.AxisY.Minimum = 0;
+            area.AxisY.Maximum = 100000000;
             area.AxisY.MajorGrid.LineColor = Color.LightGray;
+
+            area.AxisX.CustomLabels.Clear();
 
             chartRevenue.ChartAreas.Add(area);
 
-            // ===== Series =====
+            // ===== SERIES =====
             Series series = new Series("Doanh thu");
             series.ChartType = SeriesChartType.Column;
             series.IsValueShownAsLabel = true;
             series.LabelFormat = "#,##0 VNĐ";
             series.Color = Color.FromArgb(0, 123, 255);
+            series.XValueType = ChartValueType.Int32;
 
             int year = _fromDate.Year;
 
-            // ===== GROUP BY THÁNG =====
             var data = _billData.AsEnumerable()
                 .Where(r =>
                     r["Ngày vào"] != DBNull.Value &&
@@ -84,27 +89,22 @@ namespace AppManageBilliard.GUI
                 })
                 .ToList();
 
-            // ===== VẼ ĐỦ 12 THÁNG (THÁNG KHÔNG CÓ DOANH THU = 0) =====
             for (int month = 1; month <= 12; month++)
             {
                 var item = data.FirstOrDefault(x => x.Month == month);
                 decimal total = item != null ? item.Total : 0;
 
-                series.Points.AddXY($"Tháng {month}", total);
+                int index = series.Points.AddXY(month, total);
+                series.Points[index].AxisLabel = $"Tháng {month}";
             }
 
             chartRevenue.Series.Add(series);
 
-            // ===== Title =====
-            chartRevenue.Titles.Add(
-                $"DOANH THU 12 THÁNG NĂM {year}"
-            );
+            chartRevenue.Titles.Add($"DOANH THU 12 THÁNG NĂM {year}");
         }
 
-        // Event theo yêu cầu (để trống)
         private void chart1_Click(object sender, EventArgs e)
         {
-            // Không cần xử lý
         }
     }
 }
