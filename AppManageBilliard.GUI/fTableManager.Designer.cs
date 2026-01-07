@@ -68,6 +68,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.label5 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
@@ -105,6 +106,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.btnThanhToan);
             this.panel1.Controls.Add(this.btnChange);
             this.panel1.Controls.Add(this.txtGioVao);
             this.panel1.Controls.Add(this.txtTongTien);
@@ -119,62 +122,71 @@
             this.panel1.Controls.Add(this.btnChuyenBan);
             this.panel1.Controls.Add(this.lsvBill);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.btnThanhToan);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(856, 28);
+            this.panel1.Location = new System.Drawing.Point(851, 28);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(395, 660);
+            this.panel1.Size = new System.Drawing.Size(400, 660);
             this.panel1.TabIndex = 2;
             this.panel1.Click += new System.EventHandler(this.panel1_Click);
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // btnChange
             // 
+            this.btnChange.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnChange.BackColor = System.Drawing.Color.Transparent;
             this.btnChange.FlatAppearance.BorderSize = 0;
             this.btnChange.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnChange.Image = global::AppManageBilliard.GUI.Properties.Resources.timerpicker;
-            this.btnChange.Location = new System.Drawing.Point(236, 454);
+            this.btnChange.Location = new System.Drawing.Point(236, 456);
             this.btnChange.Name = "btnChange";
-            this.btnChange.Size = new System.Drawing.Size(35, 30);
+            this.btnChange.Size = new System.Drawing.Size(40, 30);
             this.btnChange.TabIndex = 24;
             this.btnChange.UseVisualStyleBackColor = false;
             this.btnChange.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtGioVao
             // 
+            this.txtGioVao.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtGioVao.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGioVao.Location = new System.Drawing.Point(201, 462);
+            this.txtGioVao.Location = new System.Drawing.Point(201, 464);
             this.txtGioVao.Name = "txtGioVao";
-            this.txtGioVao.Size = new System.Drawing.Size(160, 23);
+            this.txtGioVao.Size = new System.Drawing.Size(165, 23);
             this.txtGioVao.TabIndex = 22;
             this.txtGioVao.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtTongTien
             // 
+            this.txtTongTien.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTongTien.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTongTien.Location = new System.Drawing.Point(171, 555);
+            this.txtTongTien.Location = new System.Drawing.Point(171, 557);
             this.txtTongTien.Name = "txtTongTien";
-            this.txtTongTien.Size = new System.Drawing.Size(193, 28);
+            this.txtTongTien.Size = new System.Drawing.Size(198, 28);
             this.txtTongTien.TabIndex = 21;
             this.txtTongTien.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtTongMon
             // 
+            this.txtTongMon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTongMon.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTongMon.Location = new System.Drawing.Point(217, 527);
+            this.txtTongMon.Location = new System.Drawing.Point(217, 529);
             this.txtTongMon.Name = "txtTongMon";
-            this.txtTongMon.Size = new System.Drawing.Size(144, 23);
+            this.txtTongMon.Size = new System.Drawing.Size(149, 23);
             this.txtTongMon.TabIndex = 20;
             this.txtTongMon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtTongGio
             // 
+            this.txtTongGio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTongGio.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTongGio.Location = new System.Drawing.Point(201, 497);
+            this.txtTongGio.Location = new System.Drawing.Point(201, 499);
             this.txtTongGio.Name = "txtTongGio";
-            this.txtTongGio.Size = new System.Drawing.Size(160, 23);
+            this.txtTongGio.Size = new System.Drawing.Size(165, 23);
             this.txtTongGio.TabIndex = 19;
             this.txtTongGio.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.txtTongGio.Click += new System.EventHandler(this.txtTongGio_Click);
@@ -183,12 +195,12 @@
             // 
             this.btnCancelTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnCancelTable.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelTable.Location = new System.Drawing.Point(290, 10);
+            this.btnCancelTable.Location = new System.Drawing.Point(252, 10);
             this.btnCancelTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelTable.Name = "btnCancelTable";
-            this.btnCancelTable.Size = new System.Drawing.Size(91, 34);
+            this.btnCancelTable.Size = new System.Drawing.Size(129, 40);
             this.btnCancelTable.TabIndex = 17;
-            this.btnCancelTable.Text = "Hủy bàn";
+            this.btnCancelTable.Text = "Hủy bàn (F3)";
             this.btnCancelTable.UseVisualStyleBackColor = false;
             this.btnCancelTable.Click += new System.EventHandler(this.btnCancelTable_Click);
             // 
@@ -216,9 +228,11 @@
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(10, 527);
+            this.label4.Location = new System.Drawing.Point(10, 529);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 23);
             this.label4.TabIndex = 13;
@@ -226,9 +240,11 @@
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(10, 495);
+            this.label3.Location = new System.Drawing.Point(10, 497);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(115, 23);
             this.label3.TabIndex = 10;
@@ -236,9 +252,11 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 461);
+            this.label2.Location = new System.Drawing.Point(12, 463);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 23);
             this.label2.TabIndex = 9;
@@ -246,20 +264,25 @@
             // 
             // btnChuyenBan
             // 
+            this.btnChuyenBan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnChuyenBan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.btnChuyenBan.FlatAppearance.BorderSize = 0;
             this.btnChuyenBan.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChuyenBan.Location = new System.Drawing.Point(30, 599);
+            this.btnChuyenBan.Location = new System.Drawing.Point(16, 601);
             this.btnChuyenBan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnChuyenBan.Name = "btnChuyenBan";
-            this.btnChuyenBan.Size = new System.Drawing.Size(157, 41);
+            this.btnChuyenBan.Size = new System.Drawing.Size(181, 49);
             this.btnChuyenBan.TabIndex = 7;
-            this.btnChuyenBan.Text = "Chuyển bàn";
+            this.btnChuyenBan.Text = "Chuyển bàn (F2)";
             this.btnChuyenBan.UseVisualStyleBackColor = false;
             this.btnChuyenBan.Click += new System.EventHandler(this.btnChuyenBan_Click);
             // 
             // lsvBill
             // 
+            this.lsvBill.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lsvBill.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colTenMon,
             this.colSoLuong,
@@ -272,7 +295,7 @@
             this.lsvBill.Location = new System.Drawing.Point(14, 116);
             this.lsvBill.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lsvBill.Name = "lsvBill";
-            this.lsvBill.Size = new System.Drawing.Size(367, 329);
+            this.lsvBill.Size = new System.Drawing.Size(372, 331);
             this.lsvBill.TabIndex = 6;
             this.toolTip1.SetToolTip(this.lsvBill, "Nhấp chuột phải để chỉnh sửa món ăn");
             this.lsvBill.UseCompatibleStateImageBehavior = false;
@@ -326,9 +349,11 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 555);
+            this.label1.Location = new System.Drawing.Point(9, 557);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(103, 28);
             this.label1.TabIndex = 5;
@@ -337,15 +362,17 @@
             // 
             // btnThanhToan
             // 
+            this.btnThanhToan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnThanhToan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnThanhToan.FlatAppearance.BorderSize = 0;
             this.btnThanhToan.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThanhToan.Location = new System.Drawing.Point(207, 599);
+            this.btnThanhToan.Location = new System.Drawing.Point(205, 601);
             this.btnThanhToan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnThanhToan.Name = "btnThanhToan";
-            this.btnThanhToan.Size = new System.Drawing.Size(157, 41);
+            this.btnThanhToan.Size = new System.Drawing.Size(181, 49);
             this.btnThanhToan.TabIndex = 4;
-            this.btnThanhToan.Text = "Thanh Toán";
+            this.btnThanhToan.Text = "Thanh Toán (F1)";
             this.btnThanhToan.UseVisualStyleBackColor = false;
             this.btnThanhToan.Click += new System.EventHandler(this.btnThanhToan_Click);
             // 
@@ -358,7 +385,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(856, 660);
+            this.tabControl1.Size = new System.Drawing.Size(851, 660);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -369,19 +396,20 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(848, 631);
+            this.tabPage1.Size = new System.Drawing.Size(843, 631);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Danh Sách Bàn";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // flpTable
             // 
+            this.flpTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flpTable.AutoScroll = true;
-            this.flpTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpTable.Location = new System.Drawing.Point(3, 2);
             this.flpTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flpTable.Name = "flpTable";
-            this.flpTable.Size = new System.Drawing.Size(842, 627);
+            this.flpTable.Size = new System.Drawing.Size(837, 627);
             this.flpTable.TabIndex = 0;
             this.flpTable.Paint += new System.Windows.Forms.PaintEventHandler(this.flpTable_Paint);
             // 
@@ -396,7 +424,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(848, 631);
+            this.tabPage2.Size = new System.Drawing.Size(843, 631);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Thực Đơn";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -407,7 +435,7 @@
             this.txtSearch.BackColor = System.Drawing.Color.SeaShell;
             this.txtSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtSearch.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(663, 6);
+            this.txtSearch.Location = new System.Drawing.Point(658, 6);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(179, 34);
             this.txtSearch.TabIndex = 5;
@@ -421,17 +449,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flpCategory.Location = new System.Drawing.Point(3, 5);
             this.flpCategory.Name = "flpCategory";
-            this.flpCategory.Size = new System.Drawing.Size(654, 55);
+            this.flpCategory.Size = new System.Drawing.Size(649, 55);
             this.flpCategory.TabIndex = 1;
             this.flpCategory.WrapContents = false;
             // 
             // flpFood
             // 
+            this.flpFood.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flpFood.AutoScroll = true;
             this.flpFood.Location = new System.Drawing.Point(3, 57);
             this.flpFood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flpFood.Name = "flpFood";
-            this.flpFood.Size = new System.Drawing.Size(782, 570);
+            this.flpFood.Size = new System.Drawing.Size(837, 570);
             this.flpFood.TabIndex = 0;
             this.flpFood.Click += new System.EventHandler(this.flpFood_Click);
             // 
@@ -443,7 +473,7 @@
             this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Image = global::AppManageBilliard.GUI.Properties.Resources.timkiem;
-            this.btnSearch.Location = new System.Drawing.Point(749, 6);
+            this.btnSearch.Location = new System.Drawing.Point(744, 6);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(33, 33);
             this.btnSearch.TabIndex = 6;
@@ -471,6 +501,18 @@
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
             // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(168, 76);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(78, 23);
+            this.label5.TabIndex = 25;
+            this.label5.Text = "Giảm giá";
+            // 
             // fTableManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -480,6 +522,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "fTableManager";
@@ -488,6 +531,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.fTableManager_FormClosing);
             this.Load += new System.EventHandler(this.fTableManager_Load);
             this.Click += new System.EventHandler(this.fTableManager_Click);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fTableManager_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -542,5 +586,6 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Label txtGioVao;
         private System.Windows.Forms.Button btnChange;
+        private System.Windows.Forms.Label label5;
     }
 }

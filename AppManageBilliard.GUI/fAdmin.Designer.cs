@@ -35,11 +35,11 @@ namespace AppManageBilliard.GUI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fAdmin));
             this.panelMenu = new System.Windows.Forms.Panel();
             this.btnHistory = new System.Windows.Forms.Button();
-            this.btnDiscount = new System.Windows.Forms.Button();
             this.btnAccount = new System.Windows.Forms.Button();
-            this.btnTable = new System.Windows.Forms.Button();
+            this.btnDiscount = new System.Windows.Forms.Button();
             this.btnCategory = new System.Windows.Forms.Button();
             this.btnFood = new System.Windows.Forms.Button();
+            this.btnTable = new System.Windows.Forms.Button();
             this.btnRevenue = new System.Windows.Forms.Button();
             this.tcAdmin = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -193,25 +193,6 @@ namespace AppManageBilliard.GUI
             this.btnHistory.UseVisualStyleBackColor = false;
             this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
             // 
-            // btnDiscount
-            // 
-            this.btnDiscount.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDiscount.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnDiscount.FlatAppearance.BorderSize = 0;
-            this.btnDiscount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDiscount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDiscount.ForeColor = System.Drawing.Color.White;
-            this.btnDiscount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDiscount.Location = new System.Drawing.Point(0, 260);
-            this.btnDiscount.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnDiscount.Name = "btnDiscount";
-            this.btnDiscount.Size = new System.Drawing.Size(200, 65);
-            this.btnDiscount.TabIndex = 5;
-            this.btnDiscount.Text = "Giảm giá";
-            this.btnDiscount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDiscount.UseVisualStyleBackColor = false;
-            this.btnDiscount.Click += new System.EventHandler(this.btnDiscount_Click);
-            // 
             // btnAccount
             // 
             this.btnAccount.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -231,24 +212,24 @@ namespace AppManageBilliard.GUI
             this.btnAccount.UseVisualStyleBackColor = false;
             this.btnAccount.Click += new System.EventHandler(this.btnAccount_Click);
             // 
-            // btnTable
+            // btnDiscount
             // 
-            this.btnTable.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTable.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnTable.FlatAppearance.BorderSize = 0;
-            this.btnTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTable.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTable.ForeColor = System.Drawing.Color.White;
-            this.btnTable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnTable.Location = new System.Drawing.Point(0, 65);
-            this.btnTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnTable.Name = "btnTable";
-            this.btnTable.Size = new System.Drawing.Size(200, 65);
-            this.btnTable.TabIndex = 3;
-            this.btnTable.Text = "Bàn";
-            this.btnTable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnTable.UseVisualStyleBackColor = false;
-            this.btnTable.Click += new System.EventHandler(this.btnTable_Click);
+            this.btnDiscount.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDiscount.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnDiscount.FlatAppearance.BorderSize = 0;
+            this.btnDiscount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDiscount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDiscount.ForeColor = System.Drawing.Color.White;
+            this.btnDiscount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDiscount.Location = new System.Drawing.Point(0, 260);
+            this.btnDiscount.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnDiscount.Name = "btnDiscount";
+            this.btnDiscount.Size = new System.Drawing.Size(200, 65);
+            this.btnDiscount.TabIndex = 5;
+            this.btnDiscount.Text = "Giảm giá";
+            this.btnDiscount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDiscount.UseVisualStyleBackColor = false;
+            this.btnDiscount.Click += new System.EventHandler(this.btnDiscount_Click);
             // 
             // btnCategory
             // 
@@ -287,6 +268,25 @@ namespace AppManageBilliard.GUI
             this.btnFood.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnFood.UseVisualStyleBackColor = false;
             this.btnFood.Click += new System.EventHandler(this.btnFood_Click);
+            // 
+            // btnTable
+            // 
+            this.btnTable.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTable.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnTable.FlatAppearance.BorderSize = 0;
+            this.btnTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTable.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTable.ForeColor = System.Drawing.Color.White;
+            this.btnTable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTable.Location = new System.Drawing.Point(0, 65);
+            this.btnTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnTable.Name = "btnTable";
+            this.btnTable.Size = new System.Drawing.Size(200, 65);
+            this.btnTable.TabIndex = 3;
+            this.btnTable.Text = "Bàn";
+            this.btnTable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTable.UseVisualStyleBackColor = false;
+            this.btnTable.Click += new System.EventHandler(this.btnTable_Click);
             // 
             // btnRevenue
             // 

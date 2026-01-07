@@ -1187,5 +1187,22 @@ namespace AppManageBilliard.GUI
                 }
             }
         }
+
+        private void fTableManager_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1)
+            {
+                btnThanhToan.PerformClick(); 
+            }
+            if (e.KeyCode == Keys.F2)
+            {
+                btnChuyenBan.PerformClick();
+            }
+            if (e.KeyCode == Keys.F3)
+            {
+                btnCancelTable.PerformClick();
+            }
+
+        }
     }
 }
