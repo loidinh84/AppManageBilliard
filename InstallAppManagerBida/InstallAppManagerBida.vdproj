@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0B872D19BA6748989F77ABD29E6AB86D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0FF3E2061451552701C9843E147C0C08"
         "OwnerKey" = "8:_C1A927EBB1DC682577B10BA5C8D1D39D"
         "MsmSig" = "8:_UNDEFINED"
@@ -39,7 +33,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_50D55F70820D4F0AA228E2BB76A242EB"
+        "MsmKey" = "8:_3AEB2834E5894D9B9C0FF4CB29F06213"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_426389530B274F3BABCB4102B6EB6CD9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4718B66B7BEF4EBD82C70E9F0ED0C711"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -93,7 +99,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E0B9386140BB4586A46615C6F8A703DD"
+        "MsmKey" = "8:_D5058D27ECEB4BCEB95F98F71015BA22"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -106,19 +112,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5AB601BDCFAFCF80F197B2AEF2A6EB8E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C1A755E2CD994CF5B20CA6D25DCC1195"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F0EC9519627606481E5CCF86265BED27"
+        "OwnerKey" = "8:_A092E11A8E0FB34802BCEEE365848E31"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,7 +136,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A092E11A8E0FB34802BCEEE365848E31"
+        "OwnerKey" = "8:_C1A755E2CD994CF5B20CA6D25DCC1195"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F0EC9519627606481E5CCF86265BED27"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -155,6 +155,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_343136AAA023BE7158049B8227C8BBB2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5AB601BDCFAFCF80F197B2AEF2A6EB8E"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -179,7 +185,7 @@
             {
             "Enabled" = "11:TRUE"
             "PromptEnabled" = "11:TRUE"
-            "PrerequisitesLocation" = "2:2"
+            "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
                 "Items"
@@ -212,6 +218,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -241,26 +263,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0B872D19BA6748989F77ABD29E6AB86D"
-            {
-            "SourcePath" = "8:C:\\Users\\ACER\\OneDrive\\Máy tính\\WorkDesktop\\Intro.rtf"
-            "TargetName" = "8:Intro.rtf"
-            "Tag" = "8:"
-            "Folder" = "8:_3D8794B7142F4636B46D309946DFA4C4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0FF3E2061451552701C9843E147C0C08"
             {
             "AssemblyRegister" = "3:1"
@@ -323,9 +325,49 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_50D55F70820D4F0AA228E2BB76A242EB"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3AEB2834E5894D9B9C0FF4CB29F06213"
             {
-            "SourcePath" = "8:C:\\Program Files\\Microsoft SQL Server\\MSSQL16.SQLEXPRESS\\MSSQL\\DATA\\QuanLyQuanBida.mdf"
+            "SourcePath" = "8:..\\AppManageBilliard.GUI\\bin\\Debug\\QuanLyQuanBida_log.ldf"
+            "TargetName" = "8:QuanLyQuanBida_log.ldf"
+            "Tag" = "8:"
+            "Folder" = "8:_3D8794B7142F4636B46D309946DFA4C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_426389530B274F3BABCB4102B6EB6CD9"
+            {
+            "SourcePath" = "8:..\\icon\\LogoBida.ico"
+            "TargetName" = "8:LogoBida.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_3D8794B7142F4636B46D309946DFA4C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4718B66B7BEF4EBD82C70E9F0ED0C711"
+            {
+            "SourcePath" = "8:..\\AppManageBilliard.GUI\\bin\\Debug\\QuanLyQuanBida.mdf"
             "TargetName" = "8:QuanLyQuanBida.mdf"
             "Tag" = "8:"
             "Folder" = "8:_3D8794B7142F4636B46D309946DFA4C4"
@@ -498,10 +540,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E0B9386140BB4586A46615C6F8A703DD"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D5058D27ECEB4BCEB95F98F71015BA22"
             {
-            "SourcePath" = "8:C:\\Program Files\\Microsoft SQL Server\\MSSQL16.SQLEXPRESS\\MSSQL\\DATA\\QuanLyQuanBida_log.ldf"
-            "TargetName" = "8:QuanLyQuanBida_log.ldf"
+            "SourcePath" = "8:..\\..\\Intro.rtf"
+            "TargetName" = "8:Intro.rtf"
             "Tag" = "8:"
             "Folder" = "8:_3D8794B7142F4636B46D309946DFA4C4"
             "Condition" = "8:"
@@ -568,7 +610,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_3D8794B7142F4636B46D309946DFA4C4"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -605,12 +647,12 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:InstallAppManagerBida"
-        "ProductCode" = "8:{D0DE49BE-BB7A-4285-A303-A1BA570D986A}"
-        "PackageCode" = "8:{8A2B6BB1-D3E9-4867-99DE-9C476989F732}"
+        "ProductCode" = "8:{AE50F629-DA59-4382-B198-BCFB15A50205}"
+        "PackageCode" = "8:{8A05C67E-5866-4274-AFC9-56E2173A3D2A}"
         "UpgradeCode" = "8:{A09D3EA9-5802-4726-8FFE-40DC5AAA2665}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
@@ -623,11 +665,11 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_426389530B274F3BABCB4102B6EB6CD9"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
-        "TargetPlatform" = "3:0"
+        "TargetPlatform" = "3:1"
         "PreBuildEvent" = "8:"
         "PostBuildEvent" = "8:"
         "RunPostBuildEvent" = "3:0"
@@ -726,18 +768,18 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_36410BF3A26E4932A9353ECCA7126386"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E38F656B605946508E6903658A8B37BF"
             {
-            "Name" = "8:Manger Billiard"
+            "Name" = "8:Manage Billiard"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:"
+            "Target" = "8:_C1A755E2CD994CF5B20CA6D25DCC1195"
             "Folder" = "8:_2715BE9326E946D8869510DEA86153CD"
             "WorkingFolder" = "8:_3D8794B7142F4636B46D309946DFA4C4"
-            "Icon" = "8:"
+            "Icon" = "8:_426389530B274F3BABCB4102B6EB6CD9"
             "Feature" = "8:"
             }
         }
@@ -779,7 +821,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:_0B872D19BA6748989F77ABD29E6AB86D"
+                            "Value" = "8:_D5058D27ECEB4BCEB95F98F71015BA22"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "Sunken"
@@ -1188,7 +1230,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C1A755E2CD994CF5B20CA6D25DCC1195"
             {
-            "SourcePath" = "8:..\\AppManageBilliard.GUI\\obj\\Debug\\AppManageBilliard.GUI.exe"
+            "SourcePath" = "8:..\\AppManageBilliard.GUI\\obj\\Release\\AppManageBilliard.GUI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3D8794B7142F4636B46D309946DFA4C4"

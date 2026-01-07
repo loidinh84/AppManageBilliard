@@ -8,11 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace AppManageBilliard.GUI
 {
     public partial class fReport : Form
     {
+        public cpBill report = new cpBill();
         private int idTable;
         private string gioChoi;
         private double tienGio;
@@ -28,12 +30,14 @@ namespace AppManageBilliard.GUI
             this.tenBan = ten;  
         }
 
-        private void fReport_Load(object sender, EventArgs e)
+        public void InitReport()
         {
             DataTable data = DataProvider.Instance.ExecuteQuery("USP_GetListBillByTableForReport @idTable", new object[] { idTable });
 
             string noiDung = "Thanh toan " + tenBan;
-            string qrUrl = string.Format("https://img.vietqr.io/image/BIDV-7290384088-qr_only.jpg?amount={0}&addInfo={1}", tongTien, noiDung);
+            string bank = ConfigurationManager.AppSettings["BankName"];
+            string acc = ConfigurationManager.AppSettings["AccountNumber"];
+            string qrUrl = string.Format("https://img.vietqr.io/image/{0}-{1}-qr_only.jpg?amount={2}&addInfo={3}", bank, acc, tongTien, noiDung);
             byte[] qrImage = GetImageFromUrl(qrUrl);
 
             data.Columns.Add("qrCode", typeof(byte[]));
@@ -45,22 +49,18 @@ namespace AppManageBilliard.GUI
             BillDataSet dataSet = new BillDataSet();
             dataSet.Tables["dtBill"].Merge(data);
 
-            cpBill report = new cpBill();
             report.SetDataSource(dataSet);
-
             report.SetParameterValue("pGioChoi", this.gioChoi);
             report.SetParameterValue("pTienGio", this.tienGio);
             report.SetParameterValue("pTongTien", this.tongTien);
             report.SetParameterValue("pTenBan", this.tenBan);
 
             crystalReportViewer1.ReportSource = report;
+        }
 
-            crystalReportViewer1.DisplayToolbar = true;
-            crystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
-            crystalReportViewer1.ShowGroupTreeButton = false;
-            crystalReportViewer1.ShowParameterPanelButton = false;
-            crystalReportViewer1.Zoom(100);
-            this.Size = new System.Drawing.Size(400, 700);
+        private void fReport_Load(object sender, EventArgs e)
+        {
+            InitReport();
         }
         private byte[] GetImageFromUrl(string url)
         {

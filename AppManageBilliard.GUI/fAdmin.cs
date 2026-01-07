@@ -1,10 +1,11 @@
-﻿using AppManageBilliard.DAL;
-using AppManageBilliard.BUS;
+﻿using AppManageBilliard.BUS;
+using AppManageBilliard.DAL;
 using AppManageBilliard.DAL;
 using AppManageBilliard.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -702,6 +703,60 @@ namespace AppManageBilliard.GUI
                 }
             }
             LoadListDiscount();
+        }
+
+        private void btnHeThong_Click(object sender, EventArgs e)
+        {
+            tcAdmin.SelectedIndex = 7;
+            SetActiveButton(btnHeThong);
+        }
+
+        private void UpdateQRPreview()
+        {
+            try
+            {
+                string bank = txtTenNH.Text.Trim();
+                string acc = txtSoTK.Text.Trim();
+
+                if (!string.IsNullOrEmpty(bank) && !string.IsNullOrEmpty(acc))
+                {
+                    string qrUrl = string.Format("https://img.vietqr.io/image/{0}-{1}-qr_only.jpg?amount=0", bank, acc);
+                    
+                    picQR.LoadAsync(qrUrl);
+                }
+            }
+            catch {  }
+        }
+
+        private void fAdmin_Load(object sender, EventArgs e)
+        {
+            txtTenNH.Text = ConfigurationManager.AppSettings["BankName"];
+            txtSoTK.Text = ConfigurationManager.AppSettings["AccountNumber"];
+            txtShopName.Text = ConfigurationManager.AppSettings["ShopName"];
+            txtShopAddress.Text = ConfigurationManager.AppSettings["ShopAddress"];
+            txtQRNote.Text = ConfigurationManager.AppSettings["QRNote"];
+            UpdateQRPreview();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                config.AppSettings.Settings["BankName"].Value = txtTenNH.Text.Trim();
+                config.AppSettings.Settings["AccountNumber"].Value = txtSoTK.Text.Trim();
+                config.AppSettings.Settings["ShopName"].Value = txtShopName.Text.Trim();
+                config.AppSettings.Settings["ShopAddress"].Value = txtShopAddress.Text.Trim();
+                config.AppSettings.Settings["QRNote"].Value = txtQRNote.Text.Trim();
+
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
+
+                MessageBox.Show("Cập nhật thông tin hệ thống thành công!");
+                UpdateQRPreview();
+            }
+            catch (Exception ex) { MessageBox.Show("Lỗi: " + ex.Message); }
         }
 
         private void btnResetDiscount_Click(object sender, EventArgs e)
