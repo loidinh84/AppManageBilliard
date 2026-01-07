@@ -64,23 +64,31 @@ namespace AppManageBilliard.GUI
 
             return btn;
         }
-
-        // ================= CLICK TABLE =================
         private void Btn_Click(object sender, EventArgs e)
         {
-            // reset màu
+            Button btn = sender as Button;
+            Table table = btn.Tag as Table;
+
+            if (table.Status != "Trống")
+            {
+                MessageBox.Show(
+                    "Bàn này đang có khách, không thể chuyển!",
+                    "Cảnh báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
             foreach (Button b in flpTableList.Controls)
             {
                 Table t = b.Tag as Table;
                 b.BackColor = (t.Status == "Trống") ? colorEmpty : colorBusy;
             }
 
-            Button btn = sender as Button;
             btn.BackColor = colorSelect;
-            SelectedTable = btn.Tag as Table;
+            SelectedTable = table;
         }
 
-        // ================= OK =================
         private void btnOk_Click(object sender, EventArgs e)
         {
             if (SelectedTable == null)
@@ -94,7 +102,6 @@ namespace AppManageBilliard.GUI
             this.Close();
         }
 
-        // ================= CANCEL =================
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();

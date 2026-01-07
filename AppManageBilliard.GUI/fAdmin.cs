@@ -72,6 +72,7 @@ namespace AppManageBilliard.GUI
             dtgvHistory.DataSource = logList;
             LoadListLogByDate(dtpStartDay.Value, dtpEndDay.Value);
             dtgvHistory.DataBindingComplete += dtgvHistory_DataBindingComplete;
+          
         }
 
         
@@ -943,6 +944,11 @@ namespace AppManageBilliard.GUI
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
+        }
+
+        private void dtgvHistory_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
         //Code cho nút thống kê theo hình dang

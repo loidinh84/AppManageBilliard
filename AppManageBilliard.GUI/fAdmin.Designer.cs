@@ -124,12 +124,12 @@ namespace AppManageBilliard.GUI
             this.btnResetDiscount = new System.Windows.Forms.Button();
             this.btnAddDiscount = new System.Windows.Forms.Button();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.button3 = new System.Windows.Forms.Button();
             this.btnLoc = new System.Windows.Forms.Button();
             this.dtgvHistory = new System.Windows.Forms.DataGridView();
             this.label16 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.button3 = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.tcAdmin.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -1325,6 +1325,16 @@ namespace AppManageBilliard.GUI
             this.tabPage7.Text = "tabPage7";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(481, 14);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "Xuất File";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // btnLoc
             // 
             this.btnLoc.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1350,6 +1360,7 @@ namespace AppManageBilliard.GUI
             this.dtgvHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtgvHistory.Size = new System.Drawing.Size(737, 401);
             this.dtgvHistory.TabIndex = 7;
+            this.dtgvHistory.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvHistory_CellContentClick);
             // 
             // label16
             // 
@@ -1377,16 +1388,6 @@ namespace AppManageBilliard.GUI
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(151, 20);
             this.dateTimePicker2.TabIndex = 4;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(481, 14);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "Xuất File";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // fAdmin
             // 
