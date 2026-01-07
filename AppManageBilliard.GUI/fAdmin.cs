@@ -71,6 +71,7 @@ namespace AppManageBilliard.GUI
             dtgvHistory.DataSource = logList;
             LoadListLogByDate(dtpStartDay.Value, dtpEndDay.Value);
             dtgvHistory.DataBindingComplete += dtgvHistory_DataBindingComplete;
+          
         }
 
         private Panel CreateColorfulCard(string title, string value, Color backColor, string linkText, Point location)
@@ -880,6 +881,7 @@ namespace AppManageBilliard.GUI
             }
         }
 
+        //Code cho nút thống kê theo hình dang
 
 
         private void btnHistory_Click(object sender, EventArgs e)
