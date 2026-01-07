@@ -288,7 +288,6 @@ namespace AppManageBilliard.GUI
 
             tongTienNuoc = 0;
             int tongSoMon = 0;
-
             giaGioHienTai = TableDAL.Instance.GetPriceByTableID(id);
 
             foreach (MenuDTO item in listMenu)
@@ -298,48 +297,36 @@ namespace AppManageBilliard.GUI
                 lsvItem.SubItems.Add(item.Price.ToString("N0") + " đ");
                 lsvItem.SubItems.Add(item.TotalPrice.ToString("N0") + " đ");
 
-                if (item.IsService == true)
+                if (item.IsService == true) // Đây là giờ chơi
                 {
                     giaGioHienTai = item.Price;
-
                     lsvItem.ForeColor = Color.Blue;
                     lsvItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-
                 }
-                else
+                else // Đây là nước uống/thức ăn
                 {
                     tongTienNuoc += item.TotalPrice;
-
                     lsvItem.SubItems[3].ForeColor = Color.FromArgb(220, 53, 69);
-                    
                     tongSoMon += item.Count;
                 }
 
                 lsvBill.Items.Add(lsvItem);
             }
 
-            CultureInfo culture = new CultureInfo("vi-VN");
+            // ==================== TÍNH TỔNG TIỀN ĐÚNG ====================
+            double tienGio = 0;
+            DateTime checkInTime = DateTime.MinValue;
 
-            txtTongTien.Text = tongTienNuoc > 0 ? tongTienNuoc.ToString("c", culture) : "0 đ";
-
-            if (tongTienNuoc > 0)
-            {
-                txtTongTien.ForeColor = Color.Red;
-                txtTongTien.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-                txtTongMon.Text = tongSoMon.ToString();
-            }
-            else
-            {
-                txtTongTien.ForeColor = Color.Gray;
-                txtTongTien.Font = new Font("Segoe UI", 15F, FontStyle.Regular);
-            }
             int idBill = BillDAL.Instance.GetUncheckBillIDByTableID(id);
             if (idBill != -1)
             {
-                currentCheckInTime = BillDAL.Instance.GetDateCheckIn(idBill);
-                txtGioVao.Text = currentCheckInTime.ToString("HH:mm:ss tt");
+                checkInTime = BillDAL.Instance.GetDateCheckIn(idBill);
+                currentCheckInTime = checkInTime;
 
-                TimeSpan timeSpan = DateTime.Now - currentCheckInTime;
+                TimeSpan timeSpan = DateTime.Now - checkInTime;
+                tienGio = timeSpan.TotalHours * giaGioHienTai;
+
+                txtGioVao.Text = checkInTime.ToString("HH:mm:ss tt");
                 txtTongGio.Text = string.Format("{0}h {1}p", (int)timeSpan.TotalHours, timeSpan.Minutes);
             }
             else
@@ -348,6 +335,27 @@ namespace AppManageBilliard.GUI
                 txtTongGio.Text = "";
                 txtTongMon.Text = "0";
             }
+
+            // Tổng tiền thực tế = tiền nước + tiền giờ
+            double tongCong = tongTienNuoc + tienGio;
+            tongCong = Math.Round(tongCong / 1000) * 1000; // Làm tròn đến nghìn gần nhất
+
+            CultureInfo culture = new CultureInfo("vi-VN");
+            txtTongTien.Text = tongCong > 0 ? tongCong.ToString("c", culture) : "0 đ";
+
+            // Đổi màu: nếu có tiền (giờ hoặc nước) thì đỏ + đậm
+            if (tongCong > 0)
+            {
+                txtTongTien.ForeColor = Color.Red;
+                txtTongTien.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            }
+            else
+            {
+                txtTongTien.ForeColor = Color.Gray;
+                txtTongTien.Font = new Font("Segoe UI", 15F, FontStyle.Regular);
+            }
+
+            txtTongMon.Text = tongSoMon.ToString();
         }
 
         void LoadFoodToTab()
