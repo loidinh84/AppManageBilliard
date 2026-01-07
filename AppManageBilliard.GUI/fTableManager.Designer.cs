@@ -345,7 +345,7 @@
             this.xóaHẳnMónNàyToolStripMenuItem.Name = "xóaHẳnMónNàyToolStripMenuItem";
             this.xóaHẳnMónNàyToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
             this.xóaHẳnMónNàyToolStripMenuItem.Text = "Xóa hẳn món này";
-            this.xóaHẳnMónNàyToolStripMenuItem.Click += new System.EventHandler(this.xóaHẳnMónNàyToolStripMenuItem_Click_1);
+            this.xóaHẳnMónNàyToolStripMenuItem.Click += new System.EventHandler(this.xóaHẳnMónNàyToolStripMenuItem_Click);
             // 
             // label1
             // 

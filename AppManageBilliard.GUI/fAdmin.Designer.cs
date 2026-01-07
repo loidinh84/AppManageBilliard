@@ -174,7 +174,6 @@ namespace AppManageBilliard.GUI
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(150, 474);
             this.panelMenu.TabIndex = 0;
-            this.panelMenu.Paint += new System.Windows.Forms.PaintEventHandler(this.panelMenu_Paint);
             // 
             // btnHistory
             // 
@@ -325,7 +324,6 @@ namespace AppManageBilliard.GUI
             this.tcAdmin.SelectedIndex = 0;
             this.tcAdmin.Size = new System.Drawing.Size(750, 474);
             this.tcAdmin.TabIndex = 1;
-            this.tcAdmin.SelectedIndexChanged += new System.EventHandler(this.tcAdmin_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -356,7 +354,6 @@ namespace AppManageBilliard.GUI
             this.dtgvBill.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtgvBill.Size = new System.Drawing.Size(738, 363);
             this.dtgvBill.TabIndex = 1;
-            this.dtgvBill.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvBill_CellContentClick);
             // 
             // panel1
             // 
@@ -374,7 +371,6 @@ namespace AppManageBilliard.GUI
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(738, 81);
             this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // button2
             // 
@@ -755,7 +751,6 @@ namespace AppManageBilliard.GUI
             this.btnReset.TabIndex = 11;
             this.btnReset.Text = "Làm mới";
             this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click_1);
             // 
             // btnAddEdit
             // 
@@ -857,7 +852,6 @@ namespace AppManageBilliard.GUI
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(225, 444);
             this.panel6.TabIndex = 3;
-            this.panel6.Paint += new System.Windows.Forms.PaintEventHandler(this.panel6_Paint);
             // 
             // label11
             // 
@@ -869,7 +863,6 @@ namespace AppManageBilliard.GUI
             this.label11.Size = new System.Drawing.Size(72, 19);
             this.label11.TabIndex = 14;
             this.label11.Text = "Trạng thái";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // txtTableStatus
             // 
@@ -880,7 +873,6 @@ namespace AppManageBilliard.GUI
             this.txtTableStatus.ReadOnly = true;
             this.txtTableStatus.Size = new System.Drawing.Size(132, 23);
             this.txtTableStatus.TabIndex = 13;
-            this.txtTableStatus.TextChanged += new System.EventHandler(this.txtTableStatus_TextChanged);
             // 
             // btnDeleteTable
             // 
@@ -926,7 +918,6 @@ namespace AppManageBilliard.GUI
             this.txtTableName.Name = "txtTableName";
             this.txtTableName.Size = new System.Drawing.Size(132, 23);
             this.txtTableName.TabIndex = 7;
-            this.txtTableName.TextChanged += new System.EventHandler(this.txtTableName_TextChanged);
             // 
             // txtTableID
             // 
@@ -936,7 +927,6 @@ namespace AppManageBilliard.GUI
             this.txtTableID.Name = "txtTableID";
             this.txtTableID.Size = new System.Drawing.Size(132, 23);
             this.txtTableID.TabIndex = 3;
-            this.txtTableID.TextChanged += new System.EventHandler(this.txtTableID_TextChanged);
             // 
             // label7
             // 
@@ -948,7 +938,6 @@ namespace AppManageBilliard.GUI
             this.label7.Size = new System.Drawing.Size(58, 19);
             this.label7.TabIndex = 4;
             this.label7.Text = "Tên bàn";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // label8
             // 
@@ -960,7 +949,6 @@ namespace AppManageBilliard.GUI
             this.label8.Size = new System.Drawing.Size(23, 19);
             this.label8.TabIndex = 3;
             this.label8.Text = "ID";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // tabPage5
             // 
@@ -991,7 +979,6 @@ namespace AppManageBilliard.GUI
             this.dtgvAccount.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtgvAccount.Size = new System.Drawing.Size(477, 444);
             this.dtgvAccount.TabIndex = 6;
-            this.dtgvAccount.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvAccount_CellContentClick);
             // 
             // panel7
             // 
@@ -1400,7 +1387,6 @@ namespace AppManageBilliard.GUI
             this.Name = "fAdmin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trang Quản Trị";
-            this.Load += new System.EventHandler(this.fAdmin_Load);
             this.panelMenu.ResumeLayout(false);
             this.tcAdmin.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

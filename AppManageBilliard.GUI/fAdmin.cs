@@ -1,4 +1,4 @@
-﻿using AppManageBida.DAL;
+﻿using AppManageBilliard.DAL;
 using AppManageBilliard.BUS;
 using AppManageBilliard.DAL;
 using AppManageBilliard.DTO;
@@ -12,7 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace AppManageBilliard.GUI
@@ -74,8 +73,6 @@ namespace AppManageBilliard.GUI
             dtgvHistory.DataBindingComplete += dtgvHistory_DataBindingComplete;
         }
 
-        
-
         private Panel CreateColorfulCard(string title, string value, Color backColor, string linkText, Point location)
         {
             Panel card = new Panel
@@ -131,8 +128,6 @@ namespace AppManageBilliard.GUI
             return card;
         }
 
-        
-
         private Button GetActiveButton()
         {
             switch (tcAdmin.SelectedIndex)
@@ -162,9 +157,6 @@ namespace AppManageBilliard.GUI
                 btnActive.BackColor = Color.FromArgb(0, 130, 180);
             }
         }
-
-
-        private void fAdmin_Load(object sender, EventArgs e) { }
 
         private void btnRevenue_Click(object sender, EventArgs e)
         {
@@ -588,46 +580,6 @@ namespace AppManageBilliard.GUI
             else MessageBox.Show("Cập nhật thất bại!");
         }
 
-        private void tcAdmin_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtTableStatus_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtTableName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtTableID_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel6_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         void LoadListDiscount()
         {
             discountList.DataSource = DataProvider.Instance.ExecuteQuery("SELECT eventName AS [Tên sự kiện], discountPercent AS [Giảm giá (%)], fromDate AS [Từ ngày], toDate AS [Đến ngày], status AS [Kích hoạt] FROM EventsDiscount");
@@ -729,8 +681,8 @@ namespace AppManageBilliard.GUI
                 return;
             }
 
-            string checkQuery = "SELECT COUNT(*) FROM EventsDiscount WHERE eventName = N'" + name + "'";
-            int exists = (int)DataProvider.Instance.ExecuteScalar(checkQuery);
+            string checkQuery = "EXEC USP_CheckDiscountExists @name";
+            int exists = (int)DataProvider.Instance.ExecuteScalar(checkQuery, new object[] { name });
 
             if (exists > 0) 
             {
@@ -767,20 +719,10 @@ namespace AppManageBilliard.GUI
             SetActiveButton(btnDiscount);
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void dtgvBill_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // ĐỔI TÊN GRID Ở ĐÂY - thay dtgvBill bằng tên thực tế của grid ở tab Doanh thu
-            DataGridView grid = dtgvBill;  // ← Ví dụ tên là dtgvBill
+            DataGridView grid = dtgvBill;
 
             int dataRowCount = grid.Rows.Cast<DataGridViewRow>().Count(r => !r.IsNewRow);
 
@@ -854,7 +796,6 @@ namespace AppManageBilliard.GUI
 
         private void button3_Click(object sender, EventArgs e)
         {
-            // Kiểm tra dữ liệu thực tế trong dtgvHistory (tab Lịch sử)
             int dataRowCount = dtgvHistory.Rows.Cast<DataGridViewRow>().Count(r => !r.IsNewRow);
 
             if (dataRowCount == 0)
@@ -868,7 +809,6 @@ namespace AppManageBilliard.GUI
                 return;
             }
 
-            // Hộp thoại chọn nơi lưu file
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "Excel Files (*.xlsx)|*.xlsx";
             sfd.Title = "Xuất lịch sử hoạt động ra Excel";
@@ -888,20 +828,18 @@ namespace AppManageBilliard.GUI
                 workbook = excelApp.Workbooks.Add();
                 worksheet = workbook.ActiveSheet;
 
-                // Ghi Header (dòng đầu tiên)
                 for (int i = 0; i < dtgvHistory.Columns.Count; i++)
                 {
                     worksheet.Cells[1, i + 1] = dtgvHistory.Columns[i].HeaderText;
                     worksheet.Cells[1, i + 1].Font.Bold = true;
-                    worksheet.Cells[1, i + 1].Interior.Color = Color.FromArgb(44, 62, 80); // Nền xanh đậm
-                    worksheet.Cells[1, i + 1].Font.Color = Color.White; // Chữ trắng
+                    worksheet.Cells[1, i + 1].Interior.Color = Color.FromArgb(44, 62, 80); 
+                    worksheet.Cells[1, i + 1].Font.Color = Color.White; 
                 }
 
-                // Ghi dữ liệu từ dòng 2 trở đi
                 int excelRow = 2;
                 foreach (DataGridViewRow row in dtgvHistory.Rows)
                 {
-                    if (row.IsNewRow) continue; // Bỏ qua dòng trống nếu có
+                    if (row.IsNewRow) continue;
 
                     for (int j = 0; j < dtgvHistory.Columns.Count; j++)
                     {
@@ -911,10 +849,8 @@ namespace AppManageBilliard.GUI
                     excelRow++;
                 }
 
-                // Tự động giãn cột cho đẹp
                 worksheet.Columns.AutoFit();
 
-                // Lưu file đúng định dạng .xlsx
                 workbook.SaveAs(sfd.FileName, Excel.XlFileFormat.xlWorkbookDefault);
 
                 MessageBox.Show("Xuất lịch sử thành công!\n\nFile đã lưu tại:\n" + sfd.FileName,
@@ -926,7 +862,6 @@ namespace AppManageBilliard.GUI
             }
             finally
             {
-                // Giải phóng tài nguyên Excel (tránh chạy ngầm)
                 if (workbook != null)
                 {
                     workbook.Close(false);
@@ -945,7 +880,6 @@ namespace AppManageBilliard.GUI
             }
         }
 
-        //Code cho nút thống kê theo hình dang
 
 
         private void btnHistory_Click(object sender, EventArgs e)
@@ -995,21 +929,6 @@ namespace AppManageBilliard.GUI
                 MessageBox.Show("Vui lòng chọn hóa đơn cần xóa!");
             }
         }
-
-        private void label16_Click(object sender, EventArgs e) { }
-
-        private void dtgvAccount_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-
-       
-
-        private void btnReset_Click_1(object sender, EventArgs e)
-        {
-            txtCategoryID.Text = "";
-            txtCategoryName.Text = "";
-            txtCategoryName.Focus();
-        }
-
-        private void panelMenu_Paint(object sender, PaintEventArgs e) { }
     }
 
 }

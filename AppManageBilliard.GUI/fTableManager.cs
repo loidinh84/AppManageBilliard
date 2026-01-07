@@ -1,4 +1,4 @@
-﻿using AppManageBida.DAL;
+﻿using AppManageBilliard.DAL;
 using AppManageBilliard.BUS;
 using AppManageBilliard.DAL;
 using AppManageBilliard.DTO;
@@ -444,7 +444,6 @@ namespace AppManageBilliard.GUI
 
                 DateTime dateCheckIn = currentCheckInTime;
                 TimeSpan timeSpan = DateTime.Now - dateCheckIn;
-                double pricePerHour = TableDAL.Instance.GetPriceByTableID(table.ID);
                 double tienGio = timeSpan.TotalHours * giaGioHienTai;
 
                 double tongTien = tongTienNuoc + tienGio;
@@ -665,8 +664,8 @@ namespace AppManageBilliard.GUI
                                 table.Name, actionName, foodName, soLuongTru);
             ActionLogDAL.Instance.InsertActionLog(loginAccount.DisplayName, actionName, details);
 
-            string query = "SELECT id FROM Food WHERE name = N'" + foodName + "'";
-            object result = DataProvider.Instance.ExecuteScalar(query);
+            string query = "EXEC USP_GetFoodIDByName @foodName";
+            object result = DataProvider.Instance.ExecuteScalar(query, new object[] { foodName });
 
             if (result == null)
             {
@@ -689,14 +688,7 @@ namespace AppManageBilliard.GUI
                 GiamMonAn(-1, hienTai); 
             }
         }
-        private void xóaHẳnMónNàyToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            if (lsvBill.SelectedItems.Count > 0)
-            {
-                int soLuongHienTai = int.Parse(lsvBill.SelectedItems[0].SubItems[1].Text);
-                GiamMonAn(-soLuongHienTai, soLuongHienTai);
-            }
-        }
+
 
         private void lsvBill_MouseDoubleClick(object sender, MouseEventArgs e)
         {

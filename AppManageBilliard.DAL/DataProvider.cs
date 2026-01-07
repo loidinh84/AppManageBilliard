@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppManageBida.DAL
+namespace AppManageBilliard.DAL
 {
     public class DataProvider
     {

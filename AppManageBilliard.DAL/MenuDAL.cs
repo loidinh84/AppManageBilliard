@@ -1,4 +1,4 @@
-﻿using AppManageBida.DAL;
+﻿using AppManageBilliard.DAL;
 using AppManageBilliard.DTO;
 using System;
 using System.Collections.Generic;

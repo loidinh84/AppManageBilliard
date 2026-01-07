@@ -1,4 +1,4 @@
-﻿using AppManageBida.DAL;
+﻿using AppManageBilliard.DAL;
 using AppManageBilliard.DTO;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AppManageBilliard.DAL
 {
-    
+
     public class TableDAL
     {
         public static int TableWidth = 100;
