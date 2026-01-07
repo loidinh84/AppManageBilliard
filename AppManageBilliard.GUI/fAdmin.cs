@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace AppManageBilliard.GUI
 {
@@ -775,8 +776,177 @@ namespace AppManageBilliard.GUI
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // ĐỔI TÊN GRID Ở ĐÂY - thay dtgvBill bằng tên thực tế của grid ở tab Doanh thu
+            DataGridView grid = dtgvBill;  // ← Ví dụ tên là dtgvBill
+
+            int dataRowCount = grid.Rows.Cast<DataGridViewRow>().Count(r => !r.IsNewRow);
+
+            if (dataRowCount == 0)
+            {
+                MessageBox.Show("Không có dữ liệu doanh thu để xuất Excel!\n\n" +
+                                "Hãy thử thay đổi khoảng thời gian và nhấn 'Thống kê'",
+                                "Không có dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Excel Files (*.xlsx)|*.xlsx";
+            sfd.Title = "Xuất doanh thu ra file Excel";
+            sfd.FileName = "DoanhThu_" + DateTime.Now.ToString("ddMMyyyy_HHmm");
+
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+
+            Excel.Application excelApp = null;
+            Excel.Workbook workbook = null;
+            Excel.Worksheet worksheet = null;
+
+            try
+            {
+                excelApp = new Excel.Application();
+                excelApp.Visible = false;
+                workbook = excelApp.Workbooks.Add();
+                worksheet = workbook.ActiveSheet;
+
+                // Header
+                for (int i = 0; i < grid.Columns.Count; i++)
+                {
+                    worksheet.Cells[1, i + 1] = grid.Columns[i].HeaderText;
+                    worksheet.Cells[1, i + 1].Font.Bold = true;
+                    worksheet.Cells[1, i + 1].Interior.Color = Color.FromArgb(44, 62, 80);
+                    worksheet.Cells[1, i + 1].Font.Color = Color.White;
+                }
+
+                // Data
+                int excelRow = 2;
+                foreach (DataGridViewRow row in grid.Rows)
+                {
+                    if (row.IsNewRow) continue;
+                    for (int j = 0; j < grid.Columns.Count; j++)
+                    {
+                        object cellValue = row.Cells[j].Value;
+                        worksheet.Cells[excelRow, j + 1] = cellValue?.ToString() ?? "";
+                    }
+                    excelRow++;
+                }
+
+                worksheet.Columns.AutoFit();
+                workbook.SaveAs(sfd.FileName, Excel.XlFileFormat.xlWorkbookDefault);
+
+                MessageBox.Show("Xuất doanh thu thành công!\nFile lưu tại:\n" + sfd.FileName,
+                                "Thành công!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (workbook != null) { workbook.Close(false); System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook); }
+                if (excelApp != null) { excelApp.Quit(); System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp); }
+                if (worksheet != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra dữ liệu thực tế trong dtgvHistory (tab Lịch sử)
+            int dataRowCount = dtgvHistory.Rows.Cast<DataGridViewRow>().Count(r => !r.IsNewRow);
+
+            if (dataRowCount == 0)
+            {
+                MessageBox.Show("Không có dữ liệu lịch sử để xuất Excel!\n\n" +
+                                "Gợi ý:\n" +
+                                "• Chọn khoảng thời gian Từ ngày - Đến ngày phù hợp\n" +
+                                "• Nhấn nút 'Lọc' để tải dữ liệu lịch sử\n" +
+                                "• Thực hiện thanh toán, hủy món, đổi giờ bàn để tạo log lịch sử",
+                                "Không có dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Hộp thoại chọn nơi lưu file
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Excel Files (*.xlsx)|*.xlsx";
+            sfd.Title = "Xuất lịch sử hoạt động ra Excel";
+            sfd.FileName = "LichSuHoatDong_" + DateTime.Now.ToString("ddMMyyyy_HHmm");
+
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+
+            Excel.Application excelApp = null;
+            Excel.Workbook workbook = null;
+            Excel.Worksheet worksheet = null;
+
+            try
+            {
+                excelApp = new Excel.Application();
+                excelApp.Visible = false;
+                workbook = excelApp.Workbooks.Add();
+                worksheet = workbook.ActiveSheet;
+
+                // Ghi Header (dòng đầu tiên)
+                for (int i = 0; i < dtgvHistory.Columns.Count; i++)
+                {
+                    worksheet.Cells[1, i + 1] = dtgvHistory.Columns[i].HeaderText;
+                    worksheet.Cells[1, i + 1].Font.Bold = true;
+                    worksheet.Cells[1, i + 1].Interior.Color = Color.FromArgb(44, 62, 80); // Nền xanh đậm
+                    worksheet.Cells[1, i + 1].Font.Color = Color.White; // Chữ trắng
+                }
+
+                // Ghi dữ liệu từ dòng 2 trở đi
+                int excelRow = 2;
+                foreach (DataGridViewRow row in dtgvHistory.Rows)
+                {
+                    if (row.IsNewRow) continue; // Bỏ qua dòng trống nếu có
+
+                    for (int j = 0; j < dtgvHistory.Columns.Count; j++)
+                    {
+                        object cellValue = row.Cells[j].Value;
+                        worksheet.Cells[excelRow, j + 1] = cellValue?.ToString() ?? "";
+                    }
+                    excelRow++;
+                }
+
+                // Tự động giãn cột cho đẹp
+                worksheet.Columns.AutoFit();
+
+                // Lưu file đúng định dạng .xlsx
+                workbook.SaveAs(sfd.FileName, Excel.XlFileFormat.xlWorkbookDefault);
+
+                MessageBox.Show("Xuất lịch sử thành công!\n\nFile đã lưu tại:\n" + sfd.FileName,
+                                "Thành công!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xuất Excel:\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Giải phóng tài nguyên Excel (tránh chạy ngầm)
+                if (workbook != null)
+                {
+                    workbook.Close(false);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
+                }
+                if (excelApp != null)
+                {
+                    excelApp.Quit();
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+                }
+                if (worksheet != null)
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+
         //Code cho nút thống kê theo hình dang
-     
+
 
         private void btnHistory_Click(object sender, EventArgs e)
         {
