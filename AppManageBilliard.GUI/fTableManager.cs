@@ -1,17 +1,20 @@
-﻿using AppManageBilliard.DAL;
-using AppManageBilliard.BUS;
+﻿using AppManageBilliard.BUS;
 using AppManageBilliard.DAL;
 using AppManageBilliard.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
 using System.Globalization;
+using System.Net;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 using MenuDTO = AppManageBilliard.DTO.Menu;
+using System.IO;
+
 
 namespace AppManageBilliard.GUI
 {
@@ -598,6 +601,7 @@ namespace AppManageBilliard.GUI
             LoadAllFood();
             LoadCategory();
             btnChange.Visible = false;
+            CheckForUpdate();
         }
         private void flpTable_Paint(object sender, PaintEventArgs e) { }
 
@@ -1105,6 +1109,7 @@ namespace AppManageBilliard.GUI
         private void fTableManager_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (isLogout) return;
+            if (isUpdating) return;
 
             if (MessageBox.Show("Bạn có thật sự muốn thoát chương trình?", "Thông báo", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
@@ -1180,7 +1185,6 @@ namespace AppManageBilliard.GUI
                 }
             }
         }
-
         private void fTableManager_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F1)
@@ -1196,6 +1200,51 @@ namespace AppManageBilliard.GUI
                 btnCancelTable.PerformClick();
             }
 
+        }
+
+        bool isUpdating = false;
+        private void CheckForUpdate()
+        {
+            string currentVersion = "1.0.0";
+
+            string versionUrl = "http://gist.githubusercontent.com/loidinh84/2d91287f6133e78126a138aa66d560f9/raw/ab330b4c051d20eeee462c2af0181e22c635a4e8/version.txt";
+
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string latestVersion = client.DownloadString(versionUrl).Trim();
+
+                    if (latestVersion != currentVersion)
+                    {
+                        DialogResult result = MessageBox.Show(
+                            $"Đã có bản cập nhật mới ({latestVersion}). Bạn có muốn nâng cấp ngay không?",
+                            "Thông báo cập nhật",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Information);
+
+                        if (result == DialogResult.Yes)
+                        {
+
+                            if (File.Exists("Updater.exe"))
+                            {
+                                isUpdating = true;
+
+                                Process.Start("Updater.exe");
+                                Application.Exit(); 
+                            }
+                            else
+                            {
+                                MessageBox.Show("Không tìm thấy bộ khởi động cập nhật (Updater.exe)!");
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Nếu không có mạng hoặc lỗi link, app vẫn chạy bình thường, không báo lỗi cho khách
+            }
         }
     }
 }

@@ -103,6 +103,14 @@ namespace AppManageBilliard.DAL
             string query = "SELECT COUNT(UserName) FROM Account";
             return (int)DataProvider.Instance.ExecuteScalar(query);
         }
+        public bool CheckAccountExists(string userName)
+        {
+            string query = string.Format("SELECT COUNT(*) FROM dbo.Account WHERE UserName = N'{0}'", userName);
+
+            int result = (int)DataProvider.Instance.ExecuteScalar(query);
+
+            return result > 0;
+        }
     }
 
 }

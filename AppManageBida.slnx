@@ -6,4 +6,5 @@
   <Project Path="InstallAppManagerBida/InstallAppManagerBida.vdproj" Type="Installer">
     <Build />
   </Project>
+  <Project Path="Updater/Updater.csproj" Id="ee3c3192-3a7a-47f3-afd9-b0bae9bbb5ac" />
 </Solution>

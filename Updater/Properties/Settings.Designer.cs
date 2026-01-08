@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AppManageBilliard.Properties
+namespace Updater.Properties
 {
 
 

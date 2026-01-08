@@ -787,6 +787,7 @@ namespace AppManageBilliard.GUI
             this.btnReset.TabIndex = 11;
             this.btnReset.Text = "Làm mới";
             this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click_1);
             // 
             // btnAddEdit
             // 
@@ -1095,7 +1096,7 @@ namespace AppManageBilliard.GUI
             this.btnWatchAccount.Name = "btnWatchAccount";
             this.btnWatchAccount.Size = new System.Drawing.Size(121, 31);
             this.btnWatchAccount.TabIndex = 11;
-            this.btnWatchAccount.Text = "Xem";
+            this.btnWatchAccount.Text = "Làm mới";
             this.btnWatchAccount.UseVisualStyleBackColor = true;
             this.btnWatchAccount.Click += new System.EventHandler(this.btnWatchAccount_Click);
             // 

@@ -252,6 +252,7 @@ namespace AppManageBilliard.GUI
             txtUserName.DataBindings.Add(new Binding("Text", dtgvAccount.DataSource, "UserName", true, DataSourceUpdateMode.Never));
             txtDisplayName.DataBindings.Add(new Binding("Text", dtgvAccount.DataSource, "DisplayName", true, DataSourceUpdateMode.Never));
             cbbType.DataBindings.Add(new Binding("SelectedValue", dtgvAccount.DataSource, "Type", true, DataSourceUpdateMode.Never));
+
         }
 
         void LoadAccountType()
@@ -561,12 +562,22 @@ namespace AppManageBilliard.GUI
             string userName = txtUserName.Text;
             string displayName = txtDisplayName.Text;
             int type = (int)cbbType.SelectedValue;
+
+            if (AccountDAL.Instance.CheckAccountExists(userName))
+            {
+                MessageBox.Show("Tên đăng nhập này đã tồn tại! Vui lòng chọn tên khác.", "Thông báo trùng lặp");
+                return; 
+            }
+
             if (AccountDAL.Instance.InsertAccount(userName, displayName, type))
             {
                 MessageBox.Show("Thêm tài khoản thành công!");
                 LoadAccount();
             }
-            else MessageBox.Show("Thêm thất bại (Trùng tên tài khoản)!");
+            else
+            {
+                MessageBox.Show("Thêm thất bại!");
+            }
         }
 
         private void btnEditAccount_Click(object sender, EventArgs e)
@@ -757,6 +768,13 @@ namespace AppManageBilliard.GUI
                 UpdateQRPreview();
             }
             catch (Exception ex) { MessageBox.Show("Lỗi: " + ex.Message); }
+        }
+
+        private void btnReset_Click_1(object sender, EventArgs e)
+        {
+            txtCategoryID.Text = "";
+            txtCategoryName.Text = "";
+            txtCategoryName.Focus();
         }
 
         private void btnResetDiscount_Click(object sender, EventArgs e)
