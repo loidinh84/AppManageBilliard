@@ -462,7 +462,7 @@
             {
             "Enabled" = "11:TRUE"
             "PromptEnabled" = "11:TRUE"
-            "PrerequisitesLocation" = "2:1"
+            "PrerequisitesLocation" = "2:2"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
                 "Items"
@@ -1471,7 +1471,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AppManageBida"
         "ProductCode" = "8:{AE50F629-DA59-4382-B198-BCFB15A50205}"
-        "PackageCode" = "8:{AF3D14CF-917D-4CC4-8390-5B1BDFFE0E8C}"
+        "PackageCode" = "8:{F4D06AF0-1F5D-44E4-B6DF-85E5A0A26461}"
         "UpgradeCode" = "8:{A09D3EA9-5802-4726-8FFE-40DC5AAA2665}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"

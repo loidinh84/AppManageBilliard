@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>billiard.ico</ApplicationIcon>
+    <ApplicationIcon>LogoBida.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
@@ -238,6 +238,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="billiard.ico" />
+    <Content Include="LogoBida.ico" />
     <Content Include="obj\Debug\TempPE\BillDataSet.Designer.cs.dll" />
     <Content Include="obj\Debug\TempPE\cpBill.cs.dll" />
     <Content Include="obj\Debug\TempPE\Properties.Resources.Designer.cs.dll" />
